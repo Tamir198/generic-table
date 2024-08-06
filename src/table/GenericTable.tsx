@@ -3,10 +3,11 @@ import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 import { TableColumn } from '../types';
-import { useState } from 'react';
 import { TablePagination, TextField } from '@mui/material';
 import { TableBodyContent } from './TableBodyContent';
 import { TableHeader } from './TableHeader';
+import { useTablePagination } from './useTablePagination';
+import { TEXTS } from '../constants/constants';
 
 interface GenericTableProps<T> {
   columns: TableColumn<T>[];
@@ -22,41 +23,30 @@ export function GenericTable<T>({
   columns,
   data,
   shouldPaginate = true,
-  rowsPerPageOptions = [5, 10, 25],
+  rowsPerPageOptions = TEXTS.DEFAULT_ROWS_PER_PAGE_OPTION,
   onPageChange,
   shouldFilter = true,
   filterFunction,
 }: GenericTableProps<T>) {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = React.useState('');
 
-  const handleChangePage = (
-    event: React.MouseEvent | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-    onPageChange && onPageChange(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value));
-    setPage(0);
-  };
+  const {
+    page = TEXTS.INITIAL_TABLE_PAGE,
+    rowsPerPage = TEXTS.INITIAL_PAGE_ROWS,
+    handleChangePage,
+    handleChangeRowsPerPage,
+    paginatedData,
+  } = useTablePagination<T>({
+    initialPage: TEXTS.INITIAL_TABLE_PAGE,
+    initialRowsPerPage: TEXTS.INITIAL_PAGE_ROWS,
+    data:
+      shouldFilter && filterFunction ? filterFunction(data, searchTerm) : data,
+  });
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
-    setPage(0);
+    handleChangePage(null, 0);
   };
-
-  const filteredData =
-    shouldFilter && filterFunction ? filterFunction(data, searchTerm) : data;
-
-  const paginatedData = shouldPaginate
-    ? filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-    : filteredData;
 
   return (
     <TableContainer component={Paper}>
@@ -72,16 +62,23 @@ export function GenericTable<T>({
       )}
       <Table sx={{ minWidth: 650 }} aria-label='generic table'>
         <TableHeader columns={columns} />
-        <TableBodyContent columns={columns} data={paginatedData} />
+        <TableBodyContent columns={columns} data={paginatedData()} />
       </Table>
       {shouldPaginate && (
         <TablePagination
           rowsPerPageOptions={rowsPerPageOptions}
           component='div'
-          count={filteredData.length}
+          count={
+            shouldFilter && filterFunction
+              ? filterFunction(data, searchTerm).length
+              : data.length
+          }
           rowsPerPage={rowsPerPage}
           page={page}
-          onPageChange={handleChangePage}
+          onPageChange={(event, newPage) => {
+            handleChangePage(event, newPage);
+            onPageChange && onPageChange(newPage);
+          }}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       )}
