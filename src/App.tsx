@@ -75,6 +75,12 @@ function App() {
     console.log('Page changed to:', newPage);
   };
 
+  const filterDesserts = (data: Dessert[], searchTerm: string): Dessert[] => {
+    return data.filter((dessert) =>
+      dessert.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  };
+
   const ROWS_PER_PAGE = [5, 10, 25];
 
   return (
@@ -84,6 +90,7 @@ function App() {
         data={data}
         rowsPerPageOptions={ROWS_PER_PAGE}
         onPageChange={handlePageChange}
+        filterFunction={filterDesserts}
       />
     </>
   );
