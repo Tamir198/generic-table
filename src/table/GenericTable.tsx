@@ -2,11 +2,12 @@ import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
-import { TableColumn } from '../types';
+import { SortDirections, TableColumn } from '../types';
 import { TablePagination, TextField } from '@mui/material';
 import { TableBodyContent } from './TableBodyContent';
 import { TableHeader } from './TableHeader';
 import { useTablePagination } from './useTablePagination';
+import { useTableSorting } from './useTableSorting'; // Import the custom hook
 import { TEXTS } from '../constants/constants';
 
 interface GenericTableProps<T> {
@@ -17,6 +18,7 @@ interface GenericTableProps<T> {
   onPageChange?: (newPage: number) => void;
   shouldFilter?: boolean;
   filterFunction?: (data: T[], searchTerm: string) => T[];
+  shouldSort?: boolean;
 }
 
 export function GenericTable<T>({
@@ -27,8 +29,30 @@ export function GenericTable<T>({
   onPageChange,
   shouldFilter = true,
   filterFunction,
+  shouldSort = true,
 }: GenericTableProps<T>) {
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [sortColumn, setSortColumn] = React.useState<string>('');
+  const [sortDirection, setSortDirection] = React.useState<SortDirections>(
+    SortDirections.ASC
+  );
+
+  const filteredData =
+    shouldFilter && filterFunction ? filterFunction(data, searchTerm) : data;
+
+  const sortedData = useTableSorting<T>({
+    data: filteredData,
+    sortColumn,
+    sortDirection,
+    shouldSort,
+  });
+
+  const handleSortRequest = (property: string) => {
+    const isAscending =
+      sortColumn === property && sortDirection === SortDirections.ASC;
+    setSortColumn(property);
+    setSortDirection(isAscending ? SortDirections.DESC : SortDirections.ASC);
+  };
 
   const {
     page = TEXTS.INITIAL_TABLE_PAGE,
@@ -39,8 +63,7 @@ export function GenericTable<T>({
   } = useTablePagination<T>({
     initialPage: TEXTS.INITIAL_TABLE_PAGE,
     initialRowsPerPage: TEXTS.INITIAL_PAGE_ROWS,
-    data:
-      shouldFilter && filterFunction ? filterFunction(data, searchTerm) : data,
+    data: sortedData,
   });
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +75,7 @@ export function GenericTable<T>({
     <TableContainer component={Paper}>
       {shouldFilter && (
         <TextField
-          label='Search'
+          label={TEXTS.SEARCH_LABEL}
           variant='outlined'
           fullWidth
           margin='normal'
@@ -61,18 +84,20 @@ export function GenericTable<T>({
         />
       )}
       <Table sx={{ minWidth: 650 }} aria-label='generic table'>
-        <TableHeader columns={columns} />
+        <TableHeader
+          columns={columns}
+          sortColumn={sortColumn}
+          sortDirection={sortDirection}
+          onRequestSort={handleSortRequest}
+          shouldSort={shouldSort}
+        />
         <TableBodyContent columns={columns} data={paginatedData()} />
       </Table>
       {shouldPaginate && (
         <TablePagination
           rowsPerPageOptions={rowsPerPageOptions}
           component='div'
-          count={
-            shouldFilter && filterFunction
-              ? filterFunction(data, searchTerm).length
-              : data.length
-          }
+          count={filteredData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={(event, newPage) => {

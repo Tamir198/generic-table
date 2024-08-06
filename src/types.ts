@@ -4,3 +4,8 @@ export interface TableColumn<T> {
   align?: 'left' | 'right' | 'center';
   format?: (value: T[keyof T]) => React.ReactNode;
 }
+
+export enum SortDirections {
+  ASC = 'asc',
+  DESC = 'desc',
+}
