@@ -7,7 +7,7 @@ import { TablePagination, TextField } from '@mui/material';
 import { TableBodyContent } from './TableBodyContent';
 import { TableHeader } from './TableHeader';
 import { useTablePagination } from './useTablePagination';
-import { useTableSorting } from './useTableSorting'; // Import the custom hook
+import { useTableSorting } from './useTableSorting';
 import { TEXTS } from '../constants/constants';
 
 interface GenericTableProps<T> {
