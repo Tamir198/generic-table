@@ -5,12 +5,12 @@ import {
   TableSortLabel,
   Checkbox,
 } from '@mui/material';
-import { TableColumn } from '../types';
+import { SortDirections, TableColumn } from '../types';
 
 interface TableHeaderProps<T> {
   columns: TableColumn<T>[];
   sortColumn: string;
-  sortDirection: 'asc' | 'desc';
+  sortDirection: SortDirections;
   handleSort: (property: string) => void;
   shouldSort: boolean;
   shouldSelectRows?: boolean;
@@ -23,7 +23,7 @@ export function TableHeader<T>({
   sortDirection,
   handleSort,
   shouldSort,
-  shouldSelectRows = false,
+  shouldSelectRows = true,
   onSelectAllRows,
 }: TableHeaderProps<T>) {
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +39,7 @@ export function TableHeader<T>({
           <TableCell padding='checkbox'>
             <Checkbox
               onChange={handleSelectAll}
-              // Here, you'll need a way to determine if all rows are selected
+              //TODO  find a way to determine if all rows are selected
             />
           </TableCell>
         )}
@@ -54,7 +54,9 @@ export function TableHeader<T>({
             {shouldSort ? (
               <TableSortLabel
                 active={sortColumn === column.id}
-                direction={sortColumn === column.id ? sortDirection : 'asc'}
+                direction={
+                  sortColumn === column.id ? sortDirection : SortDirections.ASC
+                }
                 onClick={() => handleSort(column.id)}
               >
                 {column.label}

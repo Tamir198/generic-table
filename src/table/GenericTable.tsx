@@ -8,6 +8,7 @@ import { TableBodyContent } from './TableBodyContent';
 import { TableHeader } from './TableHeader';
 import { useTablePagination } from './useTablePagination';
 import { useTableSorting } from './useTableSorting';
+import { useRowSelection } from './useRowSelection';
 import { TEXTS } from '../constants/constants';
 import { useState } from 'react';
 
@@ -37,7 +38,6 @@ export function GenericTable<T>({
   onDeleteSelectedRows,
 }: GenericTableProps<T>) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
 
   const filteredData =
     shouldFilter && filterFunction ? filterFunction(data, searchTerm) : data;
@@ -60,31 +60,19 @@ export function GenericTable<T>({
     data: sortedData,
   });
 
+  const {
+    selectedRows,
+    handleRowSelect,
+    handleSelectAllRows,
+    handleDeleteSelectedRows,
+  } = useRowSelection({
+    data: paginatedData(),
+    onDeleteSelectedRows,
+  });
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
     handleChangePage(null, 0);
-  };
-
-  const handleRowSelect = (rowIndex: number) => {
-    setSelectedRows((prevSelectedRows) => {
-      const newSelectedRows = new Set(prevSelectedRows);
-      if (newSelectedRows.has(rowIndex)) {
-        newSelectedRows.delete(rowIndex);
-      } else {
-        newSelectedRows.add(rowIndex);
-      }
-      return newSelectedRows;
-    });
-  };
-
-  const handleDeleteSelectedRows = () => {
-    if (onDeleteSelectedRows) {
-      const rowsToDelete = Array.from(selectedRows).map(
-        (index) => paginatedData()[index]
-      );
-      onDeleteSelectedRows(rowsToDelete);
-      setSelectedRows(new Set());
-    }
   };
 
   return (
@@ -118,13 +106,7 @@ export function GenericTable<T>({
           handleSort={(property: string) => handleSort(property)}
           shouldSort={shouldSort}
           shouldSelectRows={shouldSelectRows}
-          onSelectAllRows={(checked) => {
-            const newSelectedRows = new Set<number>();
-            if (checked) {
-              paginatedData().forEach((_, index) => newSelectedRows.add(index));
-            }
-            setSelectedRows(newSelectedRows);
-          }}
+          onSelectAllRows={handleSelectAllRows}
         />
         <TableBodyContent
           columns={columns}
