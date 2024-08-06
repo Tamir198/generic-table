@@ -39,7 +39,7 @@ function App() {
       renderCell: (value, row) => {
         if (row.name.startsWith('A') || row.name.startsWith('C')) {
           return <Avatar alt={row.name} src={ReactSVG}></Avatar>;
-        } else if (row.name.startsWith('c') || row.name.startsWith('b')) {
+        } else if (row.name.startsWith('d') || row.name.startsWith('b')) {
           return <a href='https://www.google.co.uk/'>{row.name}</a>;
         } else {
           return (
