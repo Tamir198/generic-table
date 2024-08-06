@@ -1,13 +1,14 @@
+import React from 'react';
 import TableBody from '@mui/material/TableBody';
-import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import Checkbox from '@mui/material/Checkbox';
+import TableRow from '@mui/material/TableRow';
 import { TableColumn } from '../types';
+import { Checkbox } from '@mui/material';
 
 interface TableBodyContentProps<T> {
   columns: TableColumn<T>[];
   data: T[];
-  shouldSelectRows?: boolean;
+  shouldSelectRows: boolean;
   selectedRows: Set<number>;
   onRowSelect: (id: number) => void;
 }
@@ -15,14 +16,14 @@ interface TableBodyContentProps<T> {
 export function TableBodyContent<T>({
   columns,
   data,
-  shouldSelectRows = true,
+  shouldSelectRows,
   selectedRows,
   onRowSelect,
 }: TableBodyContentProps<T>) {
   return (
     <TableBody>
-      {data.map((row) => (
-        <TableRow key={row.id}>
+      {data.map((row, rowIndex) => (
+        <TableRow key={rowIndex}>
           {shouldSelectRows && (
             <TableCell padding='checkbox'>
               <Checkbox
@@ -31,11 +32,18 @@ export function TableBodyContent<T>({
               />
             </TableCell>
           )}
-          {columns.map((column) => (
-            <TableCell key={column.id} align={column.align}>
-              {column.format ? column.format(row[column.id]) : row[column.id]}
-            </TableCell>
-          ))}
+          {columns.map((column) => {
+            const value = row[column.id];
+            return (
+              <TableCell key={String(column.id)} align={column.align}>
+                {column.renderCell
+                  ? column.renderCell(value, row)
+                  : column.format
+                    ? column.format(value)
+                    : value}
+              </TableCell>
+            );
+          })}
         </TableRow>
       ))}
     </TableBody>

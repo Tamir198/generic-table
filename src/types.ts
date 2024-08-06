@@ -3,6 +3,7 @@ export interface TableColumn<T> {
   label: string;
   align?: 'left' | 'right' | 'center';
   format?: (value: T[keyof T]) => React.ReactNode;
+  renderCell?: (value: React.ReactNode, row: T) => React.ReactNode;
 }
 
 export enum SortDirections {

@@ -1,17 +1,20 @@
+import { Avatar } from '@mui/material';
 import './App.css';
 import { GenericTable } from './table/GenericTable';
 import { TableColumn } from './types';
 import { useState } from 'react';
+import ReactSVG from '../src/assets/react.svg';
 
 function App() {
   interface Dessert {
     id: number;
-    check?: string;
     name: string;
     calories: number;
     fat: number;
     carbs: number;
     protein: number;
+    check?: string;
+    avatar?: string;
   }
 
   const columns: TableColumn<Dessert>[] = [
@@ -19,16 +22,27 @@ function App() {
     {
       id: 'calories',
       label: 'Calories',
-      align: 'right',
+      align: 'left',
       format: (value) => `${value} kcal`,
     },
-    { id: 'fat', label: 'Fat (g)', align: 'right' },
-    { id: 'carbs', label: 'Carbs (g)', align: 'right' },
+    { id: 'fat', label: 'Fat (g)', align: 'left' },
+    { id: 'carbs', label: 'Carbs (g)', align: 'left' },
     {
       id: 'protein',
       label: 'Protein (g)',
-      align: 'right',
+      align: 'left',
       format: (value) => `Formatted -${value}`,
+    },
+    {
+      id: 'avatar',
+      label: 'Avatar',
+      renderCell: (value, row) => {
+        if (row.name.startsWith('A') || row.name.startsWith('C')) {
+          return <Avatar alt={row.name} src={ReactSVG}></Avatar>;
+        } else {
+          return <a href='https://www.google.co.uk/'>{row.name}</a>;
+        }
+      },
     },
   ];
 
