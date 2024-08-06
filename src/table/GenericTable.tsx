@@ -2,7 +2,7 @@ import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
-import { SortDirections, TableColumn } from '../types';
+import { TableColumn } from '../types';
 import { TablePagination, TextField } from '@mui/material';
 import { TableBodyContent } from './TableBodyContent';
 import { TableHeader } from './TableHeader';
@@ -32,24 +32,15 @@ export function GenericTable<T>({
   shouldSort = true,
 }: GenericTableProps<T>) {
   const [searchTerm, setSearchTerm] = React.useState('');
-  const [sortColumn, setSortColumn] = React.useState<string>('');
-  const [sortDirection, setSortDirection] = React.useState<SortDirections>(
-    SortDirections.ASC
-  );
 
   const filteredData =
     shouldFilter && filterFunction ? filterFunction(data, searchTerm) : data;
 
-  const { sortedData, handleSort } = useTableSorting<T>({
-    data: filteredData,
-    sortColumn,
-    sortDirection,
-    shouldSort,
-    onSortChange: (property: string, newDirection: SortDirections) => {
-      setSortColumn(property);
-      setSortDirection(newDirection);
-    },
-  });
+  const { sortedData, handleSort, sortColumn, sortDirection } =
+    useTableSorting<T>({
+      data: filteredData,
+      shouldSort,
+    });
 
   const {
     page = TEXTS.INITIAL_TABLE_PAGE,

@@ -1,21 +1,20 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { SortDirections } from '../types';
 
 interface UseTableSortingProps<T> {
   data: T[];
-  sortColumn: string;
-  sortDirection: SortDirections;
   shouldSort: boolean;
-  onSortChange: (property: string, newDirection: SortDirections) => void;
 }
 
 export function useTableSorting<T>({
   data,
-  sortColumn,
-  sortDirection,
   shouldSort,
-  onSortChange,
 }: UseTableSortingProps<T>) {
+  const [sortColumn, setSortColumn] = useState<string>('');
+  const [sortDirection, setSortDirection] = useState<SortDirections>(
+    SortDirections.ASC
+  );
+
   const sortedData = useMemo(() => {
     if (!shouldSort || !sortColumn) return data;
 
@@ -33,10 +32,11 @@ export function useTableSorting<T>({
   }, [data, sortColumn, sortDirection, shouldSort]);
 
   const handleSort = (property: string) => {
-    const isAscending = sortDirection === SortDirections.ASC;
-    const newDirection = isAscending ? SortDirections.DESC : SortDirections.ASC;
-    onSortChange(property, newDirection);
+    const isAscending =
+      sortColumn === property && sortDirection === SortDirections.ASC;
+    setSortColumn(property);
+    setSortDirection(isAscending ? SortDirections.DESC : SortDirections.ASC);
   };
 
-  return { sortedData, handleSort };
+  return { sortedData, handleSort, sortColumn, sortDirection };
 }
