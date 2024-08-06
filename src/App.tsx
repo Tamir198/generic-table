@@ -1,9 +1,11 @@
 import './App.css';
 import { GenericTable } from './table/GenericTable';
 import { TableColumn } from './types';
+import { useState } from 'react';
 
 function App() {
   interface Dessert {
+    check?: string;
     name: string;
     calories: number;
     fat: number;
@@ -29,7 +31,7 @@ function App() {
     },
   ];
 
-  const data: Dessert[] = [
+  const [data, setData] = useState<Dessert[]>([
     {
       name: 'Frozen yoghurt',
       calories: 159,
@@ -69,7 +71,7 @@ function App() {
     { name: 'Custard', calories: 280, fat: 14.0, carbs: 25, protein: 6.0 },
     { name: 'Fruit Tart', calories: 340, fat: 16.0, carbs: 40, protein: 4.0 },
     { name: 'Almond Cake', calories: 380, fat: 20.0, carbs: 35, protein: 6.0 },
-  ];
+  ]);
 
   const handlePageChange = (newPage: number) => {
     console.log('Page changed to:', newPage);
@@ -78,6 +80,14 @@ function App() {
   const filterDesserts = (data: Dessert[], searchTerm: string): Dessert[] => {
     return data.filter((dessert) =>
       dessert.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  };
+
+  const handleDeleteSelectedRows = (selectedRows: Dessert[]) => {
+    console.log(selectedRows);
+
+    setData((prevData) =>
+      prevData.filter((dessert) => !selectedRows.includes(dessert))
     );
   };
 
@@ -91,6 +101,8 @@ function App() {
         rowsPerPageOptions={ROWS_PER_PAGE}
         onPageChange={handlePageChange}
         filterFunction={filterDesserts}
+        shouldSelectRows={true}
+        onDeleteSelectedRows={handleDeleteSelectedRows}
       />
     </>
   );
