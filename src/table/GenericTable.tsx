@@ -65,7 +65,7 @@ export function GenericTable<T>({
     handleRowSelect,
     handleSelectAllRows,
     handleDeleteSelectedRows,
-  } = useRowSelection({
+  } = useRowSelection<T>({
     data: paginatedData(),
     onDeleteSelectedRows,
   });
@@ -93,9 +93,8 @@ export function GenericTable<T>({
           color='secondary'
           onClick={handleDeleteSelectedRows}
           disabled={selectedRows.size === 0}
-          style={{ marginBottom: 16 }}
         >
-          Delete Selected
+          {TEXTS.DELETE_SELECTED}
         </Button>
       )}
       <Table sx={{ minWidth: 650 }} aria-label='generic table'>
@@ -106,14 +105,14 @@ export function GenericTable<T>({
           handleSort={(property: string) => handleSort(property)}
           shouldSort={shouldSort}
           shouldSelectRows={shouldSelectRows}
-          onSelectAllRows={handleSelectAllRows}
+          onSelectAllRows={(selectAll) => handleSelectAllRows(selectAll)}
         />
         <TableBodyContent
           columns={columns}
           data={paginatedData()}
           shouldSelectRows={shouldSelectRows}
           selectedRows={selectedRows}
-          onRowSelect={handleRowSelect}
+          onRowSelect={(id) => handleRowSelect(id)}
         />
       </Table>
       {shouldPaginate && (

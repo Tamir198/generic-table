@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
-interface UseRowSelectionProps<T> {
+interface Row {
+  id: number;
+}
+
+interface UseRowSelectionProps<T extends Row> {
   data: T[];
   onDeleteSelectedRows?: (selectedRows: T[]) => void;
 }
@@ -9,38 +13,36 @@ export function useRowSelection<T>({
   data,
   onDeleteSelectedRows,
 }: UseRowSelectionProps<T>) {
-  const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+  const [selectedRowIds, setSelectedRowIds] = useState<Set<number>>(new Set());
 
-  const handleRowSelect = (rowIndex: number) => {
-    setSelectedRows((prevSelectedRows) => {
-      const newSelectedRows = new Set(prevSelectedRows);
-      if (newSelectedRows.has(rowIndex)) {
-        newSelectedRows.delete(rowIndex);
+  const handleRowSelect = (id: number) => {
+    setSelectedRowIds((prevSelectedRowIds) => {
+      const newSelectedRowIds = new Set(prevSelectedRowIds);
+      if (newSelectedRowIds.has(id)) {
+        newSelectedRowIds.delete(id);
       } else {
-        newSelectedRows.add(rowIndex);
+        newSelectedRowIds.add(id);
       }
-      return newSelectedRows;
+      return newSelectedRowIds;
     });
   };
 
-  const handleSelectAllRows = (checked: boolean) => {
-    const newSelectedRows = new Set<number>();
-    if (checked) {
-      data.forEach((_, index) => newSelectedRows.add(index));
+  const handleSelectAllRows = (selectAll: boolean) => {
+    if (selectAll) {
+      setSelectedRowIds(new Set(data.map((item) => item.id)));
+    } else {
+      setSelectedRowIds(new Set());
     }
-    setSelectedRows(newSelectedRows);
   };
 
   const handleDeleteSelectedRows = () => {
-    if (onDeleteSelectedRows) {
-      const rowsToDelete = Array.from(selectedRows).map((index) => data[index]);
-      onDeleteSelectedRows(rowsToDelete);
-      setSelectedRows(new Set());
-    }
+    const selectedRows = data.filter((item) => selectedRowIds.has(item.id));
+    onDeleteSelectedRows && onDeleteSelectedRows(selectedRows);
+    setSelectedRowIds(new Set());
   };
 
   return {
-    selectedRows,
+    selectedRows: selectedRowIds,
     handleRowSelect,
     handleSelectAllRows,
     handleDeleteSelectedRows,

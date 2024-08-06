@@ -2,10 +2,10 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableSortLabel,
   Checkbox,
+  TableSortLabel,
 } from '@mui/material';
-import { SortDirections, TableColumn } from '../types';
+import { TableColumn, SortDirections } from '../types';
 
 interface TableHeaderProps<T> {
   columns: TableColumn<T>[];
