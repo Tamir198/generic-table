@@ -40,19 +40,16 @@ export function GenericTable<T>({
   const filteredData =
     shouldFilter && filterFunction ? filterFunction(data, searchTerm) : data;
 
-  const sortedData = useTableSorting<T>({
+  const { sortedData, handleSort } = useTableSorting<T>({
     data: filteredData,
     sortColumn,
     sortDirection,
     shouldSort,
+    onSortChange: (property: string, newDirection: SortDirections) => {
+      setSortColumn(property);
+      setSortDirection(newDirection);
+    },
   });
-
-  const handleSortRequest = (property: string) => {
-    const isAscending =
-      sortColumn === property && sortDirection === SortDirections.ASC;
-    setSortColumn(property);
-    setSortDirection(isAscending ? SortDirections.DESC : SortDirections.ASC);
-  };
 
   const {
     page = TEXTS.INITIAL_TABLE_PAGE,
@@ -88,7 +85,7 @@ export function GenericTable<T>({
           columns={columns}
           sortColumn={sortColumn}
           sortDirection={sortDirection}
-          onRequestSort={handleSortRequest}
+          onRequestSort={(property: string) => handleSort(property)}
           shouldSort={shouldSort}
         />
         <TableBodyContent columns={columns} data={paginatedData()} />

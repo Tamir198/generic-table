@@ -6,6 +6,7 @@ interface UseTableSortingProps<T> {
   sortColumn: string;
   sortDirection: SortDirections;
   shouldSort: boolean;
+  onSortChange: (property: string, newDirection: SortDirections) => void;
 }
 
 export function useTableSorting<T>({
@@ -13,6 +14,7 @@ export function useTableSorting<T>({
   sortColumn,
   sortDirection,
   shouldSort,
+  onSortChange,
 }: UseTableSortingProps<T>) {
   const sortedData = useMemo(() => {
     if (!shouldSort || !sortColumn) return data;
@@ -30,5 +32,11 @@ export function useTableSorting<T>({
     return [...data].sort(compareValues);
   }, [data, sortColumn, sortDirection, shouldSort]);
 
-  return sortedData;
+  const handleSort = (property: string) => {
+    const isAscending = sortDirection === SortDirections.ASC;
+    const newDirection = isAscending ? SortDirections.DESC : SortDirections.ASC;
+    onSortChange(property, newDirection);
+  };
+
+  return { sortedData, handleSort };
 }
