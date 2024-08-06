@@ -253,6 +253,7 @@ function App() {
         shouldSelectRows={true}
         shouldFilter={true}
         onDeleteSelectedRows={handleDeleteSelectedRows}
+        isCustomCellAllowed={true}
       />
     </>
   );

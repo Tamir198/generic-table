@@ -23,6 +23,7 @@ interface GenericTableProps<T> {
   shouldSort?: boolean;
   shouldSelectRows?: boolean;
   onDeleteSelectedRows?: (selectedRows: T[]) => void;
+  isCustomCellAllowed?: boolean; // Add this prop
 }
 
 export function GenericTable<T>({
@@ -36,6 +37,7 @@ export function GenericTable<T>({
   shouldSort = true,
   shouldSelectRows = true,
   onDeleteSelectedRows,
+  isCustomCellAllowed = true,
 }: GenericTableProps<T>) {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -113,6 +115,7 @@ export function GenericTable<T>({
           shouldSelectRows={shouldSelectRows}
           selectedRows={selectedRows}
           onRowSelect={(id) => handleRowSelect(id)}
+          isCustomCellAllowed={isCustomCellAllowed}
         />
       </Table>
       {shouldPaginate && (

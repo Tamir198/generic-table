@@ -11,6 +11,22 @@ interface TableBodyContentProps<T> {
   shouldSelectRows: boolean;
   selectedRows: Set<number>;
   onRowSelect: (id: number) => void;
+  isCustomCellAllowed?: boolean;
+}
+
+function getCellContent<T>(
+  column: TableColumn<T>,
+  value: T[keyof T],
+  row: T,
+  isCustomCellAllowed: boolean
+): React.ReactNode {
+  const baseContent = column.format ? column.format(value) : value;
+
+  if (!isCustomCellAllowed) {
+    return baseContent;
+  }
+
+  return column.renderCell ? column.renderCell(value, row) : baseContent;
 }
 
 export function TableBodyContent<T>({
@@ -19,11 +35,12 @@ export function TableBodyContent<T>({
   shouldSelectRows,
   selectedRows,
   onRowSelect,
+  isCustomCellAllowed = true,
 }: TableBodyContentProps<T>) {
   return (
     <TableBody>
-      {data.map((row, rowIndex) => (
-        <TableRow key={rowIndex}>
+      {data.map((row) => (
+        <TableRow key={row.id}>
           {shouldSelectRows && (
             <TableCell padding='checkbox'>
               <Checkbox
@@ -36,11 +53,7 @@ export function TableBodyContent<T>({
             const value = row[column.id];
             return (
               <TableCell key={String(column.id)} align={column.align}>
-                {column.renderCell
-                  ? column.renderCell(value, row)
-                  : column.format
-                    ? column.format(value)
-                    : value}
+                {getCellContent(column, value, row, isCustomCellAllowed)}
               </TableCell>
             );
           })}
