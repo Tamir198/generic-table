@@ -23,7 +23,7 @@ interface GenericTableProps<T> {
 export function GenericTable<T>({
   columns,
   data,
-  shouldPaginate = false,
+  shouldPaginate = true,
   rowsPerPageOptions = [5, 10, 25],
   onPageChange,
 }: GenericTableProps<T>) {

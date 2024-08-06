@@ -82,7 +82,6 @@ function App() {
       <GenericTable
         columns={columns}
         data={data}
-        shouldPaginate={true}
         rowsPerPageOptions={ROWS_PER_PAGE}
         onPageChange={handlePageChange}
       />
