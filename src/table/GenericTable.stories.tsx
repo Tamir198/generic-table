@@ -175,6 +175,18 @@ const filterDesserts = (data: Dessert[], searchTerm: string): Dessert[] => {
   );
 };
 
+const handleDeleteSelectedRows = (
+  rowsToDelete: Dessert[],
+  setData: React.Dispatch<React.SetStateAction<Dessert[]>>
+) => {
+  console.log('Rows to delete:', rowsToDelete);
+  setData((prevData) =>
+    prevData.filter(
+      (dessert) => !rowsToDelete.some((row) => row.id === dessert.id)
+    )
+  );
+};
+
 const meta: Meta<typeof GenericTable> = {
   title: 'Components/GenericTable',
   component: GenericTable,
@@ -183,7 +195,7 @@ const meta: Meta<typeof GenericTable> = {
   },
   tags: ['autodocs'],
   argTypes: {
-    rowsPerPageOptions: { control: 'array' },
+    rowsPerPageOptions: { control: { type: 'array' } },
     onPageChange: { action: 'pageChanged' },
     filterFunction: { action: 'filterFunctionCalled' },
     onDeleteSelectedRows: { action: 'rowsDeleted' },
@@ -196,17 +208,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => {
     const [data, setData] = useState<Dessert[]>(initialData);
-    const [selectedRows, setSelectedRows] = useState<Dessert[]>([]);
-
-    const handleDeleteSelectedRows = (rowsToDelete: Dessert[]) => {
-      console.log('Rows to delete:', rowsToDelete);
-      setData((prevData) =>
-        prevData.filter(
-          (dessert) => !rowsToDelete.some((row) => row.id === dessert.id)
-        )
-      );
-      setSelectedRows([]);
-    };
 
     return (
       <GenericTable
@@ -217,7 +218,7 @@ export const Default: Story = {
         filterFunction={filterDesserts}
         shouldSelectRows={true}
         shouldFilter={true}
-        onDeleteSelectedRows={handleDeleteSelectedRows}
+        onDeleteSelectedRows={(rows) => handleDeleteSelectedRows(rows, setData)}
       />
     );
   },
@@ -226,17 +227,6 @@ export const Default: Story = {
 export const WithCustomPageSize: Story = {
   render: () => {
     const [data, setData] = useState<Dessert[]>(initialData);
-    const [selectedRows, setSelectedRows] = useState<Dessert[]>([]);
-
-    const handleDeleteSelectedRows = (rowsToDelete: Dessert[]) => {
-      console.log('Rows to delete:', rowsToDelete);
-      setData((prevData) =>
-        prevData.filter(
-          (dessert) => !rowsToDelete.some((row) => row.id === dessert.id)
-        )
-      );
-      setSelectedRows([]);
-    };
 
     return (
       <GenericTable
@@ -247,7 +237,7 @@ export const WithCustomPageSize: Story = {
         filterFunction={filterDesserts}
         shouldSelectRows={true}
         shouldFilter={true}
-        onDeleteSelectedRows={handleDeleteSelectedRows}
+        onDeleteSelectedRows={(rows) => handleDeleteSelectedRows(rows, setData)}
       />
     );
   },
@@ -256,18 +246,6 @@ export const WithCustomPageSize: Story = {
 export const WithoutRowSelection: Story = {
   render: () => {
     const [data, setData] = useState<Dessert[]>(initialData);
-    const [selectedRows, setSelectedRows] = useState<Dessert[]>([]);
-
-    const handleDeleteSelectedRows = (rowsToDelete: Dessert[]) => {
-      console.log('Rows to delete:', rowsToDelete);
-      setData((prevData) =>
-        prevData.filter(
-          (dessert) => !rowsToDelete.some((row) => row.id === dessert.id)
-        )
-      );
-      setSelectedRows([]);
-    };
-
     return (
       <GenericTable
         columns={columns}
@@ -277,7 +255,7 @@ export const WithoutRowSelection: Story = {
         filterFunction={filterDesserts}
         shouldSelectRows={false}
         shouldFilter={true}
-        onDeleteSelectedRows={handleDeleteSelectedRows}
+        onDeleteSelectedRows={(rows) => handleDeleteSelectedRows(rows, setData)}
       />
     );
   },
@@ -286,21 +264,6 @@ export const WithoutRowSelection: Story = {
 export const WithoutFiltering: Story = {
   render: () => {
     const [data, setData] = useState<Dessert[]>(initialData);
-    const [selectedRows, setSelectedRows] = useState<Dessert[]>([]);
-
-    const handleDeleteSelectedRows = (rowsToDelete: Dessert[]) => {
-      console.log('Rows to delete:', rowsToDelete);
-      setData((prevData) =>
-        prevData.filter(
-          (dessert) => !rowsToDelete.some((row) => row.id === dessert.id)
-        )
-      );
-      setSelectedRows([]);
-    };
-
-    const filterDesserts = (data: Dessert[], searchTerm: string): Dessert[] => {
-      return data;
-    };
 
     return (
       <GenericTable
@@ -308,10 +271,10 @@ export const WithoutFiltering: Story = {
         data={data}
         rowsPerPageOptions={[5, 10, 25]}
         onPageChange={handlePageChange}
-        filterFunction={filterDesserts}
+        filterFunction={(data) => data}
         shouldSelectRows={true}
         shouldFilter={false}
-        onDeleteSelectedRows={handleDeleteSelectedRows}
+        onDeleteSelectedRows={(rows) => handleDeleteSelectedRows(rows, setData)}
       />
     );
   },
