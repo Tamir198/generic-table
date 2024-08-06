@@ -36,17 +36,19 @@ function App() {
     {
       id: 'avatar',
       label: 'Avatar',
-      renderCell: (value, row) => {
+      renderCell: (_, row) => {
         if (row.name.startsWith('A') || row.name.startsWith('C')) {
           return <Avatar alt={row.name} src={ReactSVG}></Avatar>;
         } else if (row.name.startsWith('d') || row.name.startsWith('b')) {
           return <a href='https://www.google.co.uk/'>{row.name}</a>;
-        } else {
+        } else if (row.name.startsWith('g')) {
           return (
             <button onClick={() => alert('Row data :' + JSON.stringify(row))}>
               {row.carbs}
             </button>
           );
+        } else {
+          return 'NO AVATAR';
         }
       },
     },

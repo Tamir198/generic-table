@@ -23,7 +23,7 @@ interface GenericTableProps<T> {
   shouldSort?: boolean;
   shouldSelectRows?: boolean;
   onDeleteSelectedRows?: (selectedRows: T[]) => void;
-  isCustomCellAllowed?: boolean; // Add this prop
+  isCustomCellAllowed?: boolean;
 }
 
 export function GenericTable<T>({
