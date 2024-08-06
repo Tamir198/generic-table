@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { GenericTable } from './GenericTable';
 import { TableColumn } from '../types';
+import { Avatar } from '@mui/material';
 
 interface Dessert {
   id: number;
@@ -10,6 +11,7 @@ interface Dessert {
   fat: number;
   carbs: number;
   protein: number;
+  avatar?: string;
 }
 
 const columns: TableColumn<Dessert>[] = [
@@ -274,6 +276,62 @@ export const WithoutFiltering: Story = {
         filterFunction={(data) => data}
         shouldSelectRows={true}
         shouldFilter={false}
+        onDeleteSelectedRows={(rows) => handleDeleteSelectedRows(rows, setData)}
+      />
+    );
+  },
+};
+
+const columnsWithCustomCell: TableColumn<Dessert>[] = [
+  { id: 'name', label: 'Dessert (100g serving)' },
+  {
+    id: 'calories',
+    label: 'Calories',
+    align: 'left',
+    format: (value) => `${value} kcal`,
+  },
+  { id: 'fat', label: 'Fat (g)', align: 'left' },
+  { id: 'carbs', label: 'Carbs (g)', align: 'left' },
+  {
+    id: 'protein',
+    label: 'Protein (g)',
+    align: 'left',
+    format: (value) => `Formatted -${value}`,
+  },
+  {
+    id: 'avatar',
+    label: 'Avatar',
+    renderCell: (_, row) => {
+      if (row.name.startsWith('A') || row.name.startsWith('C')) {
+        return <Avatar alt={row.name}></Avatar>;
+      } else if (row.name.startsWith('d') || row.name.startsWith('b')) {
+        return <a href='https://www.google.co.uk/'>{row.name}</a>;
+      } else if (row.name.startsWith('g')) {
+        return (
+          <button onClick={() => alert('Row data :' + JSON.stringify(row))}>
+            {row.carbs}
+          </button>
+        );
+      } else {
+        return 'NO AVATAR';
+      }
+    },
+  },
+];
+
+export const WithCustomCells: Story = {
+  render: () => {
+    const [data, setData] = useState<Dessert[]>(initialData);
+
+    return (
+      <GenericTable
+        columns={columnsWithCustomCell}
+        data={data}
+        rowsPerPageOptions={[5, 10, 25]}
+        onPageChange={handlePageChange}
+        filterFunction={filterDesserts}
+        shouldSelectRows={true}
+        shouldFilter={true}
         onDeleteSelectedRows={(rows) => handleDeleteSelectedRows(rows, setData)}
       />
     );
