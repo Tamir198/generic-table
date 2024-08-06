@@ -165,6 +165,16 @@ const initialData: Dessert[] = [
   },
 ];
 
+const handlePageChange = (newPage: number) => {
+  console.log('Page changed to:', newPage);
+};
+
+const filterDesserts = (data: Dessert[], searchTerm: string): Dessert[] => {
+  return data.filter((dessert) =>
+    dessert.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+};
+
 const meta: Meta<typeof GenericTable> = {
   title: 'Components/GenericTable',
   component: GenericTable,
@@ -188,25 +198,14 @@ export const Default: Story = {
     const [data, setData] = useState<Dessert[]>(initialData);
     const [selectedRows, setSelectedRows] = useState<Dessert[]>([]);
 
-    const handlePageChange = (newPage: number) => {
-      console.log('Page changed to:', newPage);
-    };
-
-    const filterDesserts = (data: Dessert[], searchTerm: string): Dessert[] => {
-      return data.filter((dessert) =>
-        dessert.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    };
-
     const handleDeleteSelectedRows = (rowsToDelete: Dessert[]) => {
       console.log('Rows to delete:', rowsToDelete);
-
       setData((prevData) =>
         prevData.filter(
           (dessert) => !rowsToDelete.some((row) => row.id === dessert.id)
         )
       );
-      setSelectedRows([]); // Clear selected rows after deletion
+      setSelectedRows([]);
     };
 
     return (
@@ -219,7 +218,6 @@ export const Default: Story = {
         shouldSelectRows={true}
         shouldFilter={true}
         onDeleteSelectedRows={handleDeleteSelectedRows}
-        onSelectionChange={setSelectedRows} // This should be implemented in GenericTable
       />
     );
   },
@@ -230,19 +228,8 @@ export const WithCustomPageSize: Story = {
     const [data, setData] = useState<Dessert[]>(initialData);
     const [selectedRows, setSelectedRows] = useState<Dessert[]>([]);
 
-    const handlePageChange = (newPage: number) => {
-      console.log('Page changed to:', newPage);
-    };
-
-    const filterDesserts = (data: Dessert[], searchTerm: string): Dessert[] => {
-      return data.filter((dessert) =>
-        dessert.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    };
-
     const handleDeleteSelectedRows = (rowsToDelete: Dessert[]) => {
       console.log('Rows to delete:', rowsToDelete);
-
       setData((prevData) =>
         prevData.filter(
           (dessert) => !rowsToDelete.some((row) => row.id === dessert.id)
@@ -261,7 +248,6 @@ export const WithCustomPageSize: Story = {
         shouldSelectRows={true}
         shouldFilter={true}
         onDeleteSelectedRows={handleDeleteSelectedRows}
-        onSelectionChange={setSelectedRows} // This should be implemented in GenericTable
       />
     );
   },
@@ -272,25 +258,14 @@ export const WithoutRowSelection: Story = {
     const [data, setData] = useState<Dessert[]>(initialData);
     const [selectedRows, setSelectedRows] = useState<Dessert[]>([]);
 
-    const handlePageChange = (newPage: number) => {
-      console.log('Page changed to:', newPage);
-    };
-
-    const filterDesserts = (data: Dessert[], searchTerm: string): Dessert[] => {
-      return data.filter((dessert) =>
-        dessert.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    };
-
     const handleDeleteSelectedRows = (rowsToDelete: Dessert[]) => {
       console.log('Rows to delete:', rowsToDelete);
-
       setData((prevData) =>
         prevData.filter(
           (dessert) => !rowsToDelete.some((row) => row.id === dessert.id)
         )
       );
-      setSelectedRows([]); // Clear selected rows after deletion
+      setSelectedRows([]);
     };
 
     return (
@@ -300,10 +275,9 @@ export const WithoutRowSelection: Story = {
         rowsPerPageOptions={[5, 10, 25]}
         onPageChange={handlePageChange}
         filterFunction={filterDesserts}
-        shouldSelectRows={false} // Disable row selection
+        shouldSelectRows={false}
         shouldFilter={true}
         onDeleteSelectedRows={handleDeleteSelectedRows}
-        onSelectionChange={setSelectedRows} // This should be implemented in GenericTable
       />
     );
   },
@@ -314,23 +288,18 @@ export const WithoutFiltering: Story = {
     const [data, setData] = useState<Dessert[]>(initialData);
     const [selectedRows, setSelectedRows] = useState<Dessert[]>([]);
 
-    const handlePageChange = (newPage: number) => {
-      console.log('Page changed to:', newPage);
-    };
-
-    const filterDesserts = (data: Dessert[], searchTerm: string): Dessert[] => {
-      return data; // No filtering
-    };
-
     const handleDeleteSelectedRows = (rowsToDelete: Dessert[]) => {
       console.log('Rows to delete:', rowsToDelete);
-
       setData((prevData) =>
         prevData.filter(
           (dessert) => !rowsToDelete.some((row) => row.id === dessert.id)
         )
       );
-      setSelectedRows([]); // Clear selected rows after deletion
+      setSelectedRows([]);
+    };
+
+    const filterDesserts = (data: Dessert[], searchTerm: string): Dessert[] => {
+      return data;
     };
 
     return (
@@ -341,9 +310,8 @@ export const WithoutFiltering: Story = {
         onPageChange={handlePageChange}
         filterFunction={filterDesserts}
         shouldSelectRows={true}
-        shouldFilter={false} // Disable filtering
+        shouldFilter={false}
         onDeleteSelectedRows={handleDeleteSelectedRows}
-        onSelectionChange={setSelectedRows} // This should be implemented in GenericTable
       />
     );
   },
