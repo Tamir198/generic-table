@@ -26,24 +26,23 @@ function getCellContent<T extends { [key: string]: any }>(
     ? column.renderCell(value, row)
     : baseContent;
 
+  const statusColors: { [key: string]: string } = {
+    success: 'green',
+    failed: 'red',
+    default: '',
+  };
+
+  const statusColor =
+    column.isColumnPaintable && row.status
+      ? statusColors[row.status as string] || statusColors.default
+      : undefined;
+
   let contentWithStatus: React.ReactNode = cellContent;
 
-  if (column.isColumnPaintable && row.status) {
-    const status = row.status as string;
-    let color = '';
-
-    switch (status) {
-      case 'success':
-        color = 'green';
-        break;
-      case 'failed':
-        color = 'red';
-        break;
-      default:
-        color = 'blue';
-    }
-
-    contentWithStatus = <span style={{ color }}>{cellContent}</span>;
+  if (statusColor) {
+    contentWithStatus = (
+      <span style={{ color: statusColor }}>{cellContent}</span>
+    );
   }
 
   if (
@@ -61,7 +60,6 @@ function getCellContent<T extends { [key: string]: any }>(
 
   return contentWithStatus;
 }
-
 export function TableBodyContent<T extends { id: number }>({
   columns,
   data,

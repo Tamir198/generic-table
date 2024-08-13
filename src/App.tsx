@@ -77,7 +77,7 @@ function App() {
       status: 'success',
       component: {
         columnId: 'name',
-        content: <p>Custom component</p>,
+        content: <p>Custom</p>,
       },
     },
     {
@@ -288,7 +288,8 @@ function App() {
         onDeleteSelectedRows={handleDeleteSelectedRows}
         shouldFilter={true}
         shouldSelectRows={true}
-        shouldPaginate={true}
+        shouldPaginate={false}
+        expandable={true}
         isCustomCellAllowed={true}
       />
     </>
