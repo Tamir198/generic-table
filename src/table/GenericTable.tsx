@@ -37,11 +37,20 @@ export function GenericTable<T extends { id: number }>({
   shouldSelectRows,
   onDeleteSelectedRows,
   isCustomCellAllowed,
-  expandable = false,
+  expandable = true,
   ...props
 }: GenericTableProps<T>) {
   const [isExpanded, setIsExpanded] = useState(false);
 
+  if (shouldPaginate && expandable) {
+    throw new Error(
+      "Cannot use both 'shouldPaginate' and 'expandable' options at the same time."
+    );
+  }
+
+  const defaultRowsPerPage = expandable
+    ? TEXTS.INITIAL_COLLAPSED_PAGE_ROWS
+    : TEXTS.INITIAL_PAGE_ROWS;
   const { sortedData, handleSort, sortColumn, sortDirection } =
     useTableSorting<T>({
       data: data,
@@ -50,15 +59,16 @@ export function GenericTable<T extends { id: number }>({
 
   const {
     page = TEXTS.INITIAL_TABLE_PAGE,
-    rowsPerPage = TEXTS.INITIAL_PAGE_ROWS,
+    rowsPerPage = defaultRowsPerPage,
     handleChangePage,
     handleChangeRowsPerPage,
     paginatedData,
   } = useTablePagination<T>({
     initialPage: TEXTS.INITIAL_TABLE_PAGE,
-    initialRowsPerPage: TEXTS.INITIAL_PAGE_ROWS,
+    initialRowsPerPage: defaultRowsPerPage,
     data: sortedData,
   });
+
   const {
     selectedRows,
     handleRowSelect,
@@ -119,7 +129,7 @@ export function GenericTable<T extends { id: number }>({
           {isExpanded ? TEXTS.SHOW_LESS : TEXTS.SHOW_MORE}
         </Button>
       )}
-      {shouldPaginate && (
+      {shouldPaginate && !expandable && (
         <TablePagination
           rowsPerPageOptions={
             rowsPerPageOptions ?? TEXTS.DEFAULT_ROWS_PER_PAGE_OPTION
