@@ -292,7 +292,7 @@ function App() {
         onPageChange={handlePageChange}
         onDeleteSelectedRows={handleDeleteSelectedRows}
         shouldFilter={true}
-        shouldSelectRows={false}
+        shouldSelectRows={true}
         shouldPaginate={true}
         expandable={false}
         isCustomCellAllowed={true}
