@@ -10,7 +10,7 @@ import { TableHeader } from './TableHeader';
 import { useTablePagination } from './useTablePagination';
 import { useTableSorting } from './useTableSorting';
 import { useRowSelection } from './useRowSelection';
-import { TEXTS } from '../constants/constants';
+import { COLORS, TEXTS } from '../constants/constants';
 import * as XLSX from 'xlsx';
 import { SummeryRows } from './SummeryRows';
 
@@ -119,10 +119,23 @@ export function GenericTable<T extends { id: number }>({
       </Table>
       {expandable && (
         <Button
-          variant='contained'
-          color={isExpanded ? 'secondary' : 'primary'}
+          size='small'
+          variant='text'
+          sx={{
+            marginTop: 2,
+            marginBottom: 2,
+            color: COLORS.BUTTON_PRIMARY,
+            outline: 'none',
+            fontWeight: 700,
+            border: 'none',
+            '&.MuiButton-text': {
+              outline: 'none',
+            },
+            '&.MuiButtonBase-root :hover': {
+              'background-color': 'red',
+            },
+          }}
           onClick={() => setIsExpanded(!isExpanded)}
-          sx={{ margin: 2 }}
         >
           {isExpanded ? TEXTS.SHOW_LESS : TEXTS.SHOW_MORE}
         </Button>
