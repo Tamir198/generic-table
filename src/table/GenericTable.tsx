@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
-import { TableColumn } from '../types';
+import { SummeryRow, TableColumn } from '../types';
 import { TablePagination, Button } from '@mui/material';
 import { TableBodyContent } from './TableBodyContent';
 import { TableHeader } from './TableHeader';
@@ -11,6 +11,7 @@ import { useTableSorting } from './useTableSorting';
 import { useRowSelection } from './useRowSelection';
 import { TEXTS } from '../constants/constants';
 import * as XLSX from 'xlsx';
+import { SummeryRows } from './SummeryRows';
 
 interface GenericTableProps<T extends { id: number }> {
   columns: TableColumn<T>[];
@@ -25,6 +26,7 @@ interface GenericTableProps<T extends { id: number }> {
   onDeleteSelectedRows?: (selectedRows: T[]) => void;
   isCustomCellAllowed?: boolean;
   expandable?: boolean;
+  summaryRows?: SummeryRow[];
 }
 
 export function GenericTable<T extends { id: number }>({
@@ -38,19 +40,11 @@ export function GenericTable<T extends { id: number }>({
   onDeleteSelectedRows,
   isCustomCellAllowed,
   expandable = true,
+  summaryRows,
   ...props
 }: GenericTableProps<T>) {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  if (shouldPaginate && expandable) {
-    throw new Error(
-      "Cannot use both 'shouldPaginate' and 'expandable' options at the same time."
-    );
-  }
-
-  const defaultRowsPerPage = expandable
-    ? TEXTS.INITIAL_COLLAPSED_PAGE_ROWS
-    : TEXTS.INITIAL_PAGE_ROWS;
   const { sortedData, handleSort, sortColumn, sortDirection } =
     useTableSorting<T>({
       data: data,
@@ -59,16 +53,15 @@ export function GenericTable<T extends { id: number }>({
 
   const {
     page = TEXTS.INITIAL_TABLE_PAGE,
-    rowsPerPage = defaultRowsPerPage,
+    rowsPerPage = TEXTS.INITIAL_PAGE_ROWS,
     handleChangePage,
     handleChangeRowsPerPage,
     paginatedData,
   } = useTablePagination<T>({
     initialPage: TEXTS.INITIAL_TABLE_PAGE,
-    initialRowsPerPage: defaultRowsPerPage,
+    initialRowsPerPage: TEXTS.INITIAL_PAGE_ROWS,
     data: sortedData,
   });
-
   const {
     selectedRows,
     handleRowSelect,
@@ -78,6 +71,12 @@ export function GenericTable<T extends { id: number }>({
     data: paginatedData(),
     onDeleteSelectedRows: onDeleteSelectedRows,
   });
+
+  if (shouldPaginate && expandable) {
+    throw new Error(
+      "Cannot use both 'shouldPaginate' and 'expandable' options at the same time."
+    );
+  }
 
   const displayData = isExpanded ? sortedData : paginatedData();
 
@@ -129,7 +128,7 @@ export function GenericTable<T extends { id: number }>({
           {isExpanded ? TEXTS.SHOW_LESS : TEXTS.SHOW_MORE}
         </Button>
       )}
-      {shouldPaginate && !expandable && (
+      {shouldPaginate && (
         <TablePagination
           rowsPerPageOptions={
             rowsPerPageOptions ?? TEXTS.DEFAULT_ROWS_PER_PAGE_OPTION
@@ -145,6 +144,7 @@ export function GenericTable<T extends { id: number }>({
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       )}
+      {summaryRows && <SummeryRows summary={summaryRows} />}{' '}
     </TableContainer>
   );
 }

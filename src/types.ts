@@ -11,3 +11,8 @@ export enum SortDirections {
   ASC = 'asc',
   DESC = 'desc',
 }
+
+export interface SummeryRow {
+  label: string;
+  value: string | number;
+}

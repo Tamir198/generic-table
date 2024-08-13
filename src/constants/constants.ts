@@ -8,3 +8,7 @@ export const TEXTS = {
   SHOW_MORE: 'Show More',
   SHOW_LESS: 'Show Less',
 };
+
+export const COLORS = {
+  SUMMERY_ROW_WRAPPER: '#ffdbc3',
+};

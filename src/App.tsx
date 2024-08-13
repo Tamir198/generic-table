@@ -243,6 +243,11 @@ function App() {
     },
   ]);
 
+  const summeryRows = [
+    { label: 'aaaa', value: 50 },
+    // { label: 'bbb', value: 80 },
+  ];
+
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -287,10 +292,11 @@ function App() {
         onPageChange={handlePageChange}
         onDeleteSelectedRows={handleDeleteSelectedRows}
         shouldFilter={true}
-        shouldSelectRows={true}
+        shouldSelectRows={false}
         shouldPaginate={true}
         expandable={false}
         isCustomCellAllowed={true}
+        summaryRows={summeryRows}
       />
     </>
   );
