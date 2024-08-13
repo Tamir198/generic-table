@@ -11,7 +11,8 @@ import { useTableSorting } from './useTableSorting';
 import { useRowSelection } from './useRowSelection';
 import { TEXTS } from '../constants/constants';
 
-interface GenericTableProps<T> {
+interface GenericTableProps<T extends { id: number }> {
+  // Constraint added here
   columns: TableColumn<T>[];
   data: T[];
   shouldPaginate?: boolean;
@@ -25,7 +26,7 @@ interface GenericTableProps<T> {
   isCustomCellAllowed?: boolean;
 }
 
-export function GenericTable<T>({
+export function GenericTable<T extends { id: number }>({
   columns,
   data,
   shouldPaginate = true,
@@ -36,8 +37,6 @@ export function GenericTable<T>({
   onDeleteSelectedRows,
   isCustomCellAllowed = true,
 }: GenericTableProps<T>) {
-  // const [searchTerm, setSearchTerm] = useState('');
-
   const { sortedData, handleSort, sortColumn, sortDirection } =
     useTableSorting<T>({
       data: data,

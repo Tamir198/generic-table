@@ -5,7 +5,7 @@ import TableRow from '@mui/material/TableRow';
 import { TableColumn } from '../types';
 import { Checkbox } from '@mui/material';
 
-interface TableBodyContentProps<T> {
+interface TableBodyContentProps<T extends { id: number }> {
   columns: TableColumn<T>[];
   data: T[];
   shouldSelectRows: boolean;
@@ -14,7 +14,7 @@ interface TableBodyContentProps<T> {
   isCustomCellAllowed?: boolean;
 }
 
-function getCellContent<T>(
+function getCellContent<T extends { [key: string]: any }>(
   column: TableColumn<T>,
   value: T[keyof T],
   row: T,
@@ -23,13 +23,59 @@ function getCellContent<T>(
   const baseContent = column.format ? column.format(value) : value;
 
   if (!isCustomCellAllowed) {
-    return baseContent;
+    return ensureReactNode(baseContent);
   }
 
-  return column.renderCell ? column.renderCell(value, row) : baseContent;
+  let cellContent = column.renderCell
+    ? column.renderCell(value, row)
+    : baseContent;
+
+  if (row.status) {
+    const status = row['status'] as string;
+    let color = '';
+
+    switch (status) {
+      case 'success':
+        color = 'green';
+        break;
+      case 'failed':
+        color = 'red';
+        break;
+      default:
+        color = 'blue';
+    }
+
+    cellContent = <span style={{ color }}>{ensureReactNode(cellContent)}</span>;
+  }
+
+  return ensureReactNode(cellContent);
 }
 
-export function TableBodyContent<T>({
+function ensureReactNode(value: any): React.ReactNode {
+  if (React.isValidElement(value)) {
+    return value;
+  }
+
+  if (
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'boolean'
+  ) {
+    return String(value);
+  }
+
+  if (value === null || value === undefined) {
+    return null;
+  }
+
+  if (typeof value === 'object' && Symbol.iterator in Object(value)) {
+    return Array.from(value).map((item) => ensureReactNode(item));
+  }
+
+  return null;
+}
+
+export function TableBodyContent<T extends { id: number }>({
   columns,
   data,
   shouldSelectRows,

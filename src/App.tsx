@@ -15,6 +15,7 @@ function App() {
     protein: number;
     check?: string;
     avatar?: string;
+    status?: 'success' | 'failed';
   }
 
   const columns: TableColumn<Dessert>[] = [
@@ -62,6 +63,7 @@ function App() {
       fat: 6.0,
       carbs: 24,
       protein: 4.0,
+      status: 'success',
     },
     {
       id: 2,
@@ -70,6 +72,7 @@ function App() {
       fat: 9.0,
       carbs: 37,
       protein: 4.3,
+      status: 'failed',
     },
     {
       id: 3,
@@ -78,6 +81,7 @@ function App() {
       fat: 16.0,
       carbs: 24,
       protein: 6.0,
+      status: 'failed',
     },
     {
       id: 4,
