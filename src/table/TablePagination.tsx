@@ -1,4 +1,5 @@
 import { Pagination, PaginationItem } from '@mui/material';
+import { COLORS } from '../constants/constants';
 
 interface TablePaginationProps {
   count: number;
@@ -27,8 +28,21 @@ export function TablePagination({
         <PaginationItem
           {...item}
           sx={{
+            color: COLORS.TABLE_SECONDARY,
+            '&:hover': {
+              background: 'none',
+            },
             '&.Mui-selected': {
-              background: 'white',
+              background: 'none',
+              border: 'none',
+            },
+            '&.MuiPaginationItem-root': {
+              background: 'none',
+              border: 'none',
+            },
+            '&.Mui-disabled': {
+              color: 'gray',
+              background: 'none',
               border: 'none',
             },
           }}

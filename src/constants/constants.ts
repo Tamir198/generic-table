@@ -12,4 +12,5 @@ export const TEXTS = {
 export const COLORS = {
   SUMMERY_ROW_WRAPPER: '#ffdbc3',
   TABLE_HEADER: 'gray',
+  TABLE_SECONDARY: '#10829b',
 };
