@@ -9,6 +9,7 @@ import { useTablePagination } from './useTablePagination';
 import { useTableSorting } from './useTableSorting';
 import { useRowSelection } from './useRowSelection';
 import { TEXTS } from '../constants/constants';
+import * as XLSX from 'xlsx';
 
 interface GenericTableProps<T extends { id: number }> {
   columns: TableColumn<T>[];
@@ -63,6 +64,13 @@ export function GenericTable<T extends { id: number }>({
     data: paginatedData(),
     onDeleteSelectedRows: onDeleteSelectedRows,
   });
+
+  const exportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    XLSX.writeFile(workbook, 'data.xlsx');
+  };
 
   return (
     <TableContainer component={Paper}>
