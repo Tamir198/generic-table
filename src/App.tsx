@@ -25,14 +25,14 @@ function App() {
   const columns: TableColumn<Dessert>[] = [
     {
       id: 'name',
-      label: 'Dessert (100g serving)',
+      label: 'Dessert',
       isColumnPaintable: true,
     },
     {
       id: 'calories',
       label: 'Calories',
       align: 'left',
-      format: (value) => `${value} kcal`,
+      format: (value) => ` קלוריות ${value}`,
       isColumnPaintable: true,
     },
     { id: 'fat', label: 'Fat (g)', align: 'left' },
@@ -41,7 +41,7 @@ function App() {
       id: 'protein',
       label: 'Protein (g)',
       align: 'left',
-      format: (value) => `Formatted -${value}`,
+      format: (value) => `${value}שלום  `,
       isColumnPaintable: true,
     },
     {
@@ -69,7 +69,7 @@ function App() {
   const [data, setData] = useState<Dessert[]>([
     {
       id: 1,
-      name: 'Frozen yoghurt',
+      name: 'יוגורט קפוא',
       calories: 159,
       fat: 6.0,
       carbs: 24,
@@ -82,7 +82,7 @@ function App() {
     },
     {
       id: 2,
-      name: 'Ice cream sandwich',
+      name: "סנדוויץ' גלידה",
       calories: 237,
       fat: 9.0,
       carbs: 37,
@@ -91,7 +91,7 @@ function App() {
     },
     {
       id: 3,
-      name: 'Eclair',
+      name: 'אקלר',
       calories: 262,
       fat: 16.0,
       carbs: 24,
@@ -100,7 +100,7 @@ function App() {
     },
     {
       id: 4,
-      name: 'Cupcake',
+      name: 'קפקייק',
       calories: 305,
       fat: 3.7,
       carbs: 67,
