@@ -4,8 +4,10 @@ import {
   TableCell,
   Checkbox,
   TableSortLabel,
+  Typography,
 } from '@mui/material';
 import { TableColumn, SortDirections } from '../types';
+import { COLORS } from '../constants/constants';
 
 interface TableHeaderProps<T> {
   columns: TableColumn<T>[];
@@ -37,10 +39,7 @@ export function TableHeader<T>({
       <TableRow>
         {shouldSelectRows && (
           <TableCell padding='checkbox'>
-            <Checkbox
-              onChange={handleSelectAll}
-              //TODO  find a way to determine if all rows are selected
-            />
+            <Checkbox onChange={handleSelectAll} />
           </TableCell>
         )}
         {columns.map((column) => (
@@ -59,7 +58,7 @@ export function TableHeader<T>({
                 }
                 onClick={() => handleSort(column.id)}
               >
-                {column.label}
+                <Typography sx={{color : COLORS.TABLE_HEADER}}>{column.label}</Typography>
               </TableSortLabel>
             ) : (
               column.label

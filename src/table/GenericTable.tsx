@@ -1,18 +1,20 @@
-import * as React from 'react';
+import { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
-import { TableColumn } from '../types';
-import { TablePagination, TextField, Button } from '@mui/material';
+import { SummeryRow, TableColumn } from '../types';
+import { Button } from '@mui/material';
+import { TablePagination } from './TablePagination';
 import { TableBodyContent } from './TableBodyContent';
 import { TableHeader } from './TableHeader';
 import { useTablePagination } from './useTablePagination';
 import { useTableSorting } from './useTableSorting';
 import { useRowSelection } from './useRowSelection';
-import { TEXTS } from '../constants/constants';
-import { useState } from 'react';
+import { COLORS, TEXTS } from '../constants/constants';
+import * as XLSX from 'xlsx';
+import { SummeryRows } from './SummeryRows';
 
-interface GenericTableProps<T> {
+interface GenericTableProps<T extends { id: number }> {
   columns: TableColumn<T>[];
   data: T[];
   shouldPaginate?: boolean;
@@ -24,44 +26,45 @@ interface GenericTableProps<T> {
   shouldSelectRows?: boolean;
   onDeleteSelectedRows?: (selectedRows: T[]) => void;
   isCustomCellAllowed?: boolean;
+  expandable?: boolean;
+  summaryRows?: SummeryRow[];
 }
 
-export function GenericTable<T>({
+export function GenericTable<T extends { id: number }>({
   columns,
   data,
-  shouldPaginate = true,
-  rowsPerPageOptions = TEXTS.DEFAULT_ROWS_PER_PAGE_OPTION,
+  shouldPaginate,
+  shouldSort,
   onPageChange,
-  shouldFilter = true,
-  filterFunction,
-  shouldSort = true,
-  shouldSelectRows = true,
+  shouldSelectRows,
   onDeleteSelectedRows,
-  isCustomCellAllowed = true,
+  isCustomCellAllowed,
+  expandable = true,
+  summaryRows,
+  ...props
 }: GenericTableProps<T>) {
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const filteredData =
-    shouldFilter && filterFunction ? filterFunction(data, searchTerm) : data;
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const { sortedData, handleSort, sortColumn, sortDirection } =
     useTableSorting<T>({
-      data: filteredData,
-      shouldSort,
+      data: data,
+      shouldSort: shouldSort ?? true,
     });
+
+  const initialRowsPerPage = expandable
+    ? TEXTS.INITIAL_COLLAPSED_PAGE_ROWS
+    : TEXTS.INITIAL_PAGE_ROWS;
 
   const {
     page = TEXTS.INITIAL_TABLE_PAGE,
     rowsPerPage = TEXTS.INITIAL_PAGE_ROWS,
     handleChangePage,
-    handleChangeRowsPerPage,
     paginatedData,
   } = useTablePagination<T>({
     initialPage: TEXTS.INITIAL_TABLE_PAGE,
-    initialRowsPerPage: TEXTS.INITIAL_PAGE_ROWS,
+    initialRowsPerPage,
     data: sortedData,
   });
-
   const {
     selectedRows,
     handleRowSelect,
@@ -69,26 +72,26 @@ export function GenericTable<T>({
     handleDeleteSelectedRows,
   } = useRowSelection<T>({
     data: paginatedData(),
-    onDeleteSelectedRows,
+    onDeleteSelectedRows: onDeleteSelectedRows,
   });
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-    handleChangePage(null, 0);
+  if (shouldPaginate && expandable) {
+    throw new Error(
+      "Cannot use both 'shouldPaginate' and 'expandable' options at the same time."
+    );
+  }
+
+  const displayData = isExpanded ? sortedData : paginatedData();
+
+  const exportToExcel = (fileName = 'data', sheetName = 'Sheet1') => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+    XLSX.writeFile(workbook, `${fileName}.xlsx`);
   };
 
   return (
     <TableContainer component={Paper}>
-      {shouldFilter && (
-        <TextField
-          label={TEXTS.SEARCH_LABEL}
-          variant='outlined'
-          fullWidth
-          margin='normal'
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-      )}
       {shouldSelectRows && (
         <Button
           variant='contained'
@@ -105,33 +108,51 @@ export function GenericTable<T>({
           sortColumn={sortColumn}
           sortDirection={sortDirection}
           handleSort={(property: string) => handleSort(property)}
-          shouldSort={shouldSort}
-          shouldSelectRows={shouldSelectRows}
+          shouldSort={shouldSort ?? true}
+          shouldSelectRows={shouldSelectRows ?? true}
           onSelectAllRows={(selectAll) => handleSelectAllRows(selectAll)}
         />
         <TableBodyContent
           columns={columns}
-          data={paginatedData()}
-          shouldSelectRows={shouldSelectRows}
+          data={displayData}
+          shouldSelectRows={shouldSelectRows ?? true}
           selectedRows={selectedRows}
           onRowSelect={(id) => handleRowSelect(id)}
-          isCustomCellAllowed={isCustomCellAllowed}
+          isCustomCellAllowed={isCustomCellAllowed ?? true}
         />
       </Table>
+      {expandable && (
+        <Button
+          size='small'
+          variant='text'
+          sx={{
+            marginTop: 2,
+            marginBottom: 2,
+            color: COLORS.BUTTON_PRIMARY,
+            outline: 'none',
+            fontWeight: 700,
+            border: 'none',
+            '&.MuiButton-text': {
+              outline: 'none',
+            },
+            '&.MuiButtonBase-root :hover': {
+              'background-color': 'red',
+            },
+          }}
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          {isExpanded ? TEXTS.SHOW_LESS : TEXTS.SHOW_MORE}
+        </Button>
+      )}
       {shouldPaginate && (
         <TablePagination
-          rowsPerPageOptions={rowsPerPageOptions}
-          component='div'
-          count={filteredData.length}
-          rowsPerPage={rowsPerPage}
+          count={data.length}
           page={page}
-          onPageChange={(event, newPage) => {
-            handleChangePage(event, newPage);
-            onPageChange && onPageChange(newPage);
-          }}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPage={rowsPerPage}
+          handleChangePage={handleChangePage}
         />
       )}
+      {summaryRows && <SummeryRows summary={summaryRows} />}
     </TableContainer>
   );
 }

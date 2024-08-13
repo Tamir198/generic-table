@@ -13,7 +13,7 @@ export function useTableSorting<T>({
   const [sortColumn, setSortColumn] = useState<string>('');
   const [sortDirection, setSortDirection] = useState<SortDirections>(
     SortDirections.ASC
-  );
+  );  
 
   const sortedData = useMemo(() => {
     if (!shouldSort || !sortColumn) return data;

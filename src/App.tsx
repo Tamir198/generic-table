@@ -1,4 +1,4 @@
-import { Avatar } from '@mui/material';
+import { Avatar, TextField } from '@mui/material';
 import './App.css';
 import { GenericTable } from './table/GenericTable';
 import { TableColumn } from './types';
@@ -9,21 +9,31 @@ function App() {
   interface Dessert {
     id: number;
     name: string;
-    calories: number;
+    calories: number | string;
     fat: number;
     carbs: number;
     protein: number;
     check?: string;
     avatar?: string;
+    status?: 'success' | 'failed';
+    component?: {
+      columnId: string;
+      content: React.ReactNode;
+    };
   }
 
   const columns: TableColumn<Dessert>[] = [
-    { id: 'name', label: 'Dessert (100g serving)' },
+    {
+      id: 'name',
+      label: 'Dessert',
+      isColumnPaintable: true,
+    },
     {
       id: 'calories',
       label: 'Calories',
       align: 'left',
-      format: (value) => `${value} kcal`,
+      format: (value) => ` קלוריות ${value}`,
+      isColumnPaintable: true,
     },
     { id: 'fat', label: 'Fat (g)', align: 'left' },
     { id: 'carbs', label: 'Carbs (g)', align: 'left' },
@@ -31,7 +41,8 @@ function App() {
       id: 'protein',
       label: 'Protein (g)',
       align: 'left',
-      format: (value) => `Formatted -${value}`,
+      format: (value) => `${value}שלום  `,
+      isColumnPaintable: true,
     },
     {
       id: 'avatar',
@@ -51,43 +62,51 @@ function App() {
           return 'NO AVATAR';
         }
       },
+      isColumnPaintable: false,
     },
   ];
 
   const [data, setData] = useState<Dessert[]>([
     {
       id: 1,
-      name: 'Frozen yoghurt',
+      name: 'יוגורט קפוא',
       calories: 159,
       fat: 6.0,
       carbs: 24,
       protein: 4.0,
+      status: 'success',
+      component: {
+        columnId: 'name',
+        content: <p>Custom</p>,
+      },
     },
     {
       id: 2,
-      name: 'Ice cream sandwich',
+      name: "סנדוויץ' גלידה",
       calories: 237,
       fat: 9.0,
       carbs: 37,
       protein: 4.3,
+      status: 'failed',
     },
     {
       id: 3,
-      name: 'Eclair',
+      name: 'אקלר',
       calories: 262,
       fat: 16.0,
       carbs: 24,
       protein: 6.0,
+      status: 'failed',
     },
     {
       id: 4,
-      name: 'Cupcake',
+      name: 'קפקייק',
       calories: 305,
       fat: 3.7,
       carbs: 67,
       protein: 4.3,
     },
-    { id: 5, name: 'aa', calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
+    { id: 5, name: 'aa', calories: 'a356', fat: 16.0, carbs: 49, protein: 3.9 },
     { id: 6, name: 'bb', calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
     { id: 7, name: 'cc', calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
     { id: 8, name: 'dd', calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
@@ -224,6 +243,17 @@ function App() {
     },
   ]);
 
+  const summeryRows = [
+    { label: 'aaaa', value: 50 },
+    // { label: 'bbb', value: 80 },
+  ];
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
   const handlePageChange = (newPage: number) => {
     console.log('Page changed to:', newPage);
   };
@@ -234,9 +264,10 @@ function App() {
     );
   };
 
+  const filteredData = filterDesserts(data, searchTerm);
+
   const handleDeleteSelectedRows = (selectedRows: Dessert[]) => {
     console.log(selectedRows);
-
     setData((prevData) =>
       prevData.filter((dessert) => !selectedRows.includes(dessert))
     );
@@ -246,16 +277,26 @@ function App() {
 
   return (
     <>
+      <TextField
+        label='Search Desserts'
+        variant='outlined'
+        fullWidth
+        value={searchTerm}
+        onChange={handleSearchChange}
+        margin='normal'
+      />
       <GenericTable
         columns={columns}
-        data={data}
-        rowsPerPageOptions={ROWS_PER_PAGE}
+        data={filteredData}
         onPageChange={handlePageChange}
-        filterFunction={filterDesserts}
-        shouldSelectRows={true}
-        shouldFilter={true}
+        rowsPerPageOptions={ROWS_PER_PAGE}
         onDeleteSelectedRows={handleDeleteSelectedRows}
+        shouldFilter={true}
+        shouldSelectRows={true}
+        shouldPaginate={true}
+        expandable={false}
         isCustomCellAllowed={true}
+        summaryRows={summeryRows}
       />
     </>
   );
