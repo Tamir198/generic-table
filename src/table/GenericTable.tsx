@@ -24,7 +24,7 @@ interface GenericTableProps<T extends { id: number }> {
   shouldSelectRows?: boolean;
   onDeleteSelectedRows?: (selectedRows: T[]) => void;
   isCustomCellAllowed?: boolean;
-  expandable?: boolean; // New prop for expandable functionality
+  expandable?: boolean;
 }
 
 export function GenericTable<T extends { id: number }>({
@@ -37,7 +37,7 @@ export function GenericTable<T extends { id: number }>({
   shouldSelectRows,
   onDeleteSelectedRows,
   isCustomCellAllowed,
-  expandable = false, // Default to false if not provided
+  expandable = false,
   ...props
 }: GenericTableProps<T>) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -77,8 +77,8 @@ export function GenericTable<T extends { id: number }>({
     XLSX.writeFile(workbook, `${fileName}.xlsx`);
   };
 
-  const displayData =
-    expandable && !isExpanded ? data.slice(0, TEXTS.INITIAL_PAGE_ROWS) : data;
+  // Display all rows if expanded, otherwise use paginated data
+  const displayData = isExpanded ? sortedData : paginatedData();
 
   return (
     <TableContainer component={Paper}>

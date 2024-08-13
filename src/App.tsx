@@ -288,8 +288,8 @@ function App() {
         onDeleteSelectedRows={handleDeleteSelectedRows}
         shouldFilter={true}
         shouldSelectRows={true}
-        shouldPaginate={false}
-        expandable={true}
+        shouldPaginate={true}
+        expandable={false}
         isCustomCellAllowed={true}
       />
     </>
