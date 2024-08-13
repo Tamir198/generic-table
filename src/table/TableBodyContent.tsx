@@ -22,17 +22,21 @@ function getCellContent<T extends { [key: string]: any }>(
   isCustomCellAllowed: boolean
 ): React.ReactNode {
   const baseContent = column.format ? column.format(value) : value;
-
-  if (!isCustomCellAllowed) {
-    return ensureReactNode(baseContent);
-  }
-
-  let cellContent = column.renderCell
+  const cellContent = column.renderCell
     ? column.renderCell(value, row)
     : baseContent;
 
+  if (isCustomCellAllowed && row.component) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {ensureReactNode(cellContent)}
+        <span style={{ marginLeft: '8px' }}>{row.component}</span>
+      </div>
+    );
+  }
+
   if (column.isColumnPaintable && row.status) {
-    const status = row['status'] as string;
+    const status = row.status as string;
     let color = '';
 
     switch (status) {
@@ -46,7 +50,7 @@ function getCellContent<T extends { [key: string]: any }>(
         color = 'blue';
     }
 
-    cellContent = <span style={{ color }}>{ensureReactNode(cellContent)}</span>;
+    return <span style={{ color }}>{ensureReactNode(cellContent)}</span>;
   }
 
   return ensureReactNode(cellContent);
@@ -67,10 +71,6 @@ function ensureReactNode(value: any): React.ReactNode {
 
   if (value === null || value === undefined) {
     return null;
-  }
-
-  if (typeof value === 'object' && Symbol.iterator in Object(value)) {
-    return Array.from(value).map((item) => ensureReactNode(item));
   }
 
   return null;
