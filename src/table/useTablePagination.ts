@@ -21,12 +21,7 @@ export function useTablePagination<T>({
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+
   const paginatedData = () => {
     if (page === undefined || rowsPerPage === undefined) {
       return data;
@@ -39,7 +34,6 @@ export function useTablePagination<T>({
     page,
     rowsPerPage,
     handleChangePage,
-    handleChangeRowsPerPage,
     paginatedData,
   };
 }

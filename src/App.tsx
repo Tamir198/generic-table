@@ -288,8 +288,8 @@ function App() {
       <GenericTable
         columns={columns}
         data={filteredData}
-        rowsPerPageOptions={ROWS_PER_PAGE}
         onPageChange={handlePageChange}
+        rowsPerPageOptions={ROWS_PER_PAGE}
         onDeleteSelectedRows={handleDeleteSelectedRows}
         shouldFilter={true}
         shouldSelectRows={true}

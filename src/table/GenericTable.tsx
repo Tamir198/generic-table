@@ -3,7 +3,8 @@ import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 import { SummeryRow, TableColumn } from '../types';
-import { TablePagination, Button } from '@mui/material';
+import { Button } from '@mui/material';
+import { TablePagination } from './TablePagination';
 import { TableBodyContent } from './TableBodyContent';
 import { TableHeader } from './TableHeader';
 import { useTablePagination } from './useTablePagination';
@@ -33,9 +34,8 @@ export function GenericTable<T extends { id: number }>({
   columns,
   data,
   shouldPaginate,
-  rowsPerPageOptions,
-  onPageChange,
   shouldSort,
+  onPageChange,
   shouldSelectRows,
   onDeleteSelectedRows,
   isCustomCellAllowed,
@@ -55,7 +55,6 @@ export function GenericTable<T extends { id: number }>({
     page = TEXTS.INITIAL_TABLE_PAGE,
     rowsPerPage = TEXTS.INITIAL_PAGE_ROWS,
     handleChangePage,
-    handleChangeRowsPerPage,
     paginatedData,
   } = useTablePagination<T>({
     initialPage: TEXTS.INITIAL_TABLE_PAGE,
@@ -130,21 +129,13 @@ export function GenericTable<T extends { id: number }>({
       )}
       {shouldPaginate && (
         <TablePagination
-          rowsPerPageOptions={
-            rowsPerPageOptions ?? TEXTS.DEFAULT_ROWS_PER_PAGE_OPTION
-          }
-          component='div'
           count={data.length}
-          rowsPerPage={rowsPerPage}
           page={page}
-          onPageChange={(event, newPage) => {
-            handleChangePage(event, newPage);
-            onPageChange && onPageChange(newPage);
-          }}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPage={rowsPerPage}
+          handleChangePage={handleChangePage}
         />
       )}
-      {summaryRows && <SummeryRows summary={summaryRows} />}{' '}
+      {summaryRows && <SummeryRows summary={summaryRows} />}
     </TableContainer>
   );
 }
