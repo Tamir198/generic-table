@@ -3,7 +3,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { TableColumn } from '../types';
-import { Checkbox } from '@mui/material';
+import { Box, Checkbox } from '@mui/material';
 
 interface TableBodyContentProps<T extends { id: number }> {
   columns: TableColumn<T>[];
@@ -51,10 +51,12 @@ function getCellContent<T extends { [key: string]: any }>(
     row.component.columnId === column.id
   ) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         {contentWithStatus}
-        <span style={{ marginLeft: '8px' }}>{row.component.content}</span>
-      </div>
+        <span style={{ marginLeft: '8px', textAlign: 'center' }}>
+          {row.component.content}
+        </span>
+      </Box>
     );
   }
 
@@ -66,6 +68,7 @@ export function TableBodyContent<T extends { id: number }>({
   shouldSelectRows,
   selectedRows,
   onRowSelect,
+
   isCustomCellAllowed = true,
 }: TableBodyContentProps<T>) {
   return (

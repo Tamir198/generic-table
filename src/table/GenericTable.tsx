@@ -51,6 +51,10 @@ export function GenericTable<T extends { id: number }>({
       shouldSort: shouldSort ?? true,
     });
 
+  const initialRowsPerPage = expandable
+    ? TEXTS.INITIAL_COLLAPSED_PAGE_ROWS
+    : TEXTS.INITIAL_PAGE_ROWS;
+
   const {
     page = TEXTS.INITIAL_TABLE_PAGE,
     rowsPerPage = TEXTS.INITIAL_PAGE_ROWS,
@@ -58,7 +62,7 @@ export function GenericTable<T extends { id: number }>({
     paginatedData,
   } = useTablePagination<T>({
     initialPage: TEXTS.INITIAL_TABLE_PAGE,
-    initialRowsPerPage: TEXTS.INITIAL_PAGE_ROWS,
+    initialRowsPerPage,
     data: sortedData,
   });
   const {
