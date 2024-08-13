@@ -59,7 +59,6 @@ export function GenericTable<T extends { id: number }>({
     initialRowsPerPage: TEXTS.INITIAL_PAGE_ROWS,
     data: sortedData,
   });
-
   const {
     selectedRows,
     handleRowSelect,
@@ -70,15 +69,14 @@ export function GenericTable<T extends { id: number }>({
     onDeleteSelectedRows: onDeleteSelectedRows,
   });
 
+  const displayData = isExpanded ? sortedData : paginatedData();
+
   const exportToExcel = (fileName = 'data', sheetName = 'Sheet1') => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
     XLSX.writeFile(workbook, `${fileName}.xlsx`);
   };
-
-  // Display all rows if expanded, otherwise use paginated data
-  const displayData = isExpanded ? sortedData : paginatedData();
 
   return (
     <TableContainer component={Paper}>
