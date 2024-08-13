@@ -16,7 +16,10 @@ function App() {
     check?: string;
     avatar?: string;
     status?: 'success' | 'failed';
-    component?: React.ReactNode;
+    component?: {
+      columnId: string;
+      content: React.ReactNode;
+    };
   }
 
   const columns: TableColumn<Dessert>[] = [
@@ -72,7 +75,10 @@ function App() {
       carbs: 24,
       protein: 4.0,
       status: 'success',
-      component: <p>Custom component</p>,
+      component: {
+        columnId: 'name',
+        content: <p>Custom component</p>,
+      },
     },
     {
       id: 2,

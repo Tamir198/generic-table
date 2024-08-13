@@ -26,14 +26,7 @@ function getCellContent<T extends { [key: string]: any }>(
     ? column.renderCell(value, row)
     : baseContent;
 
-  if (isCustomCellAllowed && row.component) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {ensureReactNode(cellContent)}
-        <span style={{ marginLeft: '8px' }}>{row.component}</span>
-      </div>
-    );
-  }
+  let contentWithStatus: React.ReactNode = cellContent;
 
   if (column.isColumnPaintable && row.status) {
     const status = row.status as string;
@@ -50,30 +43,23 @@ function getCellContent<T extends { [key: string]: any }>(
         color = 'blue';
     }
 
-    return <span style={{ color }}>{ensureReactNode(cellContent)}</span>;
-  }
-
-  return ensureReactNode(cellContent);
-}
-
-function ensureReactNode(value: any): React.ReactNode {
-  if (React.isValidElement(value)) {
-    return value;
+    contentWithStatus = <span style={{ color }}>{cellContent}</span>;
   }
 
   if (
-    typeof value === 'string' ||
-    typeof value === 'number' ||
-    typeof value === 'boolean'
+    isCustomCellAllowed &&
+    row.component &&
+    row.component.columnId === column.id
   ) {
-    return String(value);
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {contentWithStatus}
+        <span style={{ marginLeft: '8px' }}>{row.component.content}</span>
+      </div>
+    );
   }
 
-  if (value === null || value === undefined) {
-    return null;
-  }
-
-  return null;
+  return contentWithStatus;
 }
 
 export function TableBodyContent<T extends { id: number }>({
