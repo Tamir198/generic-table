@@ -9,7 +9,7 @@ function App() {
   interface Dessert {
     id: number;
     name: string;
-    calories: number;
+    calories: number | string;
     fat: number;
     carbs: number;
     protein: number;
@@ -106,7 +106,7 @@ function App() {
       carbs: 67,
       protein: 4.3,
     },
-    { id: 5, name: 'aa', calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
+    { id: 5, name: 'aa', calories: 'a356', fat: 16.0, carbs: 49, protein: 3.9 },
     { id: 6, name: 'bb', calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
     { id: 7, name: 'cc', calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
     { id: 8, name: 'dd', calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
