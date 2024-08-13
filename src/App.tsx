@@ -277,9 +277,10 @@ function App() {
         data={filteredData}
         rowsPerPageOptions={ROWS_PER_PAGE}
         onPageChange={handlePageChange}
+        onDeleteSelectedRows={handleDeleteSelectedRows}
         shouldFilter={true}
         shouldSelectRows={true}
-        onDeleteSelectedRows={handleDeleteSelectedRows}
+        shouldPaginate={true}
         isCustomCellAllowed={true}
       />
     </>

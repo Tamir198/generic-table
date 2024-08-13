@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
@@ -12,7 +11,6 @@ import { useRowSelection } from './useRowSelection';
 import { TEXTS } from '../constants/constants';
 
 interface GenericTableProps<T extends { id: number }> {
-  // Constraint added here
   columns: TableColumn<T>[];
   data: T[];
   shouldPaginate?: boolean;
@@ -29,18 +27,19 @@ interface GenericTableProps<T extends { id: number }> {
 export function GenericTable<T extends { id: number }>({
   columns,
   data,
-  shouldPaginate = true,
-  rowsPerPageOptions = TEXTS.DEFAULT_ROWS_PER_PAGE_OPTION,
+  shouldPaginate,
+  rowsPerPageOptions,
   onPageChange,
-  shouldSort = true,
-  shouldSelectRows = true,
+  shouldSort,
+  shouldSelectRows,
   onDeleteSelectedRows,
-  isCustomCellAllowed = true,
+  isCustomCellAllowed,
+  ...props
 }: GenericTableProps<T>) {
   const { sortedData, handleSort, sortColumn, sortDirection } =
     useTableSorting<T>({
       data: data,
-      shouldSort,
+      shouldSort: shouldSort ?? true,
     });
 
   const {
@@ -62,7 +61,7 @@ export function GenericTable<T extends { id: number }>({
     handleDeleteSelectedRows,
   } = useRowSelection<T>({
     data: paginatedData(),
-    onDeleteSelectedRows,
+    onDeleteSelectedRows: onDeleteSelectedRows,
   });
 
   return (
@@ -83,22 +82,24 @@ export function GenericTable<T extends { id: number }>({
           sortColumn={sortColumn}
           sortDirection={sortDirection}
           handleSort={(property: string) => handleSort(property)}
-          shouldSort={shouldSort}
-          shouldSelectRows={shouldSelectRows}
+          shouldSort={shouldSort ?? true}
+          shouldSelectRows={shouldSelectRows ?? true}
           onSelectAllRows={(selectAll) => handleSelectAllRows(selectAll)}
         />
         <TableBodyContent
           columns={columns}
           data={paginatedData()}
-          shouldSelectRows={shouldSelectRows}
+          shouldSelectRows={shouldSelectRows ?? true}
           selectedRows={selectedRows}
           onRowSelect={(id) => handleRowSelect(id)}
-          isCustomCellAllowed={isCustomCellAllowed}
+          isCustomCellAllowed={isCustomCellAllowed ?? true}
         />
       </Table>
       {shouldPaginate && (
         <TablePagination
-          rowsPerPageOptions={rowsPerPageOptions}
+          rowsPerPageOptions={
+            rowsPerPageOptions ?? TEXTS.DEFAULT_ROWS_PER_PAGE_OPTION
+          }
           component='div'
           count={data.length}
           rowsPerPage={rowsPerPage}
