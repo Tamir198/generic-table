@@ -19,12 +19,17 @@ function App() {
   }
 
   const columns: TableColumn<Dessert>[] = [
-    { id: 'name', label: 'Dessert (100g serving)' },
+    {
+      id: 'name',
+      label: 'Dessert (100g serving)',
+      isColumnPaintable: true,
+    },
     {
       id: 'calories',
       label: 'Calories',
       align: 'left',
       format: (value) => `${value} kcal`,
+      isColumnPaintable: true,
     },
     { id: 'fat', label: 'Fat (g)', align: 'left' },
     { id: 'carbs', label: 'Carbs (g)', align: 'left' },
@@ -33,6 +38,7 @@ function App() {
       label: 'Protein (g)',
       align: 'left',
       format: (value) => `Formatted -${value}`,
+      isColumnPaintable: true,
     },
     {
       id: 'avatar',
@@ -52,6 +58,7 @@ function App() {
           return 'NO AVATAR';
         }
       },
+      isColumnPaintable: false,
     },
   ];
 

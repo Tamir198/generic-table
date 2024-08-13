@@ -12,6 +12,7 @@ interface TableBodyContentProps<T extends { id: number }> {
   selectedRows: Set<number>;
   onRowSelect: (id: number) => void;
   isCustomCellAllowed?: boolean;
+  isColumnPaintable?: boolean;
 }
 
 function getCellContent<T extends { [key: string]: any }>(
@@ -30,7 +31,7 @@ function getCellContent<T extends { [key: string]: any }>(
     ? column.renderCell(value, row)
     : baseContent;
 
-  if (row.status) {
+  if (column.isColumnPaintable && row.status) {
     const status = row['status'] as string;
     let color = '';
 
