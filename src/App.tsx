@@ -1,4 +1,4 @@
-import { Avatar } from '@mui/material';
+import { Avatar, TextField } from '@mui/material';
 import './App.css';
 import { GenericTable } from './table/GenericTable';
 import { TableColumn } from './types';
@@ -224,6 +224,12 @@ function App() {
     },
   ]);
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
   const handlePageChange = (newPage: number) => {
     console.log('Page changed to:', newPage);
   };
@@ -234,9 +240,10 @@ function App() {
     );
   };
 
+  const filteredData = filterDesserts(data, searchTerm);
+
   const handleDeleteSelectedRows = (selectedRows: Dessert[]) => {
     console.log(selectedRows);
-
     setData((prevData) =>
       prevData.filter((dessert) => !selectedRows.includes(dessert))
     );
@@ -246,14 +253,21 @@ function App() {
 
   return (
     <>
+      <TextField
+        label='Search Desserts'
+        variant='outlined'
+        fullWidth
+        value={searchTerm}
+        onChange={handleSearchChange}
+        margin='normal'
+      />
       <GenericTable
         columns={columns}
-        data={data}
+        data={filteredData}
         rowsPerPageOptions={ROWS_PER_PAGE}
         onPageChange={handlePageChange}
-        filterFunction={filterDesserts}
-        shouldSelectRows={true}
         shouldFilter={true}
+        shouldSelectRows={true}
         onDeleteSelectedRows={handleDeleteSelectedRows}
         isCustomCellAllowed={true}
       />

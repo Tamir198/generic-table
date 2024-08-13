@@ -3,14 +3,13 @@ import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
 import Paper from '@mui/material/Paper';
 import { TableColumn } from '../types';
-import { TablePagination, TextField, Button } from '@mui/material';
+import { TablePagination, Button } from '@mui/material';
 import { TableBodyContent } from './TableBodyContent';
 import { TableHeader } from './TableHeader';
 import { useTablePagination } from './useTablePagination';
 import { useTableSorting } from './useTableSorting';
 import { useRowSelection } from './useRowSelection';
 import { TEXTS } from '../constants/constants';
-import { useState } from 'react';
 
 interface GenericTableProps<T> {
   columns: TableColumn<T>[];
@@ -32,21 +31,16 @@ export function GenericTable<T>({
   shouldPaginate = true,
   rowsPerPageOptions = TEXTS.DEFAULT_ROWS_PER_PAGE_OPTION,
   onPageChange,
-  shouldFilter = true,
-  filterFunction,
   shouldSort = true,
   shouldSelectRows = true,
   onDeleteSelectedRows,
   isCustomCellAllowed = true,
 }: GenericTableProps<T>) {
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const filteredData =
-    shouldFilter && filterFunction ? filterFunction(data, searchTerm) : data;
+  // const [searchTerm, setSearchTerm] = useState('');
 
   const { sortedData, handleSort, sortColumn, sortDirection } =
     useTableSorting<T>({
-      data: filteredData,
+      data: data,
       shouldSort,
     });
 
@@ -72,23 +66,8 @@ export function GenericTable<T>({
     onDeleteSelectedRows,
   });
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-    handleChangePage(null, 0);
-  };
-
   return (
     <TableContainer component={Paper}>
-      {shouldFilter && (
-        <TextField
-          label={TEXTS.SEARCH_LABEL}
-          variant='outlined'
-          fullWidth
-          margin='normal'
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-      )}
       {shouldSelectRows && (
         <Button
           variant='contained'
@@ -122,7 +101,7 @@ export function GenericTable<T>({
         <TablePagination
           rowsPerPageOptions={rowsPerPageOptions}
           component='div'
-          count={filteredData.length}
+          count={data.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={(event, newPage) => {
