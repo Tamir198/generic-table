@@ -8,8 +8,8 @@ const GenericModal = ({
   onClose,
   disableCloseOnOutsideClick = true,
   children,
-  width = "589px",
-  height = "402px",
+  width,
+  height,
   ...props
 }: GenericModalProps) => {
   return (
@@ -60,8 +60,9 @@ const StyledModalBox = styled(Box)<{ width?: string; height?: string }>(({ theme
   width: width || "589px",
   height: height || "402px",
     '@media (max-width: 430px)': {
-      width: width || "356px",
-      height: height || "374px",
+      width:  "275px",
+      height:  "374px",
+      padding: "15px" 
     },
 }));
 
