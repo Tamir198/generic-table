@@ -29,10 +29,10 @@ export const Default: Story = {
     return (
       <>
         <GenericModal {...args} open={open} onClose={handleClose}>
-          <h1>Some title in the modal</h1>
-          <h2>This is the modal content</h2>
-          <p>Test test test</p>
-          <p>Test test test</p>
+            <>
+                <h1>Some title in the modal</h1>
+                <h2>This is the modal content</h2>
+            </>
         </GenericModal>
       </>
     );

@@ -8,8 +8,10 @@ const GenericModal = ({
   onClose,
   disableCloseOnOutsideClick = true,
   children,
+  width = "589px",
+  height = "402px",
   ...props
-}:GenericModalProps) => {
+}: GenericModalProps) => {
   return (
     <Modal
       open={open}
@@ -17,7 +19,7 @@ const GenericModal = ({
       hideBackdrop={disableCloseOnOutsideClick}
       {...props}
     >
-      <StyledModalBox>
+      <StyledModalBox width={width} height={height}>
         <Box>
           <StyledIconButton onClick={onClose}>
             <CloseIcon />
@@ -36,10 +38,12 @@ export interface GenericModalProps extends OmittedModalProps {
   onClose: () => void;
   children: React.ReactElement;
   disableCloseOnOutsideClick?: boolean;
+  width?: string;
+  height?: string;
 }
 
-//TODO get the colors from the theme
-const StyledModalBox = styled(Box)(({ theme }) => ({
+// TODO get the colors from the theme
+const StyledModalBox = styled(Box)<{ width?: string; height?: string }>(({ theme, width, height }) => ({
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -53,9 +57,15 @@ const StyledModalBox = styled(Box)(({ theme }) => ({
   background: "#FFF",
   boxShadow: "0px 10.207px 61.241px 0px rgba(0, 0, 0, 0.05)",
   outline: "none",
+  width: width || "589px",
+  height: height || "402px",
+    '@media (max-width: 430px)': {
+      width: width || "356px",
+      height: height || "374px",
+    },
 }));
 
-//TODO apply color on the icon modal from theme
+// TODO apply color on the icon modal from theme
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
   position: "absolute",
   left: 8,
