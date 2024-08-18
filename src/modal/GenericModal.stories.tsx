@@ -1,32 +1,42 @@
-import  { useState } from 'react';
-import { Meta } from '@storybook/react';
+import { useState } from 'react';
+import { Meta, StoryObj } from '@storybook/react';
 import GenericModal, { GenericModalProps } from './GenericModal';
 
-export default {
+const meta: Meta<typeof GenericModal> = {
   title: 'Components/GenericModal',
   component: GenericModal,
-} as Meta;
+  parameters: {
+    layout: 'fullscreen',
+  },
+  tags: ['autodocs'],
+  argTypes: {
+    onClose: { action: 'closed' },
+  },
+} satisfies Meta<typeof GenericModal>;
 
-const Template: Story<GenericModalProps> = (args) => {
-  const [open, setOpen] = useState(true);
+export default meta;
 
-  const handleClose = () => {
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  render: (args: GenericModalProps) => {
+    const [open, setOpen] = useState(true);
+
+    const handleClose = () => {
       setOpen(false);
-  }
+    };
 
-  return (
-    <>
-      <GenericModal {...args} open={open} onClose={handleClose}>
-        <h1>Some title in the modal</h1>
-        <h2>This is the modal content</h2>
-        <p>Test test test </p>
-        <p>Test test test </p>
-      </GenericModal>
-    </>
-  );
-};
-
-export const Default = Template.bind({});
-Default.args = {
-  title: 'Modal Title',
+    return (
+      <>
+        <GenericModal {...args} open={open} onClose={handleClose}>
+          <h1>Some title in the modal</h1>
+          <h2>This is the modal content</h2>
+          <p>Test test test</p>
+          <p>Test test test</p>
+        </GenericModal>
+      </>
+    );
+  },
+  args: {
+  },
 };
