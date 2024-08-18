@@ -4,6 +4,7 @@ import { GenericTable } from './table/GenericTable';
 import { TableColumn } from './types';
 import { useState } from 'react';
 import ReactSVG from '../src/assets/react.svg';
+import GenericModal from './modal/GenericModal';
 
 function App() {
   interface Dessert {
@@ -274,6 +275,10 @@ function App() {
   };
 
   const ROWS_PER_PAGE = [5, 10, 25];
+
+  return(
+    // <GenericModal/>  
+  ) 
 
   return (
     <>
