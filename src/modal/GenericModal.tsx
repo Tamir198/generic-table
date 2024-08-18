@@ -3,13 +3,13 @@ import { Modal, Box, IconButton, ModalProps } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/material/styles";
 
-const GenericModal: React.FC<GenericModalProps> = ({
+const GenericModal = ({
   open,
   onClose,
   disableCloseOnOutsideClick = true,
   children,
   ...props
-}) => {
+}:GenericModalProps) => {
   return (
     <Modal
       open={open}
@@ -52,7 +52,7 @@ const StyledModalBox = styled(Box)(({ theme }) => ({
   borderRadius: "20px",
   background: "#FFF",
   boxShadow: "0px 10.207px 61.241px 0px rgba(0, 0, 0, 0.05)",
-  border: "none",
+  outline: "none",
 }));
 
 //TODO apply color on the icon modal from theme
