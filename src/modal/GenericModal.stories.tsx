@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Meta } from '@storybook/react';
 import GenericModal, { GenericModalProps } from './GenericModal';
 
@@ -17,7 +17,10 @@ const Template: Story<GenericModalProps> = (args) => {
   return (
     <>
       <GenericModal {...args} open={open} onClose={handleClose}>
-        <div>This is the modal content</div>
+        <h1>Some title in the modal</h1>
+        <h2>This is the modal content</h2>
+        <p>Test test test </p>
+        <p>Test test test </p>
       </GenericModal>
     </>
   );
