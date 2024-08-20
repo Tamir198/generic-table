@@ -44,9 +44,8 @@ export function TableHeader<T>({
         )}
         {columns.map((column) => (
           <TableCell
-            sx={{ direction: 'ltr' }}
+            sx={{ direction: 'rtl', textAlign: 'right' }}
             key={column.id.toString()}
-            align={column.align || 'right'}
             sortDirection={
               shouldSort && sortColumn === column.id ? sortDirection : false
             }

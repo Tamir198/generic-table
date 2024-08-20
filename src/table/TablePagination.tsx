@@ -39,7 +39,7 @@ export function TablePagination({
             '&.MuiPaginationItem-root': {
               background: 'none',
               outline: 'none',
-              direction: 'ltr',
+              direction: 'rtl',
             },
             '&.Mui-disabled': {
               color: 'gray',

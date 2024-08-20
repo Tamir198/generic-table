@@ -25,28 +25,28 @@ function App() {
   const columns: TableColumn<Dessert>[] = [
     {
       id: 'name',
-      label: 'Dessert',
+      label: 'קינוח',
       isColumnPaintable: true,
     },
     {
       id: 'calories',
-      label: 'Calories',
+      label: 'קלוריות',
       align: 'left',
       format: (value) => ` קלוריות ${value}`,
       isColumnPaintable: true,
     },
-    { id: 'fat', label: 'Fat (g)', align: 'left' },
-    { id: 'carbs', label: 'Carbs (g)', align: 'left' },
+    { id: 'fat', label: 'שומן', align: 'left' },
+    { id: 'carbs', label: 'פחמימה', align: 'left' },
     {
       id: 'protein',
-      label: 'Protein (g)',
+      label: 'חלבון',
       align: 'left',
       format: (value) => `${value}שלום  `,
       isColumnPaintable: true,
     },
     {
       id: 'avatar',
-      label: 'Avatar',
+      label: 'אייקון',
       renderCell: (_, row) => {
         if (row.name.startsWith('A') || row.name.startsWith('C')) {
           return <Avatar alt={row.name} src={ReactSVG}></Avatar>;
@@ -289,7 +289,7 @@ function App() {
         onPageChange={handlePageChange}
         onDeleteSelectedRows={handleDeleteSelectedRows}
         shouldSelectRows={true}
-        tableMode={TableMode.Expanded}
+        tableMode={TableMode.Pagination}
         summaryRows={summeryRows}
       />
     </>
