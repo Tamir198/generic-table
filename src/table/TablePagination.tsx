@@ -1,5 +1,6 @@
 import { Pagination, PaginationItem } from '@mui/material';
 import { COLORS } from '../constants/constants';
+import { ArrowBack, ArrowForward } from '@mui/icons-material';
 
 interface TablePaginationProps {
   count: number;
@@ -26,6 +27,7 @@ export function TablePagination({
       }}
       renderItem={(item) => (
         <PaginationItem
+          slots={{ previous: ArrowForward, next: ArrowBack }}
           {...item}
           sx={{
             color: COLORS.TABLE_SECONDARY,
