@@ -44,8 +44,9 @@ export function TableHeader<T>({
         )}
         {columns.map((column) => (
           <TableCell
+            sx={{ direction: 'ltr' }}
             key={column.id.toString()}
-            align={column.align || 'left'}
+            align={column.align || 'right'}
             sortDirection={
               shouldSort && sortColumn === column.id ? sortDirection : false
             }
@@ -58,7 +59,9 @@ export function TableHeader<T>({
                 }
                 onClick={() => handleSort(column.id)}
               >
-                <Typography sx={{color : COLORS.TABLE_HEADER}}>{column.label}</Typography>
+                <Typography sx={{ color: COLORS.TABLE_HEADER }}>
+                  {column.label}
+                </Typography>
               </TableSortLabel>
             ) : (
               column.label

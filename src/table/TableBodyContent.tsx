@@ -79,7 +79,11 @@ export function TableBodyContent<T extends { id: number }>({
           {columns.map((column) => {
             const value = row[column.id];
             return (
-              <TableCell key={String(column.id)} align={column.align}>
+              <TableCell
+                sx={{ textAlign: 'right' }}
+                key={String(column.id)}
+                align={column.align}
+              >
                 {getCellContent(column, value, row)}
               </TableCell>
             );

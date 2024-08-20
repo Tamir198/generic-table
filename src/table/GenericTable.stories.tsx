@@ -83,17 +83,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args: GenericTableProps<any>) => {
-    const [data, setData] = useState(mockData);
-    const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+    const data = mockData;
 
-    const handleDeleteSelectedRows = () => {
-      console.log('Selected Rows before deletion:', selectedRows);
-      setData((prevData) => {
-        const newData = prevData.filter((item) => !selectedRows.has(item.id));
-        console.log('Data after deletion:', newData);
-        return newData;
-      });
-      setSelectedRows(new Set());
+    const handleDeleteSelectedRows = (selectedRows: typeof mockData) => {
+      alert('Check console');
+      console.log('Those are the selected rows, do with them what you want ');
+      console.log(selectedRows);
     };
 
     return (

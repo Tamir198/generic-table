@@ -4,7 +4,6 @@ import { GenericTable, TableMode } from './table/GenericTable';
 import { TableColumn } from './types';
 import { useState } from 'react';
 import ReactSVG from '../src/assets/react.svg';
-import GenericModal from './modal/GenericModal';
 
 function App() {
   interface Dessert {
@@ -246,7 +245,7 @@ function App() {
 
   const summeryRows = [
     { label: 'aaaa', value: 50 },
-    // { label: 'bbb', value: 80 },
+    { label: 'bbb', value: 80 },
   ];
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -290,7 +289,7 @@ function App() {
         onPageChange={handlePageChange}
         onDeleteSelectedRows={handleDeleteSelectedRows}
         shouldSelectRows={true}
-        tableMode={TableMode.Pagination}
+        tableMode={TableMode.Expanded}
         summaryRows={summeryRows}
       />
     </>
