@@ -18,6 +18,7 @@ export function useRowSelection<T>({
   const handleRowSelect = (id: number) => {
     setSelectedRowIds((prevSelectedRowIds) => {
       const newSelectedRowIds = new Set(prevSelectedRowIds);
+
       if (newSelectedRowIds.has(id)) {
         newSelectedRowIds.delete(id);
       } else {
