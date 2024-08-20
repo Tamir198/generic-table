@@ -1,10 +1,9 @@
 import { Avatar, TextField } from '@mui/material';
 import './App.css';
-import { GenericTable } from './table/GenericTable';
+import { GenericTable, TableMode } from './table/GenericTable';
 import { TableColumn } from './types';
 import { useState } from 'react';
 import ReactSVG from '../src/assets/react.svg';
-import GenericModal from './modal/GenericModal';
 
 function App() {
   interface Dessert {
@@ -26,28 +25,28 @@ function App() {
   const columns: TableColumn<Dessert>[] = [
     {
       id: 'name',
-      label: 'Dessert',
+      label: 'קינוח',
       isColumnPaintable: true,
     },
     {
       id: 'calories',
-      label: 'Calories',
+      label: 'קלוריות',
       align: 'left',
       format: (value) => ` קלוריות ${value}`,
       isColumnPaintable: true,
     },
-    { id: 'fat', label: 'Fat (g)', align: 'left' },
-    { id: 'carbs', label: 'Carbs (g)', align: 'left' },
+    { id: 'fat', label: 'שומן', align: 'left' },
+    { id: 'carbs', label: 'פחמימה', align: 'left' },
     {
       id: 'protein',
-      label: 'Protein (g)',
+      label: 'חלבון',
       align: 'left',
       format: (value) => `${value}שלום  `,
       isColumnPaintable: true,
     },
     {
       id: 'avatar',
-      label: 'Avatar',
+      label: 'אייקון',
       renderCell: (_, row) => {
         if (row.name.startsWith('A') || row.name.startsWith('C')) {
           return <Avatar alt={row.name} src={ReactSVG}></Avatar>;
@@ -246,7 +245,7 @@ function App() {
 
   const summeryRows = [
     { label: 'aaaa', value: 50 },
-    // { label: 'bbb', value: 80 },
+    { label: 'bbb', value: 80 },
   ];
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -274,9 +273,6 @@ function App() {
     );
   };
 
-  const ROWS_PER_PAGE = [5, 10, 25];
-
-
   return (
     <>
       <TextField
@@ -291,13 +287,9 @@ function App() {
         columns={columns}
         data={filteredData}
         onPageChange={handlePageChange}
-        rowsPerPageOptions={ROWS_PER_PAGE}
         onDeleteSelectedRows={handleDeleteSelectedRows}
-        shouldFilter={true}
         shouldSelectRows={true}
-        shouldPaginate={true}
-        expandable={false}
-        isCustomCellAllowed={true}
+        tableMode={TableMode.Pagination}
         summaryRows={summeryRows}
       />
     </>

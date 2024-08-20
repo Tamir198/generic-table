@@ -29,7 +29,7 @@ export const SummeryRows: React.FC<SummeryRowsProps> = ({ summary }) => {
           }}
         >
           {Object.entries(item).map(([key, value]) => (
-            <Typography sx={{ 'font-weight': 'bold' }} key={key}>
+            <Typography sx={{ fontWeight: 'bold' }} key={key}>
               {value}
             </Typography>
           ))}
