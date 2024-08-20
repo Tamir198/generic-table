@@ -23,7 +23,7 @@ interface GenericTableProps<T extends { id: number }> {
   columns: TableColumn<T>[];
   data: T[];
   tableMode?: TableMode;
-  rowsPerPageOptions?: number[];
+  rowsPerPage?: number;
   onPageChange?: (newPage: number) => void;
   filterFunction?: (data: T[], searchTerm: string) => T[];
   shouldSort?: boolean;
@@ -37,7 +37,6 @@ export function GenericTable<T extends { id: number }>({
   data,
   tableMode = TableMode.Expanded,
   shouldSort,
-  onPageChange,
   shouldSelectRows,
   onDeleteSelectedRows,
   summaryRows,
@@ -54,16 +53,16 @@ export function GenericTable<T extends { id: number }>({
   const initialRowsPerPage =
     tableMode === TableMode.Expanded
       ? TEXTS.INITIAL_COLLAPSED_PAGE_ROWS
-      : TEXTS.INITIAL_PAGE_ROWS;
+      : props.rowsPerPage || TEXTS.INITIAL_PAGE_ROWS;
 
   const {
     page = TEXTS.INITIAL_TABLE_PAGE,
-    rowsPerPage = TEXTS.INITIAL_PAGE_ROWS,
+    rowsPerPage = props.rowsPerPage || TEXTS.INITIAL_PAGE_ROWS,
     handleChangePage,
     paginatedData,
   } = useTablePagination<T>({
     initialPage: TEXTS.INITIAL_TABLE_PAGE,
-    initialRowsPerPage,
+    rowsPerPage: initialRowsPerPage,
     data: sortedData,
   });
 
@@ -107,7 +106,7 @@ export function GenericTable<T extends { id: number }>({
           {TEXTS.DELETE_SELECTED}
         </Button>
       )}
-      <Table sx={{ minWidth: 320 }} aria-label='generic table'>
+      <Table sx={{ minWidth: 320 }}>
         <TableHeader
           columns={columns}
           sortColumn={sortColumn}

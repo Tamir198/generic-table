@@ -34,7 +34,7 @@ export function TablePagination({
             '&.Mui-selected': {
               border: 'none',
               outline: 'none',
-              'font-weight': 'bold',
+              fontWeight: 'bold',
             },
             '&.MuiPaginationItem-root': {
               background: 'none',

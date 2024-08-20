@@ -2,17 +2,16 @@ import { useState } from 'react';
 
 interface UseTablePaginationParams<T> {
   initialPage?: number;
-  initialRowsPerPage?: number;
+  rowsPerPage?: number;
   data: T[];
 }
 
 export function useTablePagination<T>({
   initialPage,
-  initialRowsPerPage,
+  rowsPerPage = 5,
   data,
 }: UseTablePaginationParams<T>) {
   const [page, setPage] = useState(initialPage);
-  const [rowsPerPage, setRowsPerPage] = useState(initialRowsPerPage);
 
   const handleChangePage = (
     event: React.MouseEvent | null,
@@ -20,7 +19,6 @@ export function useTablePagination<T>({
   ) => {
     setPage(newPage);
   };
-
 
   const paginatedData = () => {
     if (page === undefined || rowsPerPage === undefined) {

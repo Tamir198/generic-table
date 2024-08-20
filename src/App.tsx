@@ -290,10 +290,10 @@ function App() {
         columns={columns}
         data={filteredData}
         onPageChange={handlePageChange}
-        rowsPerPageOptions={ROWS_PER_PAGE}
         onDeleteSelectedRows={handleDeleteSelectedRows}
         shouldSelectRows={true}
-        tableMode={TableMode.Pagination}
+        rowsPerPage={2}
+        tableMode={TableMode.Expanded}
         summaryRows={summeryRows}
       />
     </>
