@@ -290,7 +290,6 @@ function App() {
         onPageChange={handlePageChange}
         onDeleteSelectedRows={handleDeleteSelectedRows}
         shouldSelectRows={true}
-        // rowsPerPage={5}
         tableMode={TableMode.Pagination}
         summaryRows={summeryRows}
       />

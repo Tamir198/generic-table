@@ -19,7 +19,7 @@ export enum TableMode {
   Expanded = 'expanded',
 }
 
-interface GenericTableProps<T extends { id: number }> {
+export interface GenericTableProps<T extends { id: number }> {
   columns: TableColumn<T>[];
   data: T[];
   tableMode?: TableMode;
@@ -133,7 +133,9 @@ export function GenericTable<T extends { id: number }>({
             marginBottom: 2,
             color: COLORS.BUTTON_PRIMARY,
             outline: 'none',
+            display: 'block',
             fontWeight: 700,
+            margin: '0 auto',
             border: 'none',
             '&.MuiButton-text': {
               outline: 'none',
