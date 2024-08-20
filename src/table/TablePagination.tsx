@@ -31,19 +31,29 @@ export function TablePagination({
             color: COLORS.TABLE_SECONDARY,
             '&:hover': {
               background: 'none',
+              border: 'none',
+              outline: 'none',
             },
             '&.Mui-selected': {
               background: 'none',
               border: 'none',
+              outline: 'none',
             },
             '&.MuiPaginationItem-root': {
               background: 'none',
               border: 'none',
+              outline: 'none',
+              direction: 'ltr',
             },
             '&.Mui-disabled': {
               color: 'gray',
               background: 'none',
               border: 'none',
+            },
+            '&.Mui-selected:hover': {
+              background: 'none',
+              border: 'none',
+              outline: 'none',
             },
           }}
         />
@@ -53,6 +63,7 @@ export function TablePagination({
       sx={{
         display: 'flex',
         justifyContent: 'center',
+        direction: 'rtl',
       }}
     />
   );
