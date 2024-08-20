@@ -18,8 +18,7 @@ interface TableBodyContentProps<T extends { id: number }> {
 function getCellContent<T extends { [key: string]: any }>(
   column: TableColumn<T>,
   value: T[keyof T],
-  row: T,
-  isCustomCellAllowed: boolean
+  row: T
 ): React.ReactNode {
   const baseContent = column.format ? column.format(value) : value;
   const cellContent = column.renderCell
@@ -45,11 +44,7 @@ function getCellContent<T extends { [key: string]: any }>(
     );
   }
 
-  if (
-    isCustomCellAllowed &&
-    row.component &&
-    row.component.columnId === column.id
-  ) {
+  if (row.component && row.component.columnId === column.id) {
     return (
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         {contentWithStatus}
@@ -68,8 +63,6 @@ export function TableBodyContent<T extends { id: number }>({
   shouldSelectRows,
   selectedRows,
   onRowSelect,
-
-  isCustomCellAllowed = true,
 }: TableBodyContentProps<T>) {
   return (
     <TableBody>
@@ -87,7 +80,7 @@ export function TableBodyContent<T extends { id: number }>({
             const value = row[column.id];
             return (
               <TableCell key={String(column.id)} align={column.align}>
-                {getCellContent(column, value, row, isCustomCellAllowed)}
+                {getCellContent(column, value, row)}
               </TableCell>
             );
           })}

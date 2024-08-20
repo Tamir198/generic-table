@@ -14,32 +14,32 @@ import { COLORS, TEXTS } from '../constants/constants';
 import * as XLSX from 'xlsx';
 import { SummeryRows } from './SummeryRows';
 
+export enum TableMode {
+  Pagination = 'pagination',
+  Expanded = 'expanded',
+}
+
 interface GenericTableProps<T extends { id: number }> {
   columns: TableColumn<T>[];
   data: T[];
-  shouldPaginate?: boolean;
+  tableMode?: TableMode;
   rowsPerPageOptions?: number[];
   onPageChange?: (newPage: number) => void;
-  shouldFilter?: boolean;
   filterFunction?: (data: T[], searchTerm: string) => T[];
   shouldSort?: boolean;
   shouldSelectRows?: boolean;
   onDeleteSelectedRows?: (selectedRows: T[]) => void;
-  isCustomCellAllowed?: boolean;
-  expandable?: boolean;
   summaryRows?: SummeryRow[];
 }
 
 export function GenericTable<T extends { id: number }>({
   columns,
   data,
-  shouldPaginate,
+  tableMode = TableMode.Expanded,
   shouldSort,
   onPageChange,
   shouldSelectRows,
   onDeleteSelectedRows,
-  isCustomCellAllowed,
-  expandable = true,
   summaryRows,
   ...props
 }: GenericTableProps<T>) {
@@ -51,9 +51,10 @@ export function GenericTable<T extends { id: number }>({
       shouldSort: shouldSort ?? true,
     });
 
-  const initialRowsPerPage = expandable
-    ? TEXTS.INITIAL_COLLAPSED_PAGE_ROWS
-    : TEXTS.INITIAL_PAGE_ROWS;
+  const initialRowsPerPage =
+    tableMode === TableMode.Expanded
+      ? TEXTS.INITIAL_COLLAPSED_PAGE_ROWS
+      : TEXTS.INITIAL_PAGE_ROWS;
 
   const {
     page = TEXTS.INITIAL_TABLE_PAGE,
@@ -65,6 +66,7 @@ export function GenericTable<T extends { id: number }>({
     initialRowsPerPage,
     data: sortedData,
   });
+
   const {
     selectedRows,
     handleRowSelect,
@@ -75,13 +77,16 @@ export function GenericTable<T extends { id: number }>({
     onDeleteSelectedRows: onDeleteSelectedRows,
   });
 
-  if (shouldPaginate && expandable) {
-    throw new Error(
-      "Cannot use both 'shouldPaginate' and 'expandable' options at the same time."
-    );
-  }
+  console.log(paginatedData());
+  let displayData: T[] = [];
 
-  const displayData = isExpanded ? sortedData : paginatedData();
+  if (tableMode === TableMode.Pagination) {
+    displayData = paginatedData();
+  } else if (tableMode === TableMode.Expanded && !isExpanded) {
+    displayData = paginatedData();
+  } else {
+    displayData = sortedData;
+  }
 
   const exportToExcel = (fileName = 'data', sheetName = 'Sheet1') => {
     const worksheet = XLSX.utils.json_to_sheet(data);
@@ -91,7 +96,7 @@ export function GenericTable<T extends { id: number }>({
   };
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} {...props}>
       {shouldSelectRows && (
         <Button
           variant='contained'
@@ -102,7 +107,7 @@ export function GenericTable<T extends { id: number }>({
           {TEXTS.DELETE_SELECTED}
         </Button>
       )}
-      <Table sx={{ minWidth: 650 }} aria-label='generic table'>
+      <Table sx={{ minWidth: 320 }} aria-label='generic table'>
         <TableHeader
           columns={columns}
           sortColumn={sortColumn}
@@ -118,10 +123,9 @@ export function GenericTable<T extends { id: number }>({
           shouldSelectRows={shouldSelectRows ?? true}
           selectedRows={selectedRows}
           onRowSelect={(id) => handleRowSelect(id)}
-          isCustomCellAllowed={isCustomCellAllowed ?? true}
         />
       </Table>
-      {expandable && (
+      {tableMode === TableMode.Expanded && (
         <Button
           size='small'
           variant='text'
@@ -144,7 +148,7 @@ export function GenericTable<T extends { id: number }>({
           {isExpanded ? TEXTS.SHOW_LESS : TEXTS.SHOW_MORE}
         </Button>
       )}
-      {shouldPaginate && (
+      {tableMode === TableMode.Pagination && (
         <TablePagination
           count={data.length}
           page={page}

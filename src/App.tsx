@@ -1,6 +1,6 @@
 import { Avatar, TextField } from '@mui/material';
 import './App.css';
-import { GenericTable } from './table/GenericTable';
+import { GenericTable, TableMode } from './table/GenericTable';
 import { TableColumn } from './types';
 import { useState } from 'react';
 import ReactSVG from '../src/assets/react.svg';
@@ -276,7 +276,6 @@ function App() {
 
   const ROWS_PER_PAGE = [5, 10, 25];
 
-
   return (
     <>
       <TextField
@@ -293,11 +292,8 @@ function App() {
         onPageChange={handlePageChange}
         rowsPerPageOptions={ROWS_PER_PAGE}
         onDeleteSelectedRows={handleDeleteSelectedRows}
-        shouldFilter={true}
         shouldSelectRows={true}
-        shouldPaginate={true}
-        expandable={false}
-        isCustomCellAllowed={true}
+        tableMode={TableMode.Pagination}
         summaryRows={summeryRows}
       />
     </>
