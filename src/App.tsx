@@ -274,8 +274,6 @@ function App() {
     );
   };
 
-  const ROWS_PER_PAGE = [5, 10, 25];
-
   return (
     <>
       <TextField
@@ -292,8 +290,8 @@ function App() {
         onPageChange={handlePageChange}
         onDeleteSelectedRows={handleDeleteSelectedRows}
         shouldSelectRows={true}
-        rowsPerPage={2}
-        tableMode={TableMode.Expanded}
+        // rowsPerPage={5}
+        tableMode={TableMode.Pagination}
         summaryRows={summeryRows}
       />
     </>
