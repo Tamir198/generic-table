@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import { GenericTable, GenericTableProps, TableMode } from './GenericTable';
-import { TablePagination } from '@mui/material';
 
 const mockData = [
   { id: 1, name: 'John Doe', email: 'john@example.com', status: 'Active' },
@@ -37,23 +36,16 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args: GenericTableProps<any>) => {
-    const data = mockData;
+    const [data, setData] = useState(mockData);
     const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
 
-    const handleRowSelect = (id: number) => {
-      setSelectedRows((prev) => {
-        const newSet = new Set(prev);
-        if (newSet.has(id)) {
-          newSet.delete(id);
-        } else {
-          newSet.add(id);
-        }
-        return newSet;
-      });
-    };
-
     const handleDeleteSelectedRows = () => {
-      setData(data.filter((item) => !selectedRows.has(item.id)));
+      console.log('Selected Rows before deletion:', selectedRows);
+      setData((prevData) => {
+        const newData = prevData.filter((item) => !selectedRows.has(item.id));
+        console.log('Data after deletion:', newData);
+        return newData;
+      });
       setSelectedRows(new Set());
     };
 
@@ -63,9 +55,8 @@ export const Default: Story = {
           {...args}
           data={data}
           tableMode={TableMode.Expanded}
-          shouldSelectRows
+          shouldSelectRows={true}
           onDeleteSelectedRows={handleDeleteSelectedRows}
-          onRowSelect={handleRowSelect}
         />
       </>
     );
@@ -82,19 +73,6 @@ export const Default: Story = {
 export const WithPagination: Story = {
   render: (args: GenericTableProps<any>) => {
     const data = mockData;
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
-
-    const handlePageChange = (newPage: number) => {
-      setPage(newPage);
-    };
-
-    const handleRowsPerPageChange = (
-      event: React.ChangeEvent<HTMLInputElement>
-    ) => {
-      setRowsPerPage(parseInt(event.target.value, 10));
-      setPage(0);
-    };
 
     return (
       <div>
@@ -103,6 +81,7 @@ export const WithPagination: Story = {
           data={data}
           tableMode={TableMode.Pagination}
           summaryRows={[{ label: 'Total Rows', value: data.length.toString() }]}
+          shouldSelectRows={false}
         />
       </div>
     );
@@ -125,15 +104,8 @@ export const WithSummaryRows: Story = {
         {...args}
         data={data}
         tableMode={TableMode.Expanded}
-        summaryRows={[
-          { label: 'Total Rows', value: data.length.toString() },
-          {
-            label: 'Active Rows',
-            value: data
-              .filter((row) => row.status === 'Active')
-              .length.toString(),
-          },
-        ]}
+        shouldSelectRows={false}
+        summaryRows={[{ label: 'Total Rows', value: data.length.toString() }]}
       />
     );
   },
