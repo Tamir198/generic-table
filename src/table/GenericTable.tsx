@@ -30,6 +30,7 @@ export interface GenericTableProps<T extends { id: number }> {
   shouldSelectRows?: boolean;
   onDeleteSelectedRows?: (selectedRows: T[]) => void;
   summaryRows?: SummeryRow[];
+  direction?: string;
 }
 
 export function GenericTable<T extends { id: number }>({
@@ -40,6 +41,7 @@ export function GenericTable<T extends { id: number }>({
   shouldSelectRows,
   onDeleteSelectedRows,
   summaryRows,
+  direction = 'rtl',
   ...props
 }: GenericTableProps<T>) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -76,7 +78,6 @@ export function GenericTable<T extends { id: number }>({
     onDeleteSelectedRows: onDeleteSelectedRows,
   });
 
-  console.log(paginatedData());
   let displayData: T[] = [];
 
   if (tableMode === TableMode.Pagination) {
@@ -95,7 +96,12 @@ export function GenericTable<T extends { id: number }>({
   };
 
   return (
-    <TableContainer component={Paper} {...props}>
+    <TableContainer
+      sx={{ textAlign: 'center' }}
+      dir={direction}
+      component={Paper}
+      {...props}
+    >
       {shouldSelectRows && (
         <Button
           variant='contained'
