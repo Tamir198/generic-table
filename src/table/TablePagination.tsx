@@ -31,26 +31,18 @@ export function TablePagination({
           {...item}
           sx={{
             color: COLORS.TABLE_SECONDARY,
-            '&:hover': {
-              background: 'none',
-              border: 'none',
-              outline: 'none',
-            },
             '&.Mui-selected': {
-              background: 'none',
               border: 'none',
               outline: 'none',
+              'font-weight': 'bold',
             },
             '&.MuiPaginationItem-root': {
               background: 'none',
-              border: 'none',
               outline: 'none',
               direction: 'ltr',
             },
             '&.Mui-disabled': {
               color: 'gray',
-              background: 'none',
-              border: 'none',
             },
             '&.Mui-selected:hover': {
               background: 'none',
