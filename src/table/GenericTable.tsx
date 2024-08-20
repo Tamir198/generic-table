@@ -74,7 +74,7 @@ export function GenericTable<T extends { id: number }>({
     handleSelectAllRows,
     handleDeleteSelectedRows,
   } = useRowSelection<T>({
-    data: paginatedData(),
+    data: tableMode === TableMode.Pagination ? paginatedData() : sortedData,
     onDeleteSelectedRows: onDeleteSelectedRows,
   });
 
