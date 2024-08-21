@@ -16,6 +16,7 @@ interface TableHeaderProps<T> {
   shouldSort: boolean;
   shouldSelectRows?: boolean;
   onSelectAllRows?: (checked: boolean) => void;
+  shouldDisplayRowMoreOption?: boolean;
 }
 
 export function TableHeader<T>({
@@ -25,14 +26,14 @@ export function TableHeader<T>({
   handleSort,
   shouldSort,
   shouldSelectRows = true,
+  shouldDisplayRowMoreOption
 }: TableHeaderProps<T>) {
 
   return (
     <TableHead>
       <TableRow>
         {shouldSelectRows && (
-          <TableCell padding='checkbox'>
-          </TableCell>
+          <TableCell padding='checkbox'/>
         )}
         {columns.map((column) => (
           <TableCell
@@ -57,8 +58,10 @@ export function TableHeader<T>({
             ) : (
               column.label
             )}
-          </TableCell>
+          </TableCell>  
         ))}
+
+        {shouldDisplayRowMoreOption && <TableCell/>}
       </TableRow>
     </TableHead>
   );
