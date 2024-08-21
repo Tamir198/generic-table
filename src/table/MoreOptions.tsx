@@ -44,7 +44,11 @@ export const MoreOptions: FC = () => {
           </>
         );
       case ModalOption.EXPORT_TO_EXCEL:
-        return <ExportToExcel />;
+        return (
+          <ExportToExcel
+            exportFile={(fileType) => alert(`TODo Download ${fileType}`)}
+          />
+        );
       case ModalOption.OPTION_3:
         return <h1>TODO fill out the missing parts</h1>;
       default:
@@ -76,7 +80,12 @@ export const MoreOptions: FC = () => {
       </Menu>
 
       {selectedOption !== null && (
-        <GenericModal onClose={handleCloseModal} open={true}>
+        <GenericModal
+          width="604px"
+          height="367px"
+          onClose={handleCloseModal}
+          open={true}
+        >
           {renderModalContent()}
         </GenericModal>
       )}

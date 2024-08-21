@@ -43,28 +43,29 @@ export interface GenericModalProps extends OmittedModalProps {
 }
 
 // TODO get the colors from the theme
-const StyledModalBox = styled(Box)<{ width?: string; height?: string }>(({ theme, width, height }) => ({
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  display: "inline-flex",
-  padding: "40px 60px",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-  borderRadius: "20px",
-  background: "#FFF",
-  boxShadow: "0px 10.207px 61.241px 0px rgba(0, 0, 0, 0.05)",
-  outline: "none",
-  width: width || "589px",
-  height: height || "402px",
-    '@media (max-width: 430px)': {
-      width:  "275px",
-      height:  "374px",
-      padding: "15px" 
+const StyledModalBox = styled(Box)<{ width?: string; height?: string }>(
+  ({ theme, width, height }) => ({
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    display: "inline-flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: "20px",
+    background: "#FFF",
+    boxShadow: "0px 10.207px 61.241px 0px rgba(0, 0, 0, 0.05)",
+    outline: "none",
+    width: width || "589px",
+    height: height || "402px",
+    "@media (max-width: 430px)": {
+      width: "275px",
+      height: "374px",
+      padding: "15px",
     },
-}));
+  })
+);
 
 // TODO apply color on the icon modal from theme
 const StyledIconButton = styled(IconButton)(({ theme }) => ({
