@@ -3,6 +3,7 @@ import { TableCell, Menu, MenuItem, IconButton } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { FC } from "react";
 import GenericModal from "../modal/GenericModal";
+import { ExportToExcel } from "./modalContent/ExportToExcel";
 
 export enum ModalOption {
   EXPORT_TO_CSV,
@@ -43,12 +44,7 @@ export const MoreOptions: FC = () => {
           </>
         );
       case ModalOption.EXPORT_TO_EXCEL:
-        return (
-          <>
-            <h1>Export your data into Excel</h1>
-            <h2>Do it, it's very nice</h2>
-          </>
-        );
+        return <ExportToExcel />;
       case ModalOption.OPTION_3:
         return <h1>TODO fill out the missing parts</h1>;
       default:
