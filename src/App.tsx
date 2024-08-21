@@ -6,6 +6,7 @@ import { useState } from 'react';
 import ReactSVG from '../src/assets/react.svg';
 
 function App() {
+
   interface Dessert {
     id: number;
     name: string;
@@ -291,6 +292,7 @@ function App() {
         shouldSelectRows={true}
         tableMode={TableMode.Pagination}
         summaryRows={summeryRows}
+        shouldDisplayRowMoreOption={true}
       />
     </>
   );

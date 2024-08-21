@@ -4,6 +4,7 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { TableColumn } from '../types';
 import { Box, Checkbox } from '@mui/material';
+import { MoreOptions } from './MoreOptions';
 
 interface TableBodyContentProps<T extends { id: number }> {
   columns: TableColumn<T>[];
@@ -13,6 +14,7 @@ interface TableBodyContentProps<T extends { id: number }> {
   onRowSelect: (id: number) => void;
   isCustomCellAllowed?: boolean;
   isColumnPaintable?: boolean;
+  shouldDisplayRowMoreOption?: boolean;
 }
 
 function getCellContent<T extends { [key: string]: any }>(
@@ -63,6 +65,7 @@ export function TableBodyContent<T extends { id: number }>({
   shouldSelectRows,
   selectedRows,
   onRowSelect,
+  shouldDisplayRowMoreOption
 }: TableBodyContentProps<T>) {
   return (
     <TableBody>
@@ -88,6 +91,10 @@ export function TableBodyContent<T extends { id: number }>({
               </TableCell>
             );
           })}
+
+          {shouldDisplayRowMoreOption && 
+            <MoreOptions/>            
+            }
         </TableRow>
       ))}
     </TableBody>
