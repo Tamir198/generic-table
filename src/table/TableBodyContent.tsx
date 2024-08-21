@@ -4,7 +4,7 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { TableColumn } from '../types';
 import { Box, Checkbox } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { MoreOptions } from './MoreOptions';
 
 interface TableBodyContentProps<T extends { id: number }> {
   columns: TableColumn<T>[];
@@ -92,9 +92,9 @@ export function TableBodyContent<T extends { id: number }>({
             );
           })}
 
-          {shouldDisplayRowMoreOption && <TableCell onClick={() => alert('do something')}>
-              <MoreVertIcon/>
-            </TableCell>}
+          {shouldDisplayRowMoreOption && 
+            <MoreOptions/>            
+            }
         </TableRow>
       ))}
     </TableBody>
