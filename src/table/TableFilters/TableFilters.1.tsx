@@ -16,21 +16,21 @@ export const TableFilters = () => {
         title={TEXTS.BAIL_STATUS}
         options={[TEXTS.BAIL_STATUS, 2, 3]}
         onFilter={(value) => {
-          alert("Test if filter orking" + value);
+          console.log("Should run proper filter method" + value);
         }}
       />
       <FilterSelect
         title={TEXTS.BAIL_TYPE}
         options={[TEXTS.BAIL_TYPE, 2, 3]}
         onFilter={(value) => {
-          alert("Test if filter orking" + value);
+          console.log("Should run proper filter method" + value);
         }}
       />
       <FilterSelect
         title={TEXTS.COIN_TYPE}
         options={[TEXTS.COIN_TYPE, 2, 3]}
         onFilter={(value) => {
-          alert("Test if filter orking" + value);
+          console.log("Should run proper filter method" + value);
         }}
       />
 

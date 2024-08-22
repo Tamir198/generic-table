@@ -1,22 +1,22 @@
-import { useState } from 'react';
-import Table from '@mui/material/Table';
-import TableContainer from '@mui/material/TableContainer';
-import Paper from '@mui/material/Paper';
-import { SummeryRow, TableColumn } from '../types';
-import { Button } from '@mui/material';
-import { TablePagination } from './TablePagination';
-import { TableBodyContent } from './TableBodyContent';
-import { TableHeader } from './TableHeader';
-import { useTablePagination } from './useTablePagination';
-import { useTableSorting } from './useTableSorting';
-import { useRowSelection } from './useRowSelection';
-import { COLORS, TEXTS } from '../constants/constants';
-import * as XLSX from 'xlsx';
-import { SummeryRows } from './SummeryRows';
+import { useState } from "react";
+import Table from "@mui/material/Table";
+import TableContainer from "@mui/material/TableContainer";
+import Paper from "@mui/material/Paper";
+import { SummeryRow, TableColumn } from "../types";
+import { Button } from "@mui/material";
+import { TablePagination } from "./TablePagination";
+import { TableBodyContent } from "./TableBodyContent";
+import { TableHeader } from "./TableHeader";
+import { useTablePagination } from "./useTablePagination";
+import { useTableSorting } from "./useTableSorting";
+import { useRowSelection } from "./useRowSelection";
+import { COLORS, TEXTS } from "../constants/constants";
+import * as XLSX from "xlsx";
+import { SummeryRows } from "./SummeryRows";
 
 export enum TableMode {
-  Pagination = 'pagination',
-  Expanded = 'expanded',
+  Pagination = "pagination",
+  Expanded = "expanded",
 }
 
 export interface GenericTableProps<T extends { id: number }> {
@@ -31,7 +31,6 @@ export interface GenericTableProps<T extends { id: number }> {
   onDeleteSelectedRows?: (selectedRows: T[]) => void;
   summaryRows?: SummeryRow[];
   direction?: string;
-  shouldDisplayRowMoreOption? : boolean;
 }
 
 export function GenericTable<T extends { id: number }>({
@@ -42,7 +41,7 @@ export function GenericTable<T extends { id: number }>({
   shouldSelectRows,
   onDeleteSelectedRows,
   summaryRows,
-  direction = 'rtl',
+  direction = "rtl",
   shouldDisplayRowMoreOption,
   ...props
 }: GenericTableProps<T>) {
@@ -91,24 +90,23 @@ export function GenericTable<T extends { id: number }>({
     displayData = sortedData;
   }
 
-  const exportToExcel = (fileName = 'data', sheetName = 'Sheet1') => {
+  const exportToExcel = (fileName = "data", sheetName = "Sheet1") => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
     XLSX.writeFile(workbook, `${fileName}.xlsx`);
   };
-
   return (
     <TableContainer
-      sx={{ textAlign: 'center' }}
+      sx={{ textAlign: "center" }}
       dir={direction}
       component={Paper}
       {...props}
     >
       {shouldSelectRows && (
         <Button
-          variant='contained'
-          color='secondary'
+          variant="contained"
+          color="secondary"
           onClick={handleDeleteSelectedRows}
           disabled={selectedRows.size === 0}
         >
@@ -137,22 +135,22 @@ export function GenericTable<T extends { id: number }>({
       </Table>
       {tableMode === TableMode.Expanded && (
         <Button
-          size='small'
-          variant='text'
+          size="small"
+          variant="text"
           sx={{
             marginTop: 2,
             marginBottom: 2,
             color: COLORS.BUTTON_PRIMARY,
-            outline: 'none',
-            display: 'block',
+            outline: "none",
+            display: "block",
             fontWeight: 700,
-            margin: '0 auto',
-            border: 'none',
-            '&.MuiButton-text': {
-              outline: 'none',
+            margin: "0 auto",
+            border: "none",
+            "&.MuiButton-text": {
+              outline: "none",
             },
-            '&.MuiButtonBase-root :hover': {
-              'background-color': 'red',
+            "&.MuiButtonBase-root :hover": {
+              "background-color": "red",
             },
           }}
           onClick={() => setIsExpanded(!isExpanded)}
