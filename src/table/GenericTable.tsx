@@ -31,6 +31,7 @@ export interface GenericTableProps<T extends { id: number }> {
   onDeleteSelectedRows?: (selectedRows: T[]) => void;
   summaryRows?: SummeryRow[];
   direction?: string;
+  shouldDisplayRowMoreOption? : boolean;
 }
 
 export function GenericTable<T extends { id: number }>({
@@ -42,6 +43,7 @@ export function GenericTable<T extends { id: number }>({
   onDeleteSelectedRows,
   summaryRows,
   direction = 'rtl',
+  shouldDisplayRowMoreOption,
   ...props
 }: GenericTableProps<T>) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -80,6 +82,7 @@ export function GenericTable<T extends { id: number }>({
 
   let displayData: T[] = [];
 
+  //TODO remove duplicated condition
   if (tableMode === TableMode.Pagination) {
     displayData = paginatedData();
   } else if (tableMode === TableMode.Expanded && !isExpanded) {
@@ -121,6 +124,7 @@ export function GenericTable<T extends { id: number }>({
           shouldSort={shouldSort ?? true}
           shouldSelectRows={shouldSelectRows ?? true}
           onSelectAllRows={(selectAll) => handleSelectAllRows(selectAll)}
+          shouldDisplayRowMoreOption={shouldDisplayRowMoreOption}
         />
         <TableBodyContent
           columns={columns}
@@ -128,6 +132,7 @@ export function GenericTable<T extends { id: number }>({
           shouldSelectRows={shouldSelectRows ?? true}
           selectedRows={selectedRows}
           onRowSelect={(id) => handleRowSelect(id)}
+          shouldDisplayRowMoreOption={shouldDisplayRowMoreOption}
         />
       </Table>
       {tableMode === TableMode.Expanded && (

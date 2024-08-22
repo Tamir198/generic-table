@@ -2,7 +2,6 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  Checkbox,
   TableSortLabel,
   Typography,
 } from '@mui/material';
@@ -17,6 +16,7 @@ interface TableHeaderProps<T> {
   shouldSort: boolean;
   shouldSelectRows?: boolean;
   onSelectAllRows?: (checked: boolean) => void;
+  shouldDisplayRowMoreOption?: boolean;
 }
 
 export function TableHeader<T>({
@@ -26,21 +26,14 @@ export function TableHeader<T>({
   handleSort,
   shouldSort,
   shouldSelectRows = true,
-  onSelectAllRows,
+  shouldDisplayRowMoreOption
 }: TableHeaderProps<T>) {
-  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (onSelectAllRows) {
-      onSelectAllRows(event.target.checked);
-    }
-  };
 
   return (
     <TableHead>
       <TableRow>
         {shouldSelectRows && (
-          <TableCell padding='checkbox'>
-            <Checkbox onChange={handleSelectAll} />
-          </TableCell>
+          <TableCell padding='checkbox'/>
         )}
         {columns.map((column) => (
           <TableCell
@@ -65,8 +58,10 @@ export function TableHeader<T>({
             ) : (
               column.label
             )}
-          </TableCell>
+          </TableCell>  
         ))}
+
+        {shouldDisplayRowMoreOption && <TableCell/>}
       </TableRow>
     </TableHead>
   );

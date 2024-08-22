@@ -8,6 +8,7 @@ import { GenericTooltip } from "./tooltip/GenericTooltip";
 import { MoreOptionTooltip } from "./table/MoreOptionTooltip";
 
 function App() {
+
   interface Dessert {
     id: number;
     name: string;
@@ -301,6 +302,7 @@ function App() {
         shouldSelectRows={true}
         tableMode={TableMode.Pagination}
         summaryRows={summeryRows}
+        shouldDisplayRowMoreOption={true}
       />
     </>
   );

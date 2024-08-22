@@ -151,6 +151,22 @@ export const WithSummaryRows: Story = {
   },
 };
 
+export const WithMoreRowsOption: Story = {
+  render: (args: GenericTableProps<any>) => {
+    const data = mockData;
+    return (
+      <GenericTable
+        {...args}
+        data={data}
+        columns={mockColumns}
+        tableMode={TableMode.Expanded}
+        shouldSelectRows={false}
+        shouldDisplayRowMoreOption={true}
+      />
+    );
+  },
+};
+
 interface Dessert {
   id: number;
   name: string;
