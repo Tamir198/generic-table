@@ -52,11 +52,4 @@ const StyledClearAll = styled(Button)({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  gap: "10px",
-  marginTop: "15px",
-  marginright: "15px",
-});
-
-const StyledDatePicker = styled(DatePicker)({
-  width: "100%",
 });
