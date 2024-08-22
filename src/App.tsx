@@ -6,6 +6,7 @@ import { useState } from "react";
 import ReactSVG from "../src/assets/react.svg";
 import { GenericTooltip } from "./tooltip/GenericTooltip";
 import { MoreOptionTooltip } from "./table/MoreOptionTooltip";
+
 import { TableFilters } from "./table/TableFilters/TableFilters.1";
 
 function App() {
@@ -279,6 +280,7 @@ function App() {
   return (
     <>
       <div>
+        <h1>aaaaaaaaaaaaaa</h1>
         <TableFilters />
 
         <MoreOptionTooltip
@@ -306,7 +308,6 @@ function App() {
         shouldSelectRows={true}
         tableMode={TableMode.Pagination}
         summaryRows={summeryRows}
-        shouldDisplayRowMoreOption={true}
       />
     </>
   );
