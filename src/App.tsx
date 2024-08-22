@@ -1,9 +1,10 @@
-import { Avatar, TextField } from '@mui/material';
-import './App.css';
-import { GenericTable, TableMode } from './table/GenericTable';
-import { TableColumn } from './types';
-import { useState } from 'react';
-import ReactSVG from '../src/assets/react.svg';
+import { Avatar, Box, Button, IconButton, TextField } from "@mui/material";
+import "./App.css";
+import { GenericTable, TableMode } from "./table/GenericTable";
+import { TableColumn } from "./types";
+import { useState } from "react";
+import ReactSVG from "../src/assets/react.svg";
+import { GenericTooltip } from "./tooltip/GenericTooltip";
 
 function App() {
   interface Dessert {
@@ -15,7 +16,7 @@ function App() {
     protein: number;
     check?: string;
     avatar?: string;
-    status?: 'success' | 'failed';
+    status?: "success" | "failed";
     component?: {
       columnId: string;
       content: React.ReactNode;
@@ -24,42 +25,42 @@ function App() {
 
   const columns: TableColumn<Dessert>[] = [
     {
-      id: 'name',
-      label: 'קינוח',
+      id: "name",
+      label: "קינוח",
       isColumnPaintable: true,
     },
     {
-      id: 'calories',
-      label: 'קלוריות',
-      align: 'left',
+      id: "calories",
+      label: "קלוריות",
+      align: "left",
       format: (value) => ` קלוריות ${value}`,
       isColumnPaintable: true,
     },
-    { id: 'fat', label: 'שומן', align: 'left' },
-    { id: 'carbs', label: 'פחמימה', align: 'left' },
+    { id: "fat", label: "שומן", align: "left" },
+    { id: "carbs", label: "פחמימה", align: "left" },
     {
-      id: 'protein',
-      label: 'חלבון',
-      align: 'left',
+      id: "protein",
+      label: "חלבון",
+      align: "left",
       format: (value) => `${value}שלום  `,
       isColumnPaintable: true,
     },
     {
-      id: 'avatar',
-      label: 'אייקון',
+      id: "avatar",
+      label: "אייקון",
       renderCell: (_, row) => {
-        if (row.name.startsWith('A') || row.name.startsWith('C')) {
+        if (row.name.startsWith("A") || row.name.startsWith("C")) {
           return <Avatar alt={row.name} src={ReactSVG}></Avatar>;
-        } else if (row.name.startsWith('d') || row.name.startsWith('b')) {
-          return <a href='https://www.google.co.uk/'>{row.name}</a>;
-        } else if (row.name.startsWith('g')) {
+        } else if (row.name.startsWith("d") || row.name.startsWith("b")) {
+          return <a href="https://www.google.co.uk/">{row.name}</a>;
+        } else if (row.name.startsWith("g")) {
           return (
-            <button onClick={() => alert('Row data :' + JSON.stringify(row))}>
+            <button onClick={() => alert("Row data :" + JSON.stringify(row))}>
               {row.carbs}
             </button>
           );
         } else {
-          return 'NO AVATAR';
+          return "NO AVATAR";
         }
       },
       isColumnPaintable: false,
@@ -69,14 +70,14 @@ function App() {
   const [data, setData] = useState<Dessert[]>([
     {
       id: 1,
-      name: 'יוגורט קפוא',
+      name: "יוגורט קפוא",
       calories: 159,
       fat: 6.0,
       carbs: 24,
       protein: 4.0,
-      status: 'success',
+      status: "success",
       component: {
-        columnId: 'name',
+        columnId: "name",
         content: <p>Custom</p>,
       },
     },
@@ -87,35 +88,35 @@ function App() {
       fat: 9.0,
       carbs: 37,
       protein: 4.3,
-      status: 'failed',
+      status: "failed",
     },
     {
       id: 3,
-      name: 'אקלר',
+      name: "אקלר",
       calories: 262,
       fat: 16.0,
       carbs: 24,
       protein: 6.0,
-      status: 'failed',
+      status: "failed",
     },
     {
       id: 4,
-      name: 'קפקייק',
+      name: "קפקייק",
       calories: 305,
       fat: 3.7,
       carbs: 67,
       protein: 4.3,
     },
-    { id: 5, name: 'aa', calories: 'a356', fat: 16.0, carbs: 49, protein: 3.9 },
-    { id: 6, name: 'bb', calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
-    { id: 7, name: 'cc', calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
-    { id: 8, name: 'dd', calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
-    { id: 9, name: 'gg', calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
-    { id: 10, name: 'ee', calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
-    { id: 11, name: 'ff', calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
+    { id: 5, name: "aa", calories: "a356", fat: 16.0, carbs: 49, protein: 3.9 },
+    { id: 6, name: "bb", calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
+    { id: 7, name: "cc", calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
+    { id: 8, name: "dd", calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
+    { id: 9, name: "gg", calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
+    { id: 10, name: "ee", calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
+    { id: 11, name: "ff", calories: 356, fat: 16.0, carbs: 49, protein: 3.9 },
     {
       id: 12,
-      name: 'Macaron',
+      name: "Macaron",
       calories: 320,
       fat: 15.0,
       carbs: 32,
@@ -123,7 +124,7 @@ function App() {
     },
     {
       id: 13,
-      name: 'Brownie',
+      name: "Brownie",
       calories: 350,
       fat: 20.0,
       carbs: 40,
@@ -131,7 +132,7 @@ function App() {
     },
     {
       id: 14,
-      name: 'Cheesecake',
+      name: "Cheesecake",
       calories: 410,
       fat: 25.0,
       carbs: 35,
@@ -139,7 +140,7 @@ function App() {
     },
     {
       id: 15,
-      name: 'Tiramisu',
+      name: "Tiramisu",
       calories: 450,
       fat: 22.0,
       carbs: 50,
@@ -147,7 +148,7 @@ function App() {
     },
     {
       id: 16,
-      name: 'Donut',
+      name: "Donut",
       calories: 450,
       fat: 25.0,
       carbs: 55,
@@ -155,7 +156,7 @@ function App() {
     },
     {
       id: 17,
-      name: 'Panna Cotta',
+      name: "Panna Cotta",
       calories: 330,
       fat: 18.0,
       carbs: 30,
@@ -163,7 +164,7 @@ function App() {
     },
     {
       id: 18,
-      name: 'Apple Pie',
+      name: "Apple Pie",
       calories: 290,
       fat: 15.0,
       carbs: 40,
@@ -171,7 +172,7 @@ function App() {
     },
     {
       id: 19,
-      name: 'Mousse',
+      name: "Mousse",
       calories: 380,
       fat: 22.0,
       carbs: 30,
@@ -179,7 +180,7 @@ function App() {
     },
     {
       id: 20,
-      name: 'Pavlova',
+      name: "Pavlova",
       calories: 360,
       fat: 18.0,
       carbs: 35,
@@ -187,7 +188,7 @@ function App() {
     },
     {
       id: 21,
-      name: 'Lemon Bar',
+      name: "Lemon Bar",
       calories: 300,
       fat: 12.0,
       carbs: 40,
@@ -195,7 +196,7 @@ function App() {
     },
     {
       id: 22,
-      name: 'Creme Brulee',
+      name: "Creme Brulee",
       calories: 420,
       fat: 23.0,
       carbs: 30,
@@ -203,7 +204,7 @@ function App() {
     },
     {
       id: 23,
-      name: 'Churros',
+      name: "Churros",
       calories: 400,
       fat: 20.0,
       carbs: 50,
@@ -211,7 +212,7 @@ function App() {
     },
     {
       id: 24,
-      name: 'Gelato',
+      name: "Gelato",
       calories: 250,
       fat: 12.0,
       carbs: 30,
@@ -219,7 +220,7 @@ function App() {
     },
     {
       id: 25,
-      name: 'Custard',
+      name: "Custard",
       calories: 280,
       fat: 14.0,
       carbs: 25,
@@ -227,7 +228,7 @@ function App() {
     },
     {
       id: 26,
-      name: 'Fruit Tart',
+      name: "Fruit Tart",
       calories: 340,
       fat: 16.0,
       carbs: 40,
@@ -235,7 +236,7 @@ function App() {
     },
     {
       id: 27,
-      name: 'Almond Cake',
+      name: "Almond Cake",
       calories: 380,
       fat: 20.0,
       carbs: 35,
@@ -244,18 +245,18 @@ function App() {
   ]);
 
   const summeryRows = [
-    { label: 'aaaa', value: 50 },
-    { label: 'bbb', value: 80 },
+    { label: "aaaa", value: 50 },
+    { label: "bbb", value: 80 },
   ];
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
   const handlePageChange = (newPage: number) => {
-    console.log('Page changed to:', newPage);
+    console.log("Page changed to:", newPage);
   };
 
   const filterDesserts = (data: Dessert[], searchTerm: string): Dessert[] => {
@@ -275,13 +276,39 @@ function App() {
 
   return (
     <>
+      <div>
+        {/* Tooltip with an icon as a trigger */}
+        <GenericTooltip
+          title={
+            <div>
+              <Button
+                sx={{ height: "20px" }}
+                onClick={() => {
+                  alert("sdsakj");
+                }}
+                variant="contained"
+                color="primary"
+              >
+                Click Me
+              </Button>
+              <button>1</button>
+              <button>1</button>
+              <button>1</button>
+            </div>
+          }
+        >
+          <IconButton>
+            <p style={{ fontSize: "16px", color: "white" }}>Hover me</p>
+          </IconButton>
+        </GenericTooltip>
+      </div>
       <TextField
-        label='Search Desserts'
-        variant='outlined'
+        label="Search Desserts"
+        variant="outlined"
         fullWidth
         value={searchTerm}
         onChange={handleSearchChange}
-        margin='normal'
+        margin="normal"
       />
       <GenericTable
         columns={columns}
