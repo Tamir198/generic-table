@@ -2,6 +2,11 @@ import React from "react";
 import { Tooltip, TooltipProps, Box, tooltipClasses } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
+export interface GenericTooltipProps extends TooltipProps {
+  title: React.ReactNode;
+  children: React.ReactElement;
+}
+
 export const GenericTooltip = ({
   title,
   children,
@@ -18,11 +23,6 @@ export const GenericTooltip = ({
     </StyledTooltip>
   );
 };
-
-export interface GenericTooltipProps extends TooltipProps {
-  title: React.ReactNode;
-  children: React.ReactElement;
-}
 
 const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
