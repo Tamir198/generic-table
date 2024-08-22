@@ -1,24 +1,19 @@
 // src/stories/MoreOptionTooltip.stories.tsx
 import { Meta, StoryObj } from "@storybook/react";
-import { Box } from "@mui/material";
 import { MoreOptionTooltip } from "./MoreOptionTooltip";
-import { TEXTS } from "../constants/constants";
-import { MoreOptions } from "./MoreOptions";
+import { GenericTooltip } from "../tooltip/GenericTooltip";
 
 const meta: Meta<typeof MoreOptionTooltip> = {
-  title: "Components/MoreOptionTooltip",
+  title: "Components/GenericTooltip",
   component: MoreOptionTooltip,
   parameters: {
-    layout: "fullscreen", // Adjust layout to fullscreen if needed
+    layout: "fullscreen",
     backgrounds: {
       default: "light",
     },
   },
   tags: ["autodocs"],
-  argTypes: {
-    onEdit: { action: "edit clicked" },
-    onDownload: { action: "download clicked" },
-  },
+  argTypes: {},
 } satisfies Meta<typeof MoreOptionTooltip>;
 
 export default meta;
@@ -26,16 +21,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: (args) => (
+  render: () => (
     <div>
-      <MoreOptionTooltip
-        onEdit={() => {
-          alert("Trigger edit click");
-        }}
-        onDownload={() => {
-          alert("Trigger download function");
-        }}
-      />
+      <GenericTooltip title="Title">
+        <p style={{ display: "flex", justifyContent: "center" }}>Hover me</p>
+      </GenericTooltip>
     </div>
   ),
   args: {
