@@ -7,6 +7,7 @@ import {
 } from "@mui/icons-material";
 import { GenericTooltip } from "../tooltip/GenericTooltip";
 import { TEXTS } from "../constants/constants";
+import { MoreOptions } from "./MoreOptions";
 
 interface MoreOptionTooltipProps {
   onEdit: () => void;
@@ -36,7 +37,16 @@ export const MoreOptionTooltip: React.FC<MoreOptionTooltipProps> = ({
         </TooltipContent>
       }
     >
-      <p style={{ fontSize: "16px", color: "white" }}>Replace with ... icon</p>
+      <p
+        style={{
+          fontSize: "16px",
+          color: "white",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <MoreOptions />
+      </p>
     </GenericTooltip>
   );
 };

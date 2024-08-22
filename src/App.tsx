@@ -286,11 +286,6 @@ function App() {
             alert("Trigger download function");
           }}
         />
-        <GenericTooltip title="Simple tooltip text">
-          <IconButton>
-            <p style={{ fontSize: "16px", color: "white" }}>Hover me</p>
-          </IconButton>
-        </GenericTooltip>
       </div>
       <TextField
         label="Search Desserts"
