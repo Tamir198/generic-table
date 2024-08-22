@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Tooltip, TooltipProps, Box, tooltipClasses } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -12,11 +12,23 @@ export const GenericTooltip = ({
   children,
   ...props
 }: GenericTooltipProps) => {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <StyledTooltip
       placement="top"
       title={<StyledTooltipContent>{title}</StyledTooltipContent>}
       arrow={true}
+      open={open}
+      onClick={handleOpen}
+      onTouchStart={handleOpen}
+      onMouseEnter={handleOpen}
+      onMouseLeave={handleClose}
+      onTouchEnd={handleClose}
+      onBlur={handleClose}
       {...props}
     >
       {children}
