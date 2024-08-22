@@ -277,26 +277,7 @@ function App() {
   return (
     <>
       <div>
-        {/* Tooltip with an icon as a trigger */}
-        <GenericTooltip
-          title={
-            <div>
-              <Button
-                sx={{ height: "20px" }}
-                onClick={() => {
-                  alert("sdsakj");
-                }}
-                variant="contained"
-                color="primary"
-              >
-                Click Me
-              </Button>
-              <button>1</button>
-              <button>1</button>
-              <button>1</button>
-            </div>
-          }
-        >
+        <GenericTooltip title="Simple tooltip text">
           <IconButton>
             <p style={{ fontSize: "16px", color: "white" }}>Hover me</p>
           </IconButton>

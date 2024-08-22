@@ -5,13 +5,12 @@ import { styled } from "@mui/material/styles";
 export const GenericTooltip = ({
   title,
   children,
-  placement = "top",
   ...props
 }: GenericTooltipProps) => {
   return (
     <StyledTooltip
+      placement="top"
       title={<StyledTooltipContent>{title}</StyledTooltipContent>}
-      placement={placement}
       arrow={true}
       {...props}
     >
@@ -23,7 +22,6 @@ export const GenericTooltip = ({
 export interface GenericTooltipProps extends TooltipProps {
   title: React.ReactNode;
   children: React.ReactElement;
-  placement?: "top" | "bottom" | "right" | "left";
 }
 
 const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
