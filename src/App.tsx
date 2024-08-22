@@ -8,7 +8,6 @@ import { GenericTooltip } from "./tooltip/GenericTooltip";
 import { MoreOptionTooltip } from "./table/MoreOptionTooltip";
 
 function App() {
-
   interface Dessert {
     id: number;
     name: string;
@@ -279,7 +278,14 @@ function App() {
   return (
     <>
       <div>
-        <MoreOptionTooltip />
+        <MoreOptionTooltip
+          onEdit={() => {
+            alert("Trigger edit click");
+          }}
+          onDownload={() => {
+            alert("Trigger download function");
+          }}
+        />
         <GenericTooltip title="Simple tooltip text">
           <IconButton>
             <p style={{ fontSize: "16px", color: "white" }}>Hover me</p>

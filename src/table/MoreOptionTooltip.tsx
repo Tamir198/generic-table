@@ -1,41 +1,66 @@
-import { Box, IconButton } from "@mui/material";
+import React from "react";
+import { Box, IconButton, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { GenericTooltip } from "../tooltip/GenericTooltip";
 import {
   Download as DownloadIcon,
   Edit as EditIcon,
 } from "@mui/icons-material";
+import { GenericTooltip } from "../tooltip/GenericTooltip";
+import { TEXTS } from "../constants/constants";
 
-const TooltipContent = styled(Box)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-}));
+interface MoreOptionTooltipProps {
+  onEdit: () => void;
+  onDownload: () => void;
+}
 
-const StyledIconButton = styled(IconButton)(({ theme }) => ({
-  color: theme.palette.text.primary,
-  "&:hover": {
-    backgroundColor: theme.palette.action.hover,
-  },
-}));
-
-export const MoreOptionTooltip = () => {
+export const MoreOptionTooltip: React.FC<MoreOptionTooltipProps> = ({
+  onEdit,
+  onDownload,
+}) => {
   return (
     <GenericTooltip
       title={
         <TooltipContent>
-          <StyledIconButton aria-label="edit">
-            <EditIcon />
-          </StyledIconButton>
-          <StyledIconButton aria-label="download">
-            <DownloadIcon />
-          </StyledIconButton>
+          <TooltipRow>
+            <StyledTypography>{TEXTS.EXTEND_BAIL}</StyledTypography>
+            <StyledIconButton aria-label="edit" onClick={onEdit}>
+              <EditIcon />
+            </StyledIconButton>
+          </TooltipRow>
+          <TooltipRow>
+            <StyledTypography>{TEXTS.DOWNLOAD_BAIL}</StyledTypography>
+            <StyledIconButton aria-label="download" onClick={onDownload}>
+              <DownloadIcon />
+            </StyledIconButton>
+          </TooltipRow>
         </TooltipContent>
       }
     >
-      <StyledIconButton>
-        <p style={{ fontSize: "16px", color: "white" }}>Hover me</p>
-      </StyledIconButton>
+      <p style={{ fontSize: "16px", color: "white" }}>Replace with ... icon</p>
     </GenericTooltip>
   );
 };
+
+const TooltipRow = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+}));
+
+const TooltipContent = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+}));
+
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  color: theme.palette.text.primary,
+}));
+
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  color: "#353535",
+  textAlign: "right",
+  fontFamily: "Sans",
+  fontSize: "14px",
+  fontStyle: "normal",
+  fontWeight: 400,
+  lineHeight: "16px",
+}));
