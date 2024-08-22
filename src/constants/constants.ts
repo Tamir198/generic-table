@@ -13,6 +13,8 @@ export const TEXTS = {
   EXPORT_BY_FILTERS: "ייצוא קובץ לפי הסינונים שלך",
   EXPORT_FULL_FILE: "ייצוא קובץ מלא",
   DOWNLOAD_FILE: "הורדת הקובץ",
+  DOWNLOAD_BAIL: "הורדת ערבות",
+  EXTEND_BAIL: "הארכת ערבות",
 };
 
 export const COLORS = {

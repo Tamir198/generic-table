@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { Meta, StoryObj } from '@storybook/react';
-import GenericModal, { GenericModalProps } from './GenericModal';
+import { useState } from "react";
+import { Meta, StoryObj } from "@storybook/react";
+import GenericModal, { GenericModalProps } from "./GenericModal";
 
 const meta: Meta<typeof GenericModal> = {
-  title: 'Components/GenericModal',
+  title: "Components/GenericModal",
   component: GenericModal,
   parameters: {
-    layout: 'fullscreen',
+    layout: "fullscreen",
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
-    onClose: { action: 'closed' },
+    onClose: { action: "closed" },
   },
 } satisfies Meta<typeof GenericModal>;
 
@@ -29,14 +29,13 @@ export const Default: Story = {
     return (
       <>
         <GenericModal {...args} open={open} onClose={handleClose}>
-            <>
-                <h1>Some title in the modal</h1>
-                <h2>This is the modal content</h2>
-            </>
+          <>
+            <h1>Some title in the modal</h1>
+            <h2>This is the modal content</h2>
+          </>
         </GenericModal>
       </>
     );
   },
-  args: {
-  },
+  args: {},
 };
