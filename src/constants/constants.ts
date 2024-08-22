@@ -15,6 +15,12 @@ export const TEXTS = {
   DOWNLOAD_FILE: "הורדת הקובץ",
   DOWNLOAD_BAIL: "הורדת ערבות",
   EXTEND_BAIL: "הארכת ערבות",
+  BAIL_STATUS: "סטטוס ערבות",
+  BAIL_TYPE: "סוג ערבות",
+  AVTIVE_BAILS: "ערבויות פעילות",
+  COIN_TYPE: "סוג מטבע",
+  CLEAN_ALL: "נקה הכל",
+  ALL_TYPES: "כל הסוגים",
 };
 
 export const COLORS = {
