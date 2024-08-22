@@ -5,6 +5,7 @@ import { TableColumn } from "./types";
 import { useState } from "react";
 import ReactSVG from "../src/assets/react.svg";
 import { GenericTooltip } from "./tooltip/GenericTooltip";
+import { MoreOptionTooltip } from "./table/MoreOptionTooltip";
 
 function App() {
   interface Dessert {
@@ -277,6 +278,7 @@ function App() {
   return (
     <>
       <div>
+        <MoreOptionTooltip />
         <GenericTooltip title="Simple tooltip text">
           <IconButton>
             <p style={{ fontSize: "16px", color: "white" }}>Hover me</p>
