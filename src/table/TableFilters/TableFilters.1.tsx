@@ -1,14 +1,23 @@
+import { FC } from "react";
 import { TEXTS } from "../../constants/constants";
 import { FilterSelect } from "./FilterSelect";
 import styled from "@emotion/styled";
 import { Box, Button } from "@mui/material";
 
-export const TableFilters = () => {
-  //TODO accept 2 functions from outside :
-  // Clear all filters (reset table data)
-  // Function that filters by field (by the selected select item )
+interface TableFiltersProps {
+  onBailStatusChange: (value: string | number) => void;
+  onBailTypeChange: (value: string | number) => void;
+  onCoinTypeChange: (value: string | number) => void;
+}
 
-  const clearFilteres = () => {};
+export const TableFilters: FC<TableFiltersProps> = ({
+  onBailStatusChange,
+  onBailTypeChange,
+  onCoinTypeChange,
+}) => {
+  const clearFilteres = () => {
+    console.log("Clearing all filters");
+  };
 
   return (
     <StyledContainer>
@@ -16,30 +25,31 @@ export const TableFilters = () => {
         title={TEXTS.BAIL_STATUS}
         options={[TEXTS.BAIL_STATUS, 2, 3]}
         onFilter={(value) => {
-          console.log("Should run proper filter method" + value);
+          console.log("Bail Status Filter:", value);
+          onBailStatusChange(value);
         }}
       />
       <FilterSelect
         title={TEXTS.BAIL_TYPE}
         options={[TEXTS.BAIL_TYPE, 2, 3]}
         onFilter={(value) => {
-          console.log("Should run proper filter method" + value);
+          console.log("Bail Type Filter:", value);
+          onBailTypeChange(value);
         }}
       />
       <FilterSelect
         title={TEXTS.COIN_TYPE}
         options={[TEXTS.COIN_TYPE, 2, 3]}
         onFilter={(value) => {
-          console.log("Should run proper filter method" + value);
+          console.log("Coin Type Filter:", value);
+          onCoinTypeChange(value);
         }}
       />
 
       <p>From day</p>
       <p>To day</p>
 
-      {/* TODO insert the from and to  date component that avital is building
-              
-            */}
+      {/* TODO: Insert the from and to date component */}
       <StyledClearAll onClick={clearFilteres}>{TEXTS.CLEAN_ALL}</StyledClearAll>
     </StyledContainer>
   );
@@ -57,5 +67,5 @@ const StyledClearAll = styled(Button)({
   alignItems: "center",
   gap: "10px",
   marginTop: "15px",
-  marginright: "15px",
+  marginRight: "15px",
 });

@@ -10,6 +10,8 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
 
+  type FilterValue = string | number | null;
+
   const filteredData = useMemo(() => {
     return originalData.filter((item) =>
       Object.values(item).some((value) =>
@@ -17,6 +19,11 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
       )
     );
   }, [searchQuery, originalData]);
+
+  const onSelectChanged = (value: FilterValue) => {
+    console.log("Filter value:", value);
+    return filteredData;
+  };
 
   const toggleFilters = () => {
     setShowFilters((prev) => !prev);
@@ -29,7 +36,13 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
         onSearchChange={setSearchQuery}
         onToggleFilters={toggleFilters}
       />
-      {showFilters && <TableFilters />}
+      {showFilters && (
+        <TableFilters
+          onBailStatusChange={onSelectChanged}
+          onBailTypeChange={onSelectChanged}
+          onCoinTypeChange={onSelectChanged}
+        />
+      )}
       <GenericTable
         columns={columns}
         data={filteredData}
