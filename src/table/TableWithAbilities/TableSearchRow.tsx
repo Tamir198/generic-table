@@ -2,8 +2,19 @@ import { IconButton, TextField, styled } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import SearchIcon from "@mui/icons-material/Search";
+import { FC } from "react";
 
-export const TableSearchRow = () => {
+interface TableSearchRowProps {
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
+  onSearchSubmit: () => void;
+}
+
+export const TableSearchRow: FC<TableSearchRowProps> = ({
+  searchQuery,
+  onSearchChange,
+  onSearchSubmit,
+}) => {
   return (
     <StyledRow>
       <IconButton>
@@ -14,9 +25,11 @@ export const TableSearchRow = () => {
       </IconButton>
       <StyledSearchBar
         placeholder="חיפוש ערבות"
+        value={searchQuery}
+        onChange={(e) => onSearchChange(e.target.value)}
         InputProps={{
           endAdornment: (
-            <IconButton type="submit">
+            <IconButton type="submit" onClick={onSearchSubmit}>
               <SearchIcon />
             </IconButton>
           ),

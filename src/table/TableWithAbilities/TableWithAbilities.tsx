@@ -1,19 +1,33 @@
-import { FC } from "react";
+import { FC, useMemo, useState } from "react";
 import { GenericTable, TableMode } from "../GenericTable";
-import { columns, data } from "./mockData";
+import { columns, data as originalData } from "./mockData";
 import { TableFilters } from "../TableFilters/TableFilters.1";
 import { TableSearchRow } from "./TableSearchRow";
 
 export interface TableWithAbilitiesProps {}
 
 export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredData = useMemo(() => {
+    return originalData.filter((item) =>
+      Object.values(item).some((value) =>
+        value.toString().toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [searchQuery, originalData]);
+
   return (
     <>
-      <TableSearchRow />
+      <TableSearchRow
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        onSearchSubmit={() => {}}
+      />
       <TableFilters />
       <GenericTable
         columns={columns}
-        data={data}
+        data={filteredData}
         onDeleteSelectedRows={() => {}}
         shouldSelectRows
         tableMode={TableMode.Pagination}
