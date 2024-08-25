@@ -47,6 +47,11 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
         columns={columns}
         data={filteredData}
         onDeleteSelectedRows={() => {}}
+        onPageChange={(page) => {
+          //page will be (curentTablePage -1) because arrays start with 0 not 1
+          //And we want to search per page
+          console.log(page);
+        }}
         shouldSelectRows
         tableMode={TableMode.Pagination}
       />
