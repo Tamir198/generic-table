@@ -22,7 +22,6 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
       <TableSearchRow
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
-        onSearchSubmit={() => {}}
       />
       <TableFilters />
       <GenericTable

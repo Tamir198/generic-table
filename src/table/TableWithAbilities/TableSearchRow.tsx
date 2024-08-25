@@ -7,13 +7,11 @@ import { FC } from "react";
 interface TableSearchRowProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
-  onSearchSubmit: () => void;
 }
 
 export const TableSearchRow: FC<TableSearchRowProps> = ({
   searchQuery,
   onSearchChange,
-  onSearchSubmit,
 }) => {
   return (
     <StyledRow>
@@ -28,11 +26,7 @@ export const TableSearchRow: FC<TableSearchRowProps> = ({
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
         InputProps={{
-          endAdornment: (
-            <IconButton type="submit" onClick={onSearchSubmit}>
-              <SearchIcon />
-            </IconButton>
-          ),
+          endAdornment: <SearchIcon />,
         }}
       />
     </StyledRow>
