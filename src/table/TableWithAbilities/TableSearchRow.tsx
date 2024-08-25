@@ -7,18 +7,20 @@ import { FC } from "react";
 interface TableSearchRowProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
+  onToggleFilters: () => void;
 }
 
 export const TableSearchRow: FC<TableSearchRowProps> = ({
   searchQuery,
   onSearchChange,
+  onToggleFilters,
 }) => {
   return (
     <StyledRow>
       <IconButton>
         <DownloadIcon />
       </IconButton>
-      <IconButton>
+      <IconButton onClick={onToggleFilters}>
         <FilterListIcon />
       </IconButton>
       <StyledSearchBar

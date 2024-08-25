@@ -8,6 +8,7 @@ export interface TableWithAbilitiesProps {}
 
 export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
 
   const filteredData = useMemo(() => {
     return originalData.filter((item) =>
@@ -17,13 +18,18 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
     );
   }, [searchQuery, originalData]);
 
+  const toggleFilters = () => {
+    setShowFilters((prev) => !prev);
+  };
+
   return (
     <>
       <TableSearchRow
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
+        onToggleFilters={toggleFilters}
       />
-      <TableFilters />
+      {showFilters && <TableFilters />}
       <GenericTable
         columns={columns}
         data={filteredData}
