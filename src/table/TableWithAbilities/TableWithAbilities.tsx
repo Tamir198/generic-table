@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { GenericTable, TableMode } from "../GenericTable";
 import { columns, data as originalData } from "./mockData";
 import { TableFilters } from "../TableFilters/TableFilters.1";
@@ -9,20 +9,46 @@ export interface TableWithAbilitiesProps {}
 export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  const [bailStatus, setBailStatus] = useState<string | number | null>(null);
+  const [bailType, setBailType] = useState<string | number | null>(null);
+  const [coinType, setCoinType] = useState<string | number | null>(null);
+  const [filteredData, setFilteredData] = useState(originalData);
 
-  type FilterValue = string | number | null;
-
-  const filteredData = useMemo(() => {
-    return originalData.filter((item) =>
+  const filterData = () => {
+    let filtered = originalData.filter((item) =>
       Object.values(item).some((value) =>
         value.toString().toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
-  }, [searchQuery, originalData]);
+    //TODO - insert reall search functionality according to demand
+    //TODO check why this is only working on first time the select is chagning
+    if (bailStatus) {
+      filtered = [...filtered.slice(1)];
 
-  const onSelectChanged = (value: FilterValue) => {
-    console.log("Filter value:", value);
-    return filteredData;
+      if (bailType) {
+        filtered = [...filtered.slice(1)];
+      }
+
+      if (coinType) {
+        filtered = [...filtered.slice(1)];
+      }
+    }
+    setFilteredData(filtered);
+  };
+  useEffect(() => {
+    filterData();
+  }, [searchQuery, bailStatus, bailType, coinType]);
+
+  const onBailStatusChange = (value: string | number) => {
+    setBailStatus(value);
+  };
+
+  const onBailTypeChange = (value: string | number) => {
+    setBailType(value);
+  };
+
+  const onCoinTypeChange = (value: string | number) => {
+    setCoinType(value);
   };
 
   const toggleFilters = () => {
@@ -38,9 +64,9 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
       />
       {showFilters && (
         <TableFilters
-          onBailStatusChange={onSelectChanged}
-          onBailTypeChange={onSelectChanged}
-          onCoinTypeChange={onSelectChanged}
+          onBailStatusChange={onBailStatusChange}
+          onBailTypeChange={onBailTypeChange}
+          onCoinTypeChange={onCoinTypeChange}
         />
       )}
       <GenericTable
@@ -48,8 +74,6 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
         data={filteredData}
         onDeleteSelectedRows={() => {}}
         onPageChange={(page) => {
-          //page will be (curentTablePage -1) because arrays start with 0 not 1
-          //And we want to search per page
           console.log(page);
         }}
         shouldSelectRows
