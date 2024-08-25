@@ -15,24 +15,20 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
   const [filteredData, setFilteredData] = useState(originalData);
 
   const filterData = () => {
+    //TODO when changing into filtered data select remove is working
+    //But then the search is not worling when deleting the search term
     let filtered = originalData.filter((item) =>
       Object.values(item).some((value) =>
         value.toString().toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
-    //TODO - insert reall search functionality according to demand
-    //TODO check why this is only working on first time the select is chagning
-    if (bailStatus) {
-      filtered = [...filtered.slice(1)];
 
-      if (bailType) {
-        filtered = [...filtered.slice(1)];
-      }
-
-      if (coinType) {
-        filtered = [...filtered.slice(1)];
-      }
+    if (bailStatus || bailType || coinType) {
+      filtered = filtered.slice(1);
+      setFilteredData(filtered);
+      return;
     }
+
     setFilteredData(filtered);
   };
   useEffect(() => {
