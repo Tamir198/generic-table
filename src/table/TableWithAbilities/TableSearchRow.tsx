@@ -32,9 +32,8 @@ const StyledRow = styled("div")({
   justifyContent: "left",
 });
 
-//TODO change text direction
 const StyledSearchBar = styled(TextField)({
-  "& .MuiTextField-root": {
-    textdirection: "rtl",
+  "& .MuiInputBase-root": {
+    direction: "rtl",
   },
 });
