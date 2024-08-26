@@ -24,15 +24,14 @@ export interface GenericTableProps<T extends { id: number }> {
   data: T[];
   tableMode?: TableMode;
   rowsPerPage?: number;
-  onPageChange?: (newPage: number) => void;
   filterFunction?: (data: T[], searchTerm: string) => T[];
   shouldSort?: boolean;
   shouldSelectRows?: boolean;
   onDeleteSelectedRows?: (selectedRows: T[]) => void;
   summaryRows?: SummeryRow[];
+  onPageChange?: (newPage: number) => void;
   direction?: string;
 }
-
 export function GenericTable<T extends { id: number }>({
   columns,
   data,
@@ -42,6 +41,7 @@ export function GenericTable<T extends { id: number }>({
   onDeleteSelectedRows,
   summaryRows,
   direction = "rtl",
+  onPageChange,
   shouldDisplayRowMoreOption,
   ...props
 }: GenericTableProps<T>) {
@@ -67,6 +67,7 @@ export function GenericTable<T extends { id: number }>({
     initialPage: TEXTS.INITIAL_TABLE_PAGE,
     rowsPerPage: initialRowsPerPage,
     data: sortedData,
+    onPageChange,
   });
 
   const {
@@ -81,7 +82,6 @@ export function GenericTable<T extends { id: number }>({
 
   let displayData: T[] = [];
 
-  //TODO remove duplicated condition
   if (tableMode === TableMode.Pagination) {
     displayData = paginatedData();
   } else if (tableMode === TableMode.Expanded && !isExpanded) {
@@ -96,6 +96,7 @@ export function GenericTable<T extends { id: number }>({
     XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
     XLSX.writeFile(workbook, `${fileName}.xlsx`);
   };
+
   return (
     <TableContainer
       sx={{ textAlign: "center" }}
