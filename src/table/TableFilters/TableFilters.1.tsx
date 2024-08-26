@@ -8,15 +8,18 @@ interface TableFiltersProps {
   onBailStatusChange: (value: string | number) => void;
   onBailTypeChange: (value: string | number) => void;
   onCoinTypeChange: (value: string | number) => void;
+  clearFilters: () => void;
 }
 
 export const TableFilters: FC<TableFiltersProps> = ({
   onBailStatusChange,
   onBailTypeChange,
   onCoinTypeChange,
+  clearFilters,
 }) => {
   const clearFilteres = () => {
     console.log("Clearing all filters");
+    clearFilters();
   };
 
   return (

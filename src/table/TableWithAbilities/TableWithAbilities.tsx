@@ -76,7 +76,14 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    console.log(page);
+  };
+
+  const clearFilters = () => {
+    setBailStatus(null);
+    setBailType(null);
+    setCoinType(null);
+    setCurrentPage(0);
+    setFilteredData(originalData);
   };
 
   return (
@@ -91,6 +98,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
           onBailStatusChange={onBailStatusChange}
           onBailTypeChange={onBailTypeChange}
           onCoinTypeChange={onCoinTypeChange}
+          clearFilters={clearFilters}
         />
       )}
       <GenericTable
