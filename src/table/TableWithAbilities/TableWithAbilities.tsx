@@ -3,26 +3,36 @@ import { GenericTable, TableMode } from "../GenericTable";
 import { columns, data as originalData } from "./mockData";
 import { TableFilters } from "../TableFilters/TableFilters.1";
 import { TableSearchRow } from "./TableSearchRow";
+import { TEXTS } from "../../constants/constants";
 
 export interface TableWithAbilitiesProps {}
+
+type Select = string | number | null;
+const ROWS_PER_PAGE = 8 || TEXTS.INITIAL_PAGE_ROWS;
 
 export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
-  const [bailStatus, setBailStatus] = useState<string | number | null>(null);
-  const [bailType, setBailType] = useState<string | number | null>(null);
-  const [coinType, setCoinType] = useState<string | number | null>(null);
   const [filteredData, setFilteredData] = useState(originalData);
 
-  const filterData = () => {
-    //TODO when changing into filtered data select remove is working
-    //But then the search is not worling when deleting the search term
-    let filtered = originalData.filter((item) =>
-      Object.values(item).some((value) =>
-        value.toString().toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    );
+  const [bailStatus, setBailStatus] = useState<Select>(null);
+  const [bailType, setBailType] = useState<Select>(null);
+  const [coinType, setCoinType] = useState<Select>(null);
 
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const filterData = () => {
+    const startIndex = currentPage * ROWS_PER_PAGE;
+    const endIndex = startIndex + ROWS_PER_PAGE;
+
+    let paginatedData = originalData.slice(startIndex, endIndex);
+    console.log(paginatedData);
+
+    let filtered = originalData.filter((item) => {
+      return item.name.toLowerCase().includes(searchQuery.toLocaleLowerCase());
+    });
+
+    //TODO the selct should filter all the data available
     if (bailStatus || bailType || coinType) {
       filtered = filtered.slice(1);
       setFilteredData(filtered);
@@ -33,7 +43,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
   };
   useEffect(() => {
     filterData();
-  }, [searchQuery, bailStatus, bailType, coinType]);
+  }, [searchQuery, bailStatus, bailType, coinType, currentPage]);
 
   const onBailStatusChange = (value: string | number) => {
     setBailStatus(value);
@@ -49,6 +59,11 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
 
   const toggleFilters = () => {
     setShowFilters((prev) => !prev);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    console.log(page);
   };
 
   return (
@@ -69,8 +84,9 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
         columns={columns}
         data={filteredData}
         onDeleteSelectedRows={() => {}}
+        rowsPerPage={ROWS_PER_PAGE}
         onPageChange={(page) => {
-          console.log(page);
+          handlePageChange(page);
         }}
         shouldSelectRows
         tableMode={TableMode.Pagination}
