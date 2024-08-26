@@ -22,24 +22,35 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
   const [currentPage, setCurrentPage] = useState(0);
 
   const filterData = () => {
+    let filtered = originalData;
+
+    if (searchQuery) {
+      filtered = filtered.filter((item) =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    if (bailStatus) {
+      filtered = filtered.filter((item) =>
+        ["א"].some((letter) => item.name.includes(letter))
+      );
+    }
+
+    if (bailType) {
+      filtered = filtered.filter((item) =>
+        ["ב"].some((letter) => item.name.includes(letter))
+      );
+    }
+
+    if (coinType) {
+      filtered = filtered.filter((item) =>
+        ["ג"].some((letter) => item.name.includes(letter))
+      );
+    }
+
     const startIndex = currentPage * ROWS_PER_PAGE;
     const endIndex = startIndex + ROWS_PER_PAGE;
-
-    let currentPageRows = filteredData.slice(startIndex, endIndex);
-    let filtered = originalData;
-    filtered = filtered.filter((item) => {
-      return item.name.toLowerCase().includes(searchQuery.toLocaleLowerCase());
-    });
-
-    //TODO the selct should filter all the data available
-    if (bailStatus || bailType || coinType) {
-      //   filtered = filtered.slice(1);
-      return filtered.filter((item) =>
-        ["א", "ב", "ג"].some((letter) => item.name.includes(letter))
-      );
-      setFilteredData(filtered);
-      return;
-    }
+    const currentPageRows = filtered.slice(startIndex, endIndex);
 
     setFilteredData(filtered);
   };
