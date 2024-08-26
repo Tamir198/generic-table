@@ -25,16 +25,18 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
     const startIndex = currentPage * ROWS_PER_PAGE;
     const endIndex = startIndex + ROWS_PER_PAGE;
 
-    let paginatedData = originalData.slice(startIndex, endIndex);
-    console.log(paginatedData);
-
-    let filtered = originalData.filter((item) => {
+    let currentPageRows = filteredData.slice(startIndex, endIndex);
+    let filtered = originalData;
+    filtered = filtered.filter((item) => {
       return item.name.toLowerCase().includes(searchQuery.toLocaleLowerCase());
     });
 
     //TODO the selct should filter all the data available
     if (bailStatus || bailType || coinType) {
-      filtered = filtered.slice(1);
+      //   filtered = filtered.slice(1);
+      return filtered.filter((item) =>
+        ["א", "ב", "ג"].some((letter) => item.name.includes(letter))
+      );
       setFilteredData(filtered);
       return;
     }
