@@ -1,6 +1,6 @@
-import { Pagination, PaginationItem } from '@mui/material';
-import { COLORS } from '../constants/constants';
-import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import { Pagination, PaginationItem } from "@mui/material";
+import { COLORS } from "../constants/constants";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
 interface TablePaginationProps {
   count: number;
@@ -31,33 +31,33 @@ export function TablePagination({
           {...item}
           sx={{
             color: COLORS.TABLE_SECONDARY,
-            '&.Mui-selected': {
-              border: 'none',
-              outline: 'none',
-              fontWeight: 'bold',
+            "&.Mui-selected": {
+              border: "none",
+              outline: "none",
+              fontWeight: "bold",
             },
-            '&.MuiPaginationItem-root': {
-              background: 'none',
-              outline: 'none',
-              direction: 'rtl',
+            "&.MuiPaginationItem-root": {
+              background: "none",
+              outline: "none",
+              direction: "rtl",
             },
-            '&.Mui-disabled': {
-              color: 'gray',
+            "&.Mui-disabled": {
+              color: "gray",
             },
-            '&.Mui-selected:hover': {
-              background: 'none',
-              border: 'none',
-              outline: 'none',
+            "&.Mui-selected:hover": {
+              background: "none",
+              border: "none",
+              outline: "none",
             },
           }}
         />
       )}
       siblingCount={1}
-      boundaryCount={0}
+      boundaryCount={1}
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        direction: 'rtl',
+        display: "flex",
+        justifyContent: "center",
+        direction: "rtl",
       }}
     />
   );

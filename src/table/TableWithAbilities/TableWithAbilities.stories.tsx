@@ -12,6 +12,23 @@ const meta: Meta<TableWithAbilitiesProps> = {
 
 export default meta;
 
-export const Default: StoryObj<TableWithAbilitiesProps> = {
+export const WithQueryParams: StoryObj<TableWithAbilitiesProps> = {
   render: (args) => <TableWithAbilities {...args} />,
+  parameters: {
+    query: {
+      searchQuery: "א",
+      showFilters: "true",
+      bailStatus: "status1",
+      bailType: "type1",
+      coinType: "coin1",
+      currentPage: "1",
+    },
+  },
+};
+
+export const WithoutQueryParams: StoryObj<TableWithAbilitiesProps> = {
+  render: (args) => <TableWithAbilities {...args} />,
+  parameters: {
+    query: {},
+  },
 };
