@@ -14,12 +14,30 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [filteredData, setFilteredData] = useState(originalData);
-
   const [bailStatus, setBailStatus] = useState<Select>(null);
   const [bailType, setBailType] = useState<Select>(null);
   const [coinType, setCoinType] = useState<Select>(null);
-
   const [currentPage, setCurrentPage] = useState(0);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const query = urlParams.get("searchQuery");
+    const filters = urlParams.get("showFilters");
+    const status = urlParams.get("bailStatus");
+    const type = urlParams.get("bailType");
+    const coin = urlParams.get("coinType");
+    const page = urlParams.get("currentPage");
+
+    console.log({ query, filters, status, type, coin, page });
+
+    if (query) setSearchQuery(query);
+    if (filters) setShowFilters(filters === "true");
+    if (status) setBailStatus(status);
+    if (type) setBailType(type);
+    if (coin) setCoinType(coin);
+    if (page) setCurrentPage(Number(page));
+  }, []);
 
   const filterData = () => {
     let filtered = originalData;
@@ -54,6 +72,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
 
     setFilteredData(filtered);
   };
+
   useEffect(() => {
     filterData();
   }, [searchQuery, bailStatus, bailType, coinType, currentPage]);
