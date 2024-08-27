@@ -8,16 +8,19 @@ interface TableSearchRowProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
   onToggleFilters: () => void;
+  onExport: () => void;
 }
 
 export const TableSearchRow: FC<TableSearchRowProps> = ({
   searchQuery,
   onSearchChange,
   onToggleFilters,
+  onExport,
 }) => {
   return (
     <StyledRow>
-      <IconButton>
+      <IconButton onClick={onExport}>
+        {" "}
         <DownloadIcon />
       </IconButton>
       <IconButton onClick={onToggleFilters}>
