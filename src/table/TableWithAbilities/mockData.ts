@@ -29,9 +29,6 @@ export const columns: TableColumn<Data>[] = [
 export const data: Data[] = [
   { email: "john@example.com", id: 1, name: "ג'ון דו", status: "פעיל" },
   { email: "jane@example.com", id: 2222, name: "ג'ין סמית", status: "מוקפא" },
-  { email: "jane@example.com", id: 54654, name: "ג'ין סמית", status: "מוקפא" },
-  { email: "jane@example.com", id: 98796, name: "ג'ין סמית", status: "מוקפא" },
-  { email: "jane@example.com", id: 89462, name: "ג'ין סמית", status: "מוקפא" },
   { email: "sam@example.com", id: 3, name: "סם בראון", status: "פעיל" },
   { email: "emily@example.com", id: 4, name: "אמי ג'ונסון", status: "מוקפא" },
   { email: "michael@example.com", id: 5, name: "מייקל לי", status: "פעיל" },
@@ -45,12 +42,6 @@ export const data: Data[] = [
   { email: "tomer@example.com", id: 13, name: "תומר רז", status: "פעיל" },
   { email: "miah.oz@example.com", id: 14, name: "מיה עוז", status: "מוקפא" },
   { email: "adi@example.com", id: 15, name: "עדי אבן", status: "פעיל" },
-  {
-    email: "miah.dayan@example.com",
-    id: 16,
-    name: "מיה דיין",
-    status: "מוקפא",
-  },
   { email: "avigail@example.com", id: 17, name: "אביגיל בר", status: "פעיל" },
   { email: "alon@example.com", id: 18, name: "אלון ניר", status: "מוקפא" },
   { email: "yifat@example.com", id: 19, name: "יפעת שלם", status: "פעיל" },

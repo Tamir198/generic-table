@@ -8,40 +8,40 @@ interface TableFiltersProps {
   onBailStatusChange: (value: string | number) => void;
   onBailTypeChange: (value: string | number) => void;
   onCoinTypeChange: (value: string | number) => void;
+  clearFilters: () => void;
 }
 
 export const TableFilters: FC<TableFiltersProps> = ({
   onBailStatusChange,
   onBailTypeChange,
   onCoinTypeChange,
+  clearFilters,
 }) => {
   const clearFilteres = () => {
     console.log("Clearing all filters");
+    clearFilters();
   };
 
   return (
     <StyledContainer>
       <FilterSelect
         title={TEXTS.BAIL_STATUS}
-        options={[TEXTS.BAIL_STATUS, 2, 3]}
+        options={[TEXTS.ACTIVE_BAIL, TEXTS.ACTIVE_BAIL, TEXTS.NON_ACTIVE_BAIL]}
         onFilter={(value) => {
-          console.log("Bail Status Filter:", value);
           onBailStatusChange(value);
         }}
       />
       <FilterSelect
         title={TEXTS.BAIL_TYPE}
-        options={[TEXTS.BAIL_TYPE, 2, 3]}
+        options={[TEXTS.ALL_TYPES, TEXTS.TYPE_ONE_BAIL, TEXTS.TYPE_TWO_BAIL]}
         onFilter={(value) => {
-          console.log("Bail Type Filter:", value);
           onBailTypeChange(value);
         }}
       />
       <FilterSelect
         title={TEXTS.COIN_TYPE}
-        options={[TEXTS.COIN_TYPE, 2, 3]}
+        options={[TEXTS.ALL_TYPES, TEXTS.FORIEN_COIN, TEXTS.LOCAL_COIN]}
         onFilter={(value) => {
-          console.log("Coin Type Filter:", value);
           onCoinTypeChange(value);
         }}
       />
