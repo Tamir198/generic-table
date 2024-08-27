@@ -7,6 +7,13 @@ import {
 const meta: Meta<TableWithAbilitiesProps> = {
   title: "Components/TableWithAbilities",
   component: TableWithAbilities,
+  tags: ["autodocs"],
+};
+
+export default meta;
+
+export const WithQueryParams: StoryObj<TableWithAbilitiesProps> = {
+  render: (args) => <TableWithAbilities {...args} />,
   parameters: {
     query: {
       searchQuery: "א",
@@ -17,11 +24,11 @@ const meta: Meta<TableWithAbilitiesProps> = {
       currentPage: "1",
     },
   },
-  tags: ["autodocs"],
 };
 
-export default meta;
-
-export const Default: StoryObj<TableWithAbilitiesProps> = {
+export const WithoutQueryParams: StoryObj<TableWithAbilitiesProps> = {
   render: (args) => <TableWithAbilities {...args} />,
+  parameters: {
+    query: {},
+  },
 };
