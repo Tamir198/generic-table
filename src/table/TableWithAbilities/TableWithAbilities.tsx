@@ -73,7 +73,22 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
     setFilteredData(filtered);
   };
 
+  const updateQueryParams = () => {
+    const urlParams = new URLSearchParams();
+
+    if (searchQuery) urlParams.set("searchQuery", searchQuery);
+    if (showFilters) urlParams.set("showFilters", String(showFilters));
+    if (bailStatus) urlParams.set("bailStatus", String(bailStatus));
+    if (bailType) urlParams.set("bailType", String(bailType));
+    if (coinType) urlParams.set("coinType", String(coinType));
+    urlParams.set("currentPage", String(currentPage));
+
+    const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+    window.history.pushState(null, "", newUrl);
+  };
+
   useEffect(() => {
+    updateQueryParams();
     filterData();
   }, [searchQuery, bailStatus, bailType, coinType, currentPage]);
 
