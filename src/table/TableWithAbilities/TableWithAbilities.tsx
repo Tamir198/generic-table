@@ -53,6 +53,15 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
   const filterData = () => {
     let filtered = originalData;
 
+    const startIndex = currentPage * ROWS_PER_PAGE;
+    const endIndex = startIndex + ROWS_PER_PAGE;
+    const currentPageRows = filtered.slice(startIndex, endIndex);
+
+    //TODO - ASK ABOUT HOW TO REFLECT THE PAGE BASED SEARCH IN THE UI
+    const filteredCurrentPageRows = currentPageRows.filter((item) =>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     if (searchQuery) {
       filtered = filtered.filter((item) =>
         item.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -76,10 +85,6 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
         ["ג"].some((letter) => item.name.includes(letter))
       );
     }
-
-    const startIndex = currentPage * ROWS_PER_PAGE;
-    const endIndex = startIndex + ROWS_PER_PAGE;
-    const currentPageRows = filtered.slice(startIndex, endIndex);
 
     setFilteredData(filtered);
   };
