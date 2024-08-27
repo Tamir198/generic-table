@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { TEXTS } from "../constants/constants";
 
 interface UseTablePaginationParams<T> {
   initialPage?: number;
@@ -9,7 +10,7 @@ interface UseTablePaginationParams<T> {
 
 export function useTablePagination<T>({
   initialPage,
-  rowsPerPage = 5,
+  rowsPerPage = TEXTS.INITIAL_PAGE_ROWS,
   data,
   onPageChange,
 }: UseTablePaginationParams<T>) {

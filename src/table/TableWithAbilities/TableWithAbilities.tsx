@@ -4,40 +4,51 @@ import { columns, data as originalData } from "./mockData";
 import { TableFilters } from "../TableFilters/TableFilters.1";
 import { TableSearchRow } from "./TableSearchRow";
 import { TEXTS } from "../../constants/constants";
+import { SelectOptions } from "../../types";
+import { getQueryParams, setQueryParams } from "./queryParamsService";
 
 export interface TableWithAbilitiesProps {}
 
-type Select = string | number | null;
 const ROWS_PER_PAGE = 8 || TEXTS.INITIAL_PAGE_ROWS;
 
 export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [filteredData, setFilteredData] = useState(originalData);
-  const [bailStatus, setBailStatus] = useState<Select>(null);
-  const [bailType, setBailType] = useState<Select>(null);
-  const [coinType, setCoinType] = useState<Select>(null);
+  const [bailStatus, setBailStatus] = useState<SelectOptions>(null);
+  const [bailType, setBailType] = useState<SelectOptions>(null);
+  const [coinType, setCoinType] = useState<SelectOptions>(null);
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
+    const {
+      searchQuery,
+      showFilters,
+      bailStatus,
+      bailType,
+      coinType,
+      currentPage,
+    } = getQueryParams();
 
-    const query = urlParams.get("searchQuery");
-    const filters = urlParams.get("showFilters");
-    const status = urlParams.get("bailStatus");
-    const type = urlParams.get("bailType");
-    const coin = urlParams.get("coinType");
-    const page = urlParams.get("currentPage");
-
-    console.log({ query, filters, status, type, coin, page });
-
-    if (query) setSearchQuery(query);
-    if (filters) setShowFilters(filters === "true");
-    if (status) setBailStatus(status);
-    if (type) setBailType(type);
-    if (coin) setCoinType(coin);
-    if (page) setCurrentPage(Number(page));
+    setSearchQuery(searchQuery);
+    setShowFilters(showFilters);
+    setBailStatus(bailStatus);
+    setBailType(bailType);
+    setCoinType(coinType);
+    setCurrentPage(currentPage);
   }, []);
+
+  useEffect(() => {
+    setQueryParams(
+      searchQuery,
+      showFilters,
+      bailStatus,
+      bailType,
+      coinType,
+      currentPage
+    );
+    filterData();
+  }, [searchQuery, showFilters, bailStatus, bailType, coinType, currentPage]);
 
   const filterData = () => {
     let filtered = originalData;
@@ -72,25 +83,6 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
 
     setFilteredData(filtered);
   };
-
-  const updateQueryParams = () => {
-    const urlParams = new URLSearchParams();
-
-    if (searchQuery) urlParams.set("searchQuery", searchQuery);
-    if (showFilters) urlParams.set("showFilters", String(showFilters));
-    if (bailStatus) urlParams.set("bailStatus", String(bailStatus));
-    if (bailType) urlParams.set("bailType", String(bailType));
-    if (coinType) urlParams.set("coinType", String(coinType));
-    urlParams.set("currentPage", String(currentPage));
-
-    const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
-    window.history.pushState(null, "", newUrl);
-  };
-
-  useEffect(() => {
-    updateQueryParams();
-    filterData();
-  }, [searchQuery, bailStatus, bailType, coinType, currentPage]);
 
   const onBailStatusChange = (value: string | number) => {
     setBailStatus(value);
@@ -140,9 +132,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
         data={filteredData}
         onDeleteSelectedRows={() => {}}
         rowsPerPage={ROWS_PER_PAGE}
-        onPageChange={(page) => {
-          handlePageChange(page);
-        }}
+        onPageChange={handlePageChange}
         shouldSelectRows
         tableMode={TableMode.Pagination}
       />

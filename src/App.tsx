@@ -8,6 +8,7 @@ import { GenericTooltip } from "./tooltip/GenericTooltip";
 import { MoreOptionTooltip } from "./table/MoreOptionTooltip";
 
 import { TableFilters } from "./table/TableFilters/TableFilters.1";
+import { TableWithAbilities } from "./table/TableWithAbilities/TableWithAbilities";
 
 function App() {
   interface Dessert {
@@ -280,8 +281,7 @@ function App() {
   return (
     <>
       <div>
-        <h1>aaaaaaaaaaaaaa</h1>
-        <TableFilters />
+        <TableWithAbilities />
 
         <MoreOptionTooltip
           onEdit={() => {
