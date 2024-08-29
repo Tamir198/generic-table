@@ -10,7 +10,7 @@ import { exportToExcel } from '../../services/dataExportService';
 
 export interface TableWithAbilitiesProps {}
 
-const ROWS_PER_PAGE = 8 || TEXTS.INITIAL_PAGE_ROWS;
+const ROWS_PER_PAGE = TEXTS.INITIAL_PAGE_ROWS;
 
 export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
   const [searchQuery, setSearchQuery] = useState('');
