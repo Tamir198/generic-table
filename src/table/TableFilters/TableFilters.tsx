@@ -20,7 +20,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
 }) => {
   const clearAllFilters = () => {
     clearFilters();
-  };
+  };  
 
   return (
     <StyledContainer>

@@ -92,7 +92,9 @@ export const FilterSelect: FC<FilterSelectProps> = ({
   );
 };
 
-const StyledTitle = styled(Typography)({});
+const StyledTitle = styled(Typography)({
+  width: '100%',
+});
 
 const StyledFilterSelect = styled(Box)({
   display: 'flex',
