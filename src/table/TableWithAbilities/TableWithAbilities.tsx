@@ -6,6 +6,7 @@ import { TableSearchRow } from "./TableSearchRow";
 import { TEXTS } from "../../constants/constants";
 import { SelectOptions } from "../../types";
 import { getQueryParams, setQueryParams } from "./queryParamsService";
+import { exportToExcel } from "../../services/dataExportService";
 
 export interface TableWithAbilitiesProps {}
 
@@ -57,7 +58,6 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
     const endIndex = startIndex + ROWS_PER_PAGE;
     const currentPageRows = filtered.slice(startIndex, endIndex);
 
-    //TODO - ASK ABOUT HOW TO REFLECT THE PAGE BASED SEARCH IN THE UI
     const filteredCurrentPageRows = currentPageRows.filter((item) =>
       item.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -117,12 +117,18 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
     setFilteredData(originalData);
   };
 
+  const handleExport = () => {
+    //TODO Export all or partial data based on the modal pick
+    exportToExcel(filteredData);
+  };
+
   return (
     <>
       <TableSearchRow
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onToggleFilters={toggleFilters}
+        onExport={handleExport}
       />
       {showFilters && (
         <TableFilters

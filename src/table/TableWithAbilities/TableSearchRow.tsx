@@ -3,21 +3,24 @@ import DownloadIcon from "@mui/icons-material/Download";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import SearchIcon from "@mui/icons-material/Search";
 import { FC } from "react";
+import { MoreOptions } from "../MoreOptions";
 
 interface TableSearchRowProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
   onToggleFilters: () => void;
+  onExport: () => void;
 }
 
 export const TableSearchRow: FC<TableSearchRowProps> = ({
   searchQuery,
   onSearchChange,
   onToggleFilters,
+  onExport,
 }) => {
   return (
     <StyledRow>
-      <IconButton>
+      <IconButton onClick={onExport}>
         <DownloadIcon />
       </IconButton>
       <IconButton onClick={onToggleFilters}>
@@ -31,6 +34,7 @@ export const TableSearchRow: FC<TableSearchRowProps> = ({
           endAdornment: <SearchIcon />,
         }}
       />
+      <MoreOptions />
     </StyledRow>
   );
 };
