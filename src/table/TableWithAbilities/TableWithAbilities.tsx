@@ -118,7 +118,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
   };
 
   const handleExport = () => {
-    //TODO check which one of the
+    //TODO Export all or partial data based on the modal pick
     exportToExcel(filteredData);
   };
 
