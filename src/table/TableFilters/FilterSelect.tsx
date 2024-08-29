@@ -3,7 +3,6 @@ import {
   Checkbox,
   ListItemText,
   MenuItem,
-  MenuProps,
   Select,
   SelectChangeEvent,
   Typography,
