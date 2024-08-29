@@ -26,7 +26,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
     <StyledContainer>
       <FilterSelect
         title={TEXTS.BAIL_STATUS}
-        options={[TEXTS.ACTIVE_BAIL, TEXTS.ACTIVE_BAIL, TEXTS.NON_ACTIVE_BAIL]}
+        options={[TEXTS.ALL_TYPES, TEXTS.ACTIVE_BAIL, TEXTS.NON_ACTIVE_BAIL]}
         onFilter={(value) => {
           onBailStatusChange(value);
         }}
@@ -41,7 +41,15 @@ export const TableFilters: FC<TableFiltersProps> = ({
       />
       <FilterSelect
         title={TEXTS.COIN_TYPE}
-        options={[TEXTS.ALL_TYPES, TEXTS.FORIEN_COIN, TEXTS.LOCAL_COIN]}
+        options={[
+          TEXTS.ALL_TYPES,
+          TEXTS.FORIEN_COIN,
+          TEXTS.LOCAL_COIN,
+          TEXTS.MONETARY,
+          TEXTS.FORMAL,
+          TEXTS.FORMAL,
+          TEXTS.FORMAL,
+        ]}
         onFilter={(value) => {
           onCoinTypeChange(value);
         }}
