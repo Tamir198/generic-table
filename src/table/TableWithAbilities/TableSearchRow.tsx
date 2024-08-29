@@ -33,7 +33,6 @@ export const TableSearchRow: FC<TableSearchRowProps> = ({
           endAdornment: <SearchIcon />,
         }}
       />
-      <MoreOptions />
     </StyledRow>
   );
 };
