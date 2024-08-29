@@ -1,15 +1,22 @@
 import { useState, MouseEvent } from 'react';
 import { TableCell, Menu, MenuItem, IconButton } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { FC } from 'react';
 import GenericModal from '../modal/GenericModal';
 import { ExportToExcel } from './modalContent/ExportToExcel';
+import { ExcelFileType } from '../types';
 
 enum ModalOption {
   EXPORT_TO_CSV,
   EXPORT_TO_EXCEL,
 }
-export const MoreOptions: FC = () => {
+
+interface TableDataDownloadButtonProps {
+  onDataExport: (filetype: ExcelFileType) => void;
+}
+export const TableDataDownloadButton: FC<TableDataDownloadButtonProps> = ({
+  onDataExport,
+}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedOption, setSelectedOption] = useState<ModalOption | null>(
     null
@@ -44,7 +51,9 @@ export const MoreOptions: FC = () => {
       case ModalOption.EXPORT_TO_EXCEL:
         return (
           <ExportToExcel
-            exportFile={(fileType) => alert(`TODo Download ${fileType}`)}
+            exportFile={(fileType) => {
+              onDataExport(fileType);
+            }}
           />
         );
       default:
@@ -55,8 +64,9 @@ export const MoreOptions: FC = () => {
   return (
     <TableCell>
       <IconButton onClick={handleClick}>
-        <MoreVertIcon />
+        <FileDownloadIcon />
       </IconButton>
+      {/* TODO replace this with generic menu from shared components */}
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -69,9 +79,6 @@ export const MoreOptions: FC = () => {
           onClick={() => handleOptionClick(ModalOption.EXPORT_TO_EXCEL)}
         >
           Export to Excel
-        </MenuItem>
-        <MenuItem onClick={() => handleOptionClick(ModalOption.OPTION_3)}>
-          Option 3
         </MenuItem>
       </Menu>
 

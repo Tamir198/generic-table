@@ -3,10 +3,10 @@ import { GenericTable, TableMode } from '../GenericTable';
 import { columns, data as originalData } from './mockData';
 import { TableSearchRow } from './TableSearchRow';
 import { TEXTS } from '../../constants/constants';
-import { SelectOptions } from '../../types';
+import { ExcelFileType, SelectOptions } from '../../types';
 import { getQueryParams, setQueryParams } from './queryParamsService';
-import { exportToExcel } from '../../services/dataExportService';
 import { TableFilters } from '../TableFilters/TableFilters';
+import { exportToExcel } from '../../services/dataExportService';
 
 export interface TableWithAbilitiesProps {}
 
@@ -129,8 +129,11 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
     setFilteredData(originalData);
   };
 
-  const handleExport = () => {
-    //TODO Export all or partial data based on the modal pick
+  const handleExport = (fileType: ExcelFileType) => {
+    if (fileType == ExcelFileType.FULL_FILE) {
+      exportToExcel(originalData);
+      return;
+    }
     exportToExcel(filteredData);
   };
 
@@ -140,7 +143,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onToggleFilters={toggleFilters}
-        onExport={handleExport}
+        onDataExport={handleExport}
       />
       {showFilters && (
         <TableFilters

@@ -3,11 +3,12 @@ import { TEXTS } from '../../constants/constants';
 import { FilterSelect } from './FilterSelect';
 import styled from '@emotion/styled';
 import { Box, Button } from '@mui/material';
+import { MultiOptionValue, OptionValue } from '../../types';
 
 interface TableFiltersProps {
-  onBailStatusChange: (value: string | number) => void;
-  onBailTypeChange: (value: string | number) => void;
-  onCoinTypeChange: (value: string | number) => void;
+  onBailStatusChange: (value: OptionValue) => void;
+  onBailTypeChange: (value: MultiOptionValue) => void;
+  onCoinTypeChange: (value: MultiOptionValue) => void;
   clearFilters: () => void;
 }
 
@@ -27,14 +28,18 @@ export const TableFilters: FC<TableFiltersProps> = ({
         title={TEXTS.BAIL_STATUS}
         options={[TEXTS.ALL_TYPES, TEXTS.ACTIVE_BAIL, TEXTS.NON_ACTIVE_BAIL]}
         onFilter={(value) => {
-          onBailStatusChange(value);
+          if (typeof value === 'string' || typeof value === 'number') {
+            onBailStatusChange(value);
+          }
         }}
       />
       <FilterSelect
         title={TEXTS.BAIL_TYPE}
         options={[TEXTS.ALL_TYPES, TEXTS.TYPE_ONE_BAIL, TEXTS.TYPE_TWO_BAIL]}
         onFilter={(value) => {
-          onBailTypeChange(value);
+          if (Array.isArray(value)) {
+            onBailTypeChange(value);
+          }
         }}
         isMultiSelect={true}
       />
@@ -46,11 +51,11 @@ export const TableFilters: FC<TableFiltersProps> = ({
           TEXTS.LOCAL_COIN,
           TEXTS.MONETARY,
           TEXTS.FORMAL,
-          TEXTS.FORMAL,
-          TEXTS.FORMAL,
         ]}
         onFilter={(value) => {
-          onCoinTypeChange(value);
+          if (Array.isArray(value)) {
+            onCoinTypeChange(value);
+          }
         }}
         isMultiSelect={true}
       />
