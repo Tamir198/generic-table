@@ -1,10 +1,10 @@
-import { IconButton, TextField, styled } from '@mui/material';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import { IconButton, TextField, Typography, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { FC } from 'react';
-import { MoreOptions } from '../MoreOptions';
 import { TableDataDownloadButton } from '../TableDataDownloadButton';
 import { ExcelFileType } from '../../types';
+import { TEXTS } from '../../constants/constants';
+import FilterIcon from '../../assets/FilterIcon';
 
 interface TableSearchRowProps {
   searchQuery: string;
@@ -23,10 +23,11 @@ export const TableSearchRow: FC<TableSearchRowProps> = ({
     <StyledRow>
       <TableDataDownloadButton onDataExport={onDataExport} />
       <IconButton onClick={onToggleFilters}>
-        <FilterListIcon />
+        <Typography fontWeight={'800'}>{TEXTS.FILTER}</Typography>
+        <FilterIcon />
       </IconButton>
       <StyledSearchBar
-        placeholder='חיפוש ערבות'
+        placeholder={TEXTS.BAIL_SEARCH}
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
         InputProps={{

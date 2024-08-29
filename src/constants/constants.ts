@@ -21,6 +21,7 @@ export const TEXTS = {
   TYPE_TWO_BAIL: 'סוג ערבות נוסף',
   NON_ACTIVE_BAIL: 'ערבות לא פעילה',
   BAIL_TYPE: 'סוג ערבות',
+  BAIL_SEARCH: 'חיפוש ערבות',
   AVTIVE_BAILS: 'ערבויות פעילות',
   COIN_TYPE: 'סוג מטבע',
   FORIEN_COIN: 'מטבע זר',
@@ -29,6 +30,8 @@ export const TEXTS = {
   ALL_TYPES: 'כל הסוגים',
   FORMAL: 'פורמלית',
   MONETARY: 'כספית',
+  FILTER: 'סינון',
+  DOWNLOAD: 'הורדה',
 };
 
 export const COLORS = {

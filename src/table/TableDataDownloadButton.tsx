@@ -1,10 +1,18 @@
 import { useState, MouseEvent } from 'react';
-import { TableCell, Menu, MenuItem, IconButton } from '@mui/material';
+import {
+  TableCell,
+  Menu,
+  MenuItem,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { FC } from 'react';
 import GenericModal from '../modal/GenericModal';
 import { ExportToExcel } from './modalContent/ExportToExcel';
 import { ExcelFileType } from '../types';
+import DownloadIcon from '../assets/DownloadIcon';
+import { TEXTS } from '../constants/constants';
 
 enum ModalOption {
   EXPORT_TO_CSV,
@@ -64,7 +72,8 @@ export const TableDataDownloadButton: FC<TableDataDownloadButtonProps> = ({
   return (
     <TableCell>
       <IconButton onClick={handleClick}>
-        <FileDownloadIcon />
+        <Typography>{TEXTS.DOWNLOAD}</Typography>
+ד        <DownloadIcon />
       </IconButton>
       {/* TODO replace this with generic menu from shared components */}
       <Menu
