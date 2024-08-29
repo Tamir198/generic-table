@@ -73,7 +73,7 @@ export const TableDataDownloadButton: FC<TableDataDownloadButtonProps> = ({
     <TableCell>
       <IconButton onClick={handleClick}>
         <Typography>{TEXTS.DOWNLOAD}</Typography>
-ד        <DownloadIcon />
+        <DownloadIcon />
       </IconButton>
       {/* TODO replace this with generic menu from shared components */}
       <Menu
