@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Checkbox,
   ListItemText,
@@ -24,7 +24,7 @@ export const FilterSelect: FC<FilterSelectProps> = ({
   title,
   options,
   onFilter,
-  isMultiSelect = true,
+  isMultiSelect = false,
 }) => {
   const [selectedValue, setSelectedValue] = useState<OptionValue>(
     isMultiSelect ? [] : ''
@@ -57,16 +57,14 @@ export const FilterSelect: FC<FilterSelectProps> = ({
         displayEmpty
         renderValue={renderSelectedValue}
       >
-        <MenuItem value='' disabled>
-          {title}
-        </MenuItem>
+        <MenuItem value=''>{title}</MenuItem>
         {options.map((option, index) => (
           <MenuItem key={index} value={option}>
             {isMultiSelect && (
               <Checkbox
-                checked={
-                  (selectedValue as (string | number)[]).indexOf(option) > -1
-                }
+                checked={(selectedValue as (string | number)[]).includes(
+                  option
+                )}
               />
             )}
             <ListItemText primary={option} />

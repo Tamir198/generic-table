@@ -1,8 +1,8 @@
-import { FC } from "react";
-import { TEXTS } from "../../constants/constants";
-import { FilterSelect } from "./FilterSelect";
-import styled from "@emotion/styled";
-import { Box, Button } from "@mui/material";
+import { FC } from 'react';
+import { TEXTS } from '../../constants/constants';
+import { FilterSelect } from './FilterSelect';
+import styled from '@emotion/styled';
+import { Box, Button } from '@mui/material';
 
 interface TableFiltersProps {
   onBailStatusChange: (value: string | number) => void;
@@ -18,7 +18,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
   clearFilters,
 }) => {
   const clearFilteres = () => {
-    console.log("Clearing all filters");
+    console.log('Clearing all filters');
     clearFilters();
   };
 
@@ -37,6 +37,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
         onFilter={(value) => {
           onBailTypeChange(value);
         }}
+        isMultiSelect={true}
       />
       <FilterSelect
         title={TEXTS.COIN_TYPE}
@@ -44,6 +45,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
         onFilter={(value) => {
           onCoinTypeChange(value);
         }}
+        isMultiSelect={true}
       />
 
       <p>From day</p>
@@ -56,16 +58,16 @@ export const TableFilters: FC<TableFiltersProps> = ({
 };
 
 const StyledContainer = styled(Box)({
-  display: "flex",
-  direction: "rtl",
+  display: 'flex',
+  direction: 'rtl',
 });
 
 const StyledClearAll = styled(Button)({
-  color: "#0D819A",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  gap: "10px",
-  marginTop: "15px",
-  marginRight: "15px",
+  color: '#0D819A',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '10px',
+  marginTop: '15px',
+  marginRight: '15px',
 });
