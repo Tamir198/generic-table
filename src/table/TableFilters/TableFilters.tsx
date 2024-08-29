@@ -1,43 +1,67 @@
-import { Box, Button } from '@mui/material';
+import { FC } from 'react';
 import { TEXTS } from '../../constants/constants';
 import { FilterSelect } from './FilterSelect';
-import { styled } from '@mui/system';
+import styled from '@emotion/styled';
+import { Box, Button } from '@mui/material';
 
-export const TableFilters = () => {
-  //TODO accept 2 functions from outside :
-  // Clear all filters (reset table data)
-  // Function that filters by field (by the selected select item )
-  const clearFilteres = () => {};
+interface TableFiltersProps {
+  onBailStatusChange: (value: string | number) => void;
+  onBailTypeChange: (value: string | number) => void;
+  onCoinTypeChange: (value: string | number) => void;
+  clearFilters: () => void;
+}
+
+export const TableFilters: FC<TableFiltersProps> = ({
+  onBailStatusChange,
+  onBailTypeChange,
+  onCoinTypeChange,
+  clearFilters,
+}) => {
+  const clearAllFilters = () => {
+    clearFilters();
+  };
 
   return (
     <StyledContainer>
       <FilterSelect
         title={TEXTS.BAIL_STATUS}
-        options={[TEXTS.BAIL_STATUS, 2, 3]}
+        options={[TEXTS.ALL_TYPES, TEXTS.ACTIVE_BAIL, TEXTS.NON_ACTIVE_BAIL]}
         onFilter={(value) => {
-          alert('Test if filter orking' + value);
+          onBailStatusChange(value);
+        }}
+      />
+      <FilterSelect
+        title={TEXTS.BAIL_TYPE}
+        options={[TEXTS.ALL_TYPES, TEXTS.TYPE_ONE_BAIL, TEXTS.TYPE_TWO_BAIL]}
+        onFilter={(value) => {
+          onBailTypeChange(value);
         }}
         isMultiSelect={true}
       />
       <FilterSelect
-        title={TEXTS.BAIL_TYPE}
-        options={[TEXTS.BAIL_TYPE, 2, 3]}
-        onFilter={(value) => {
-          alert('Test if filter orking' + value);
-        }}
-      />
-      <FilterSelect
         title={TEXTS.COIN_TYPE}
-        options={[TEXTS.COIN_TYPE, 2, 3]}
+        options={[
+          TEXTS.ALL_TYPES,
+          TEXTS.FORIEN_COIN,
+          TEXTS.LOCAL_COIN,
+          TEXTS.MONETARY,
+          TEXTS.FORMAL,
+          TEXTS.FORMAL,
+          TEXTS.FORMAL,
+        ]}
         onFilter={(value) => {
-          alert('Test if filter orking' + value);
+          onCoinTypeChange(value);
         }}
+        isMultiSelect={true}
       />
 
-      {/* TODO insert the from and to  date component that avital is building
+      <p>From day</p>
+      <p>To day</p>
 
-      */}
-      <StyledClearAll onClick={clearFilteres}>{TEXTS.CLEAN_ALL}</StyledClearAll>
+      {/* TODO: Insert the from and to date component */}
+      <StyledClearAll onClick={clearAllFilters}>
+        {TEXTS.CLEAN_ALL}
+      </StyledClearAll>
     </StyledContainer>
   );
 };
@@ -52,4 +76,7 @@ const StyledClearAll = styled(Button)({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  gap: '10px',
+  marginTop: '15px',
+  marginRight: '15px',
 });

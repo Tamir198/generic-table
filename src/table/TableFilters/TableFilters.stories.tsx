@@ -1,17 +1,17 @@
 // src/stories/TableFilters.stories.tsx
-import { Meta, StoryObj } from "@storybook/react";
-import { TableFilters } from "./TableFilters.1";
+import { Meta, StoryObj } from '@storybook/react';
+import { TableFilters } from './TableFilters';
 
 const meta: Meta<typeof TableFilters> = {
-  title: "Components/TableFilters",
+  title: 'Components/TableFilters',
   component: TableFilters,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
     backgrounds: {
-      default: "light",
+      default: 'light',
     },
   },
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {},
 } satisfies Meta<typeof TableFilters>;
 
