@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState } from 'react';
 import {
   RadioGroup,
   FormControlLabel,
@@ -7,13 +7,9 @@ import {
   Box,
   Typography,
   styled,
-} from "@mui/material";
-import { TEXTS } from "../../constants/constants";
-
-export enum ExcelFileType {
-  PARTIAL = "partial",
-  FULL_FILE = "full file",
-}
+} from '@mui/material';
+import { TEXTS } from '../../constants/constants';
+import { ExcelFileType } from '../../types';
 
 interface ExportToExcelProps {
   exportFile: (fileType: ExcelFileType) => void;
@@ -37,11 +33,11 @@ export const ExportToExcel: FC<ExportToExcelProps> = ({ exportFile }) => {
         value={exportType}
         onChange={(e) => setExportType(e.target.value)}
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "flex-end",
-          gap: "16px",
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+          gap: '16px',
         }}
       >
         <StyledFormControlLabel
@@ -56,8 +52,8 @@ export const ExportToExcel: FC<ExportToExcelProps> = ({ exportFile }) => {
         />
       </RadioGroup>
       <StyledButton
-        variant="contained"
-        color="primary"
+        variant='contained'
+        color='primary'
         onClick={() => exportFile(exportType)}
       >
         {TEXTS.DOWNLOAD_FILE}
@@ -67,51 +63,51 @@ export const ExportToExcel: FC<ExportToExcelProps> = ({ exportFile }) => {
 };
 
 const StyledBox = styled(Box)({
-  display: "flex",
+  display: 'flex',
   width: 604,
-  padding: "40px 60px",
-  gap: "40px",
-  flexDirection: "column",
-  justifyContent: "space-around",
-  alignItems: "center",
+  padding: '40px 60px',
+  gap: '40px',
+  flexDirection: 'column',
+  justifyContent: 'space-around',
+  alignItems: 'center',
 });
 
 const StyledTypographyTitle = styled(Typography)({
-  color: "#353535",
-  fontFamily: "MZTF-Sans",
-  fontSize: "24px",
-  lineHeight: "normal",
-  textAlign: "center",
-  gap: "15px",
-  fontWeight: "bolder",
+  color: '#353535',
+  fontFamily: 'MZTF-Sans',
+  fontSize: '24px',
+  lineHeight: 'normal',
+  textAlign: 'center',
+  gap: '15px',
+  fontWeight: 'bolder',
 });
 
 const StyledTypographyBody = styled(Typography)({
-  color: "#353535",
-  textAlign: "center",
-  fontFamily: "MZTF-Sans",
-  fontSize: "16px",
+  color: '#353535',
+  textAlign: 'center',
+  fontFamily: 'MZTF-Sans',
+  fontSize: '16px',
   fontWeight: 400,
-  lineHeight: "20px",
-  width: "80%",
-  margintop: "16px",
-  fontfamily: "MZTF-Sans",
-  fontsize: "16px",
+  lineHeight: '20px',
+  width: '80%',
+  margintop: '16px',
+  fontfamily: 'MZTF-Sans',
+  fontsize: '16px',
 });
 
 const StyledButton = styled(Button)({
-  borderRadius: "50px",
-  background: "#0D819A",
+  borderRadius: '50px',
+  background: '#0D819A',
 });
 
 const StyledFormControlLabel = styled(FormControlLabel)({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  gap: "4px",
-  background: "#F6F6F8",
-  color: "#0D819A",
-  direction: "rtl",
-  height: "32px",
-  borderRadius: "8px",
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: '4px',
+  background: '#F6F6F8',
+  color: '#0D819A',
+  direction: 'rtl',
+  height: '32px',
+  borderRadius: '8px',
 });
