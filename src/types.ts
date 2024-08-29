@@ -23,3 +23,6 @@ export enum ExcelFileType {
   PARTIAL = 'partial',
   FULL_FILE = 'full file',
 }
+
+export type OptionValue = string | number;
+export type MultiOptionValue = OptionValue[];

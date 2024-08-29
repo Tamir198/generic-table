@@ -31,7 +31,9 @@ export const ExportToExcel: FC<ExportToExcelProps> = ({ exportFile }) => {
 
       <RadioGroup
         value={exportType}
-        onChange={(e) => setExportType(e.target.value)}
+        onChange={(e) => {
+          setExportType(e.target.value as ExcelFileType);
+        }}
         sx={{
           display: 'flex',
           flexDirection: 'column',
