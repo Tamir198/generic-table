@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import { GenericTable, TableMode } from '../GenericTable';
-import { columns, data as originalData } from './mockData';
+import { TableColumn } from '../types'; // Import the TableColumn type if necessary
 import { TableSearchRow } from './TableSearchRow';
 import { TEXTS } from '../../constants/constants';
 import { ExcelFileType, SelectOptions } from '../../types';
@@ -9,17 +9,26 @@ import { TableFilters } from '../TableFilters/TableFilters';
 import { exportToExcel } from '../../services/dataExportService';
 import { inferTypesFromObject } from '../../utils/inferTypesFromObject';
 
-export interface TableWithAbilitiesProps {}
+export interface TableWithAbilitiesProps<T> {
+  data: T[];
+  columns: TableColumn<T>[];
+}
 
 const ROWS_PER_PAGE = TEXTS.INITIAL_PAGE_ROWS;
 
-export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
+export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
+  data,
+  columns,
+}) => {
   const [searchQuery, setSearchQuery] = useState('');
+
   const [showFilters, setShowFilters] = useState(false);
-  const [filteredData, setFilteredData] = useState(originalData);
+  const [filteredData, setFilteredData] = useState(data);
+
   const [bailStatus, setBailStatus] = useState<SelectOptions>(null);
   const [bailType, setBailType] = useState<SelectOptions>(null);
   const [coinType, setCoinType] = useState<SelectOptions>(null);
+
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
@@ -53,7 +62,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
   }, [searchQuery, showFilters, bailStatus, bailType, coinType, currentPage]);
 
   const filterData = () => {
-    let filtered = originalData;
+    let filtered = data; // Use data prop here
 
     const startIndex = currentPage * ROWS_PER_PAGE;
     const endIndex = startIndex + ROWS_PER_PAGE;
@@ -127,12 +136,12 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
     setBailType(null);
     setCoinType(null);
     setCurrentPage(0);
-    setFilteredData(originalData);
+    setFilteredData(data);
   };
 
   const handleExport = (fileType: ExcelFileType) => {
     if (fileType == ExcelFileType.FULL_FILE) {
-      exportToExcel(originalData);
+      exportToExcel(data);
       return;
     }
     exportToExcel(filteredData);
