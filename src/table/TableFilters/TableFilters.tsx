@@ -26,7 +26,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
 
   console.log('Column Types:', columnTypes);
   const isDateColumFound = (columnTypes: Record<string, string>): boolean => {
-    const dateKeywords = ['from', 'to', 'start', 'end'];
+    const dateKeywords = ['from', 'to', 'start', 'end', 'date'];
     return Object.keys(columnTypes).some((key) => {
       const type = columnTypes[key];
       return (
