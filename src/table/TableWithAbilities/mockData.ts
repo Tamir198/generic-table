@@ -28,7 +28,6 @@ export const columns: TableColumn<Data>[] = [
 ];
 export const data: Data[] = [
   { email: 'john@example.com', id: 1, name: "ג'ון דו", status: 'פעיל' },
-  { email: 'john@example.com', id: 1, name: "ג'ון דו", status: 'פעיל' },
   { email: 'jane@example.com', id: 2222, name: "ג'ין סמית", status: 'מוקפא' },
   { email: 'sam@example.com', id: 3, name: 'סם בראון', status: 'פעיל' },
   { email: 'emily@example.com', id: 4, name: "אמי ג'ונסון", status: 'מוקפא' },
