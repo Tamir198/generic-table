@@ -7,6 +7,7 @@ import { ExcelFileType, SelectOptions } from '../../types';
 import { getQueryParams, setQueryParams } from './queryParamsService';
 import { TableFilters } from '../TableFilters/TableFilters';
 import { exportToExcel } from '../../services/dataExportService';
+import { inferTypesFromObject } from '../../utils/inferTypesFromObject';
 
 export interface TableWithAbilitiesProps {}
 
@@ -37,7 +38,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
     setBailType(bailType);
     setCoinType(coinType);
     setCurrentPage(currentPage);
-  }, []);
+  }, [filteredData]);
 
   useEffect(() => {
     setQueryParams(
@@ -151,8 +152,10 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps> = () => {
           onBailTypeChange={onBailTypeChange}
           onCoinTypeChange={onCoinTypeChange}
           clearFilters={clearFilters}
+          columnTypes={inferTypesFromObject(filteredData[0])}
         />
       )}
+
       <GenericTable
         columns={columns}
         data={filteredData}

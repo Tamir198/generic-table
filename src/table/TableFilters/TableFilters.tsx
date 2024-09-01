@@ -10,6 +10,7 @@ interface TableFiltersProps {
   onBailTypeChange: (value: MultiOptionValue) => void;
   onCoinTypeChange: (value: MultiOptionValue) => void;
   clearFilters: () => void;
+  columnTypes: Record<string, string>;
 }
 
 export const TableFilters: FC<TableFiltersProps> = ({
@@ -17,10 +18,25 @@ export const TableFilters: FC<TableFiltersProps> = ({
   onBailTypeChange,
   onCoinTypeChange,
   clearFilters,
+  columnTypes,
 }) => {
   const clearAllFilters = () => {
     clearFilters();
-  };  
+  };
+
+  console.log('Column Types:', columnTypes);
+  const isDateColumFound = (columnTypes: Record<string, string>): boolean => {
+    const dateKeywords = ['from', 'to', 'start', 'end'];
+    return Object.keys(columnTypes).some((key) => {
+      const type = columnTypes[key];
+      return (
+        type === 'date' ||
+        dateKeywords.some((keyword) => key.toLowerCase().includes(keyword))
+      );
+    });
+  };
+
+  console.log({ isDateColumFound: isDateColumFound(columnTypes) });
 
   return (
     <StyledContainer>
@@ -59,11 +75,14 @@ export const TableFilters: FC<TableFiltersProps> = ({
         }}
         isMultiSelect={true}
       />
+      {isDateColumFound(columnTypes) && (
+        <div>
+          {/* TODO: Insert the from and to date component */}
+          <p>From day</p>
+          <p>To day</p>
+        </div>
+      )}
 
-      <p>From day</p>
-      <p>To day</p>
-
-      {/* TODO: Insert the from and to date component */}
       <StyledClearAll onClick={clearAllFilters}>
         {TEXTS.CLEAN_ALL}
       </StyledClearAll>
