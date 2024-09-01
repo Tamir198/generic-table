@@ -84,7 +84,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
 
       {/* Dynamically Render Filters Based on columnTypes */}
       {Object.entries(columnTypes).map(([key, type]) => {
-        if (type === 'date') {
+        if (type === 'date' || key == 'date') {
           return (
             <div key={key}>
               <p>From day</p>
