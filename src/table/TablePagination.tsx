@@ -25,12 +25,14 @@ export function TablePagination({
       onChange={(event, newPage) => {
         handleChangePage(event, newPage - 1);
       }}
-      renderItem={(item) => (
-        <StyledPaginationItem
-          slots={{ previous: ArrowForward, next: ArrowBack }}
-          {...item}
-        />
-      )}
+      renderItem={(item) => {
+        return (
+          <StyledPaginationItem
+            slots={{ previous: ArrowForward, next: ArrowBack }}
+            {...item}
+          />
+        );
+      }}
       siblingCount={0}
       boundaryCount={1}
     />
