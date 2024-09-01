@@ -25,6 +25,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
   };
 
   console.log('Column Types:', columnTypes);
+  //TODO check if can remove this now that we render select dynamically
   const isDateColumFound = (columnTypes: Record<string, string>): boolean => {
     const dateKeywords = ['from', 'to', 'start', 'end', 'date'];
     return Object.keys(columnTypes).some((key) => {
@@ -35,8 +36,6 @@ export const TableFilters: FC<TableFiltersProps> = ({
       );
     });
   };
-
-  console.log({ isDateColumFound: isDateColumFound(columnTypes) });
 
   return (
     <StyledContainer>
@@ -83,6 +82,33 @@ export const TableFilters: FC<TableFiltersProps> = ({
         </div>
       )}
 
+      {/* Dynamically Render Filters Based on columnTypes */}
+      {Object.entries(columnTypes).map(([key, type]) => {
+        if (type === 'date') {
+          return (
+            <div key={key}>
+              <p>From day</p>
+              <p>To day</p>
+            </div>
+          );
+        } else {
+          return (
+            <FilterSelect
+              key={key}
+              title={key}
+              options={[
+                `${TEXTS.OPTION} ${key}`,
+                `${TEXTS.OPTION} ${key}`,
+                `${TEXTS.OPTION} ${key}`,
+              ]}
+              onFilter={(value) => {
+                console.log(`${key} selected:`, value);
+              }}
+            />
+          );
+        }
+      })}
+
       <StyledClearAll onClick={clearAllFilters}>
         {TEXTS.CLEAN_ALL}
       </StyledClearAll>
@@ -92,6 +118,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
 
 const StyledContainer = styled(Box)({
   display: 'flex',
+  flexWrap: 'wrap',
   direction: 'rtl',
 });
 
