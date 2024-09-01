@@ -32,6 +32,7 @@ export const TEXTS = {
   MONETARY: 'כספית',
   FILTER: 'סינון',
   DOWNLOAD: 'הורדה',
+  OPTION: 'אופציה',
 };
 
 export const COLORS = {

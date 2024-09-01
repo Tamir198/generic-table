@@ -162,6 +162,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
           onCoinTypeChange={onCoinTypeChange}
           clearFilters={clearFilters}
           columnTypes={inferTypesFromObject(filteredData[0])}
+          columns={columns}
         />
       )}
 

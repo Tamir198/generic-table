@@ -9,6 +9,7 @@ export type TableColumn<T> = {
   id: keyof T;
   isColumnPaintable?: boolean;
   label: string;
+  isFilterable?: boolean;
 };
 
 export const columns: TableColumn<Data>[] = [
@@ -63,10 +64,12 @@ export const data: Data[] = [
 //MOCK DATA WITH DATE COLUMN
 export interface DataWithDate extends Data {
   date: string;
+  isFilterable?: boolean;
 }
 
 export const dataWithDate: DataWithDate[] = data.map((item) => ({
   ...item,
+  isFilterable: true,
   date: new Date().toLocaleDateString('he-IL'),
 }));
 
@@ -75,17 +78,21 @@ export const columnsWithDate: TableColumn<DataWithDate>[] = [
     id: 'name',
     isColumnPaintable: true,
     label: 'שם',
+    isFilterable: true,
   },
   {
     id: 'email',
     label: 'אימייל',
+    isFilterable: true,
   },
   {
     id: 'status',
     label: 'סטטוס',
+    isFilterable: false,
   },
   {
     id: 'date',
     label: 'תאריך',
+    isFilterable: true,
   },
 ];
