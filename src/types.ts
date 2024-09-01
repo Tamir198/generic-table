@@ -5,6 +5,7 @@ export interface TableColumn<T> {
   format?: (value: T[keyof T]) => React.ReactNode;
   renderCell?: (value: React.ReactNode, row: T) => React.ReactNode;
   isColumnPaintable?: boolean;
+  isFilterable?: boolean;
 }
 
 export interface SummeryRow {

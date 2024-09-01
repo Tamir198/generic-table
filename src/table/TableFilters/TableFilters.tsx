@@ -3,14 +3,14 @@ import { TEXTS } from '../../constants/constants';
 import { FilterSelect } from './FilterSelect';
 import styled from '@emotion/styled';
 import { Box, Button } from '@mui/material';
-import { MultiOptionValue, OptionValue } from '../../types';
+import { MultiOptionValue, OptionValue, TableColumn } from '../../types';
 
 interface TableFiltersProps {
   onBailStatusChange: (value: OptionValue) => void;
   onBailTypeChange: (value: MultiOptionValue) => void;
   onCoinTypeChange: (value: MultiOptionValue) => void;
   clearFilters: () => void;
-  columnTypes: Record<string, string>;
+  columns: TableColumn<object>[];
 }
 
 export const TableFilters: FC<TableFiltersProps> = ({
@@ -18,22 +18,15 @@ export const TableFilters: FC<TableFiltersProps> = ({
   onBailTypeChange,
   onCoinTypeChange,
   clearFilters,
-  columnTypes,
+  columns,
 }) => {
   const clearAllFilters = () => {
     clearFilters();
   };
 
-  console.log('Column Types:', columnTypes);
-  //TODO check if can remove this now that we render select dynamically
-  const isDateColumFound = (columnTypes: Record<string, string>): boolean => {
-    const dateKeywords = ['from', 'to', 'start', 'end', 'date'];
-    return Object.keys(columnTypes).some((key) => {
-      const type = columnTypes[key];
-      return (
-        type === 'date' ||
-        dateKeywords.some((keyword) => key.toLowerCase().includes(keyword))
-      );
+  const isDateColumn = (column: TableColumn<object>): boolean => {
+    return Object.values(column).some((value) => {
+      return typeof value === 'string' && value.toLowerCase().includes('date');
     });
   };
 
@@ -74,19 +67,13 @@ export const TableFilters: FC<TableFiltersProps> = ({
         }}
         isMultiSelect={true}
       />
-      {isDateColumFound(columnTypes) && (
-        <div>
-          {/* TODO: Insert the from and to date component */}
-          <p>From day</p>
-          <p>To day</p>
-        </div>
-      )}
 
-      {/* Dynamically Render Filters Based on columnTypes */}
-      {Object.entries(columnTypes).map(([key, type]) => {
-        if (type === 'date' || key == 'date') {
+      {columns.map((column) => {
+        if (!column.isFilterable) return;
+
+        if (isDateColumn(column)) {
           return (
-            <div key={key}>
+            <div key={JSON.stringify(column)}>
               <p>From day</p>
               <p>To day</p>
             </div>
@@ -94,15 +81,16 @@ export const TableFilters: FC<TableFiltersProps> = ({
         } else {
           return (
             <FilterSelect
-              key={key}
-              title={key}
+              key={JSON.stringify(column)}
+              title={'title'}
               options={[
-                `${TEXTS.OPTION} ${key}`,
-                `${TEXTS.OPTION} ${key}`,
-                `${TEXTS.OPTION} ${key}`,
+                `${TEXTS.OPTION}`,
+                `${TEXTS.OPTION}`,
+                `${TEXTS.OPTION}`,
               ]}
+              isMultiSelect={true}
               onFilter={(value) => {
-                console.log(`${key} selected:`, value);
+                console.log(` selected:`, value);
               }}
             />
           );
