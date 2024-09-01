@@ -11,9 +11,9 @@ const DownloadIcon: React.FC = () => (
     <path
       d='M6 20H18M12 4V16M12 16L15.5 12.5M12 16L8.5 12.5'
       stroke='#535151'
-      stroke-width='1.5'
-      stroke-linecap='round'
-      stroke-linejoin='round'
+      strokeWidth='1.5'
+      strokeLinecap='round'
+      strokeLinejoin='round'
     />
   </svg>
 );
