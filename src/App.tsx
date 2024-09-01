@@ -10,23 +10,23 @@ import { MoreOptionTooltip } from './table/MoreOptionTooltip';
 import { TableFilters } from './table/TableFilters/TableFilters';
 import { TableWithAbilities } from './table/TableWithAbilities/TableWithAbilities';
 
-function App() {
-  interface Dessert {
-    id: number;
-    name: string;
-    calories: number | string;
-    fat: number;
-    carbs: number;
-    protein: number;
-    check?: string;
-    avatar?: string;
-    status?: 'success' | 'failed';
-    component?: {
-      columnId: string;
-      content: React.ReactNode;
-    };
-  }
+interface Dessert {
+  id: number;
+  name: string;
+  calories: number | string;
+  fat: number;
+  carbs: number;
+  protein: number;
+  check?: string;
+  avatar?: string;
+  status?: 'success' | 'failed';
+  component?: {
+    columnId: string;
+    content: React.ReactNode;
+  };
+}
 
+function App() {
   const columns: TableColumn<Dessert>[] = [
     {
       id: 'name',
@@ -281,34 +281,40 @@ function App() {
   return (
     <>
       <div>
-        <TableWithAbilities />
+        <TableWithAbilities data={data} columns={columns} />
 
-        <MoreOptionTooltip
-          onEdit={() => {
-            alert('Trigger edit click');
-          }}
-          onDownload={() => {
-            alert('Trigger download function');
-          }}
+        {/* <MoreOptionTooltip
+          data={data}
+          columns={columns}
+          onDeleteSelectedRows={handleDeleteSelectedRows}
+        /> */}
+        <Box>
+          <TextField
+            label='חיפוש'
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+        </Box>
+
+        {/* <TableFilters data={data} columns={columns} /> */}
+
+        <GenericTooltip title='aaa'>
+          <IconButton aria-label='Avatar'>
+            <Avatar alt='Remy Sharp' src={ReactSVG} />
+          </IconButton>
+        </GenericTooltip>
+
+        <Button>Open</Button>
+
+        <GenericTable
+          columns={columns}
+          data={filteredData}
+          onDeleteSelectedRows={handleDeleteSelectedRows}
+          onPageChange={handlePageChange}
+          tableMode={TableMode.Expanded}
+          summaryRows={summeryRows}
         />
       </div>
-      <TextField
-        label='Search Desserts'
-        variant='outlined'
-        fullWidth
-        value={searchTerm}
-        onChange={handleSearchChange}
-        margin='normal'
-      />
-      <GenericTable
-        columns={columns}
-        data={filteredData}
-        onPageChange={handlePageChange}
-        onDeleteSelectedRows={handleDeleteSelectedRows}
-        shouldSelectRows={true}
-        tableMode={TableMode.Pagination}
-        summaryRows={summeryRows}
-      />
     </>
   );
 }

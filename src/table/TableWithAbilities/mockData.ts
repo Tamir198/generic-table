@@ -59,3 +59,33 @@ export const data: Data[] = [
   { email: 'tamar@example.com', id: 31, name: 'תמר אהרון', status: 'פעיל' },
   { email: 'nimrod@example.com', id: 32, name: 'נמרוד גפן', status: 'מוקפא' },
 ];
+
+//MOCK DATA WITH DATE COLUMN
+export interface DataWithDate extends Data {
+  date: string;
+}
+
+export const dataWithDate: DataWithDate[] = data.map((item) => ({
+  ...item,
+  date: new Date().toLocaleDateString('he-IL'),
+}));
+
+export const columnsWithDate: TableColumn<DataWithDate>[] = [
+  {
+    id: 'name',
+    isColumnPaintable: true,
+    label: 'שם',
+  },
+  {
+    id: 'email',
+    label: 'אימייל',
+  },
+  {
+    id: 'status',
+    label: 'סטטוס',
+  },
+  {
+    id: 'date',
+    label: 'תאריך',
+  },
+];
