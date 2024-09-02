@@ -1,13 +1,13 @@
-import { FC, useState, useEffect } from 'react';
-import { GenericTable, TableMode } from '../GenericTable';
-import { TableColumn } from '../types'; // Import the TableColumn type if necessary
-import { TableSearchRow } from './TableSearchRow';
-import { TEXTS } from '../../constants/constants';
-import { ExcelFileType, SelectOptions } from '../../types';
-import { getQueryParams, setQueryParams } from './queryParamsService';
-import { TableFilters } from '../TableFilters/TableFilters';
-import { exportToExcel } from '../../services/dataExportService';
-import { inferTypesFromObject } from '../../utils/inferTypesFromObject';
+import { FC, useState, useEffect } from "react";
+import { GenericTable, TableMode } from "../GenericTable";
+import { TableColumn } from "../types"; // Import the TableColumn type if necessary
+import { TableSearchRow } from "./TableSearchRow";
+import { TEXTS } from "../../constants/constants";
+import { ExcelFileType, SelectOptions } from "../../types";
+import { getQueryParams, setQueryParams } from "./queryParamsService";
+import { TableFilters } from "../TableFilters/TableFilters";
+import { exportToExcel } from "../../services/dataExportService";
+import { inferTypesFromObject } from "../../utils/inferTypesFromObject";
 
 export interface TableWithAbilitiesProps<T> {
   data: T[];
@@ -20,7 +20,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   data,
   columns,
 }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [showFilters, setShowFilters] = useState(false);
   const [filteredData, setFilteredData] = useState(data);
@@ -62,7 +62,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   }, [searchQuery, showFilters, bailStatus, bailType, coinType, currentPage]);
 
   const filterData = () => {
-    let filtered = data; // Use data prop here
+    let filtered = data;
 
     const startIndex = currentPage * ROWS_PER_PAGE;
     const endIndex = startIndex + ROWS_PER_PAGE;
@@ -80,19 +80,19 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
 
     if (bailStatus) {
       filtered = filtered.filter((item) =>
-        ['א'].some((letter) => item.name.includes(letter))
+        ["א"].some((letter) => item.name.includes(letter))
       );
     }
 
     if (bailType) {
       filtered = filtered.filter((item) =>
-        ['ב'].some((letter) => item.name.includes(letter))
+        ["ב"].some((letter) => item.name.includes(letter))
       );
     }
 
     if (coinType) {
       filtered = filtered.filter((item) =>
-        ['ג'].some((letter) => item.name.includes(letter))
+        ["ג"].some((letter) => item.name.includes(letter))
       );
     }
 
@@ -154,15 +154,14 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
         onSearchChange={setSearchQuery}
         onToggleFilters={toggleFilters}
         onDataExport={handleExport}
+        data={filteredData}
       />
       {showFilters && (
         <TableFilters
-          onBailStatusChange={onBailStatusChange}
-          onBailTypeChange={onBailTypeChange}
-          onCoinTypeChange={onCoinTypeChange}
           clearFilters={clearFilters}
           columnTypes={inferTypesFromObject(filteredData[0])}
           columns={columns}
+          data={filteredData}
         />
       )}
 
