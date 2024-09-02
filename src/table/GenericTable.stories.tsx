@@ -401,3 +401,17 @@ export const withCustomCells: Story = {
     );
   },
 };
+
+export const displayFullTable: Story = {
+  render: (args: GenericTableProps<any>) => {
+    return (
+      <GenericTable
+        {...args}
+        data={customCellsData}
+        columns={customCellsColumns}
+        shouldDisplayFullTable={true}
+        shouldSelectRows={false}
+      />
+    );
+  },
+};
