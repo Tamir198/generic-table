@@ -1,17 +1,17 @@
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from "@storybook/react";
 import {
   TableWithAbilities,
   TableWithAbilitiesProps,
-} from './TableWithAbilities';
-import { columns, columnsWithDate, data, dataWithDate } from './mockData';
+} from "./TableWithAbilities";
+import { columns, columnsWithDate, data, dataWithDate } from "./mockData";
 
 type DataType = (typeof data)[0];
 type DataWithDateType = (typeof dataWithDate)[number];
 
 const meta: Meta<TableWithAbilitiesProps<DataType>> = {
-  title: 'Components/TableWithAbilities',
+  title: "Components/TableWithAbilities",
   component: TableWithAbilities,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   args: {
     columns,
     data,
@@ -24,12 +24,12 @@ export const WithQueryParams: StoryObj<TableWithAbilitiesProps<DataType>> = {
   render: (args) => <TableWithAbilities {...args} />,
   parameters: {
     query: {
-      searchQuery: 'א',
-      showFilters: 'true',
-      bailStatus: 'status1',
-      bailType: 'type1',
-      coinType: 'coin1',
-      currentPage: '1',
+      searchQuery: "א",
+      showFilters: "true",
+      bailStatus: "status1",
+      bailType: "type1",
+      coinType: "coin1",
+      currentPage: "1",
     },
   },
 };
@@ -41,7 +41,7 @@ export const WithoutQueryParams: StoryObj<TableWithAbilitiesProps<DataType>> = {
   },
 };
 
-export const WithDateField: StoryObj<
+export const AutoGeneratingSelects: StoryObj<
   TableWithAbilitiesProps<DataWithDateType>
 > = {
   render: (args) => <TableWithAbilities {...args} />,

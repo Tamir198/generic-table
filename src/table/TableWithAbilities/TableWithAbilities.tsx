@@ -1,6 +1,7 @@
 import { FC, useState, useEffect } from "react";
 import { GenericTable, TableMode } from "../GenericTable";
-import { TableColumn } from "../types"; // Import the TableColumn type if necessary
+// import { TableColumn } from "../types";
+import { TableColumn } from "./mockData";
 import { TableSearchRow } from "./TableSearchRow";
 import { TEXTS } from "../../constants/constants";
 import { ExcelFileType, SelectOptions } from "../../types";
@@ -78,49 +79,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
       );
     }
 
-    if (bailStatus) {
-      filtered = filtered.filter((item) =>
-        ["א"].some((letter) => item.name.includes(letter))
-      );
-    }
-
-    if (bailType) {
-      filtered = filtered.filter((item) =>
-        ["ב"].some((letter) => item.name.includes(letter))
-      );
-    }
-
-    if (coinType) {
-      filtered = filtered.filter((item) =>
-        ["ג"].some((letter) => item.name.includes(letter))
-      );
-    }
-
     setFilteredData(filtered);
-  };
-
-  const onBailStatusChange = (value: string | number) => {
-    if (value === TEXTS.ALL_TYPES) {
-      setBailStatus(null);
-    } else {
-      setBailStatus(value);
-    }
-  };
-
-  const onBailTypeChange = (values: string[]) => {
-    if (values.includes(TEXTS.ALL_TYPES) || values.length == 0) {
-      setBailType(null);
-    } else {
-      setBailType(values);
-    }
-  };
-
-  const onCoinTypeChange = (values: string[]) => {
-    if (values.includes(TEXTS.ALL_TYPES) || values.length == 0) {
-      setCoinType(null);
-    } else {
-      setCoinType(values);
-    }
   };
 
   const toggleFilters = () => {
@@ -162,6 +121,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
           columnTypes={inferTypesFromObject(filteredData[0])}
           columns={columns}
           data={filteredData}
+          onFilterChange={setFilteredData}
         />
       )}
 

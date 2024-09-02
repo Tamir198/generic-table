@@ -9,12 +9,14 @@ interface TableFiltersProps {
   clearFilters: () => void;
   columns: TableColumn<object>[];
   data: object[];
+  onFilterChange: (filteredData: object[]) => void;
 }
 
 export const TableFilters: FC<TableFiltersProps> = ({
   clearFilters,
   columns,
   data,
+  onFilterChange,
 }) => {
   const clearAllFilters = () => {
     clearFilters();
@@ -53,6 +55,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
               isMultiSelect={true}
               onFilter={(value) => {
                 const newData = filterFunction(data, value);
+                onFilterChange(newData);
                 console.log(` selected:`, newData);
               }}
             />
