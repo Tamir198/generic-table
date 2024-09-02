@@ -4,9 +4,9 @@ import {
   TableCell,
   TableSortLabel,
   Typography,
-} from '@mui/material';
-import { TableColumn, SortDirections } from '../types';
-import { COLORS } from '../constants/constants';
+} from "@mui/material";
+import { TableColumn, SortDirections } from "../types";
+import { COLORS } from "../constants/constants";
 
 interface TableHeaderProps<T> {
   columns: TableColumn<T>[];
@@ -26,18 +26,15 @@ export function TableHeader<T>({
   handleSort,
   shouldSort,
   shouldSelectRows = true,
-  shouldDisplayRowMoreOption
+  shouldDisplayRowMoreOption,
 }: TableHeaderProps<T>) {
-
   return (
     <TableHead>
       <TableRow>
-        {shouldSelectRows && (
-          <TableCell padding='checkbox'/>
-        )}
+        {shouldSelectRows && <TableCell padding="checkbox" />}
         {columns.map((column) => (
           <TableCell
-            sx={{ direction: 'rtl', textAlign: 'right' }}
+            sx={{ direction: "rtl", textAlign: "right" }}
             key={column.id.toString()}
             sortDirection={
               shouldSort && sortColumn === column.id ? sortDirection : false
@@ -58,10 +55,10 @@ export function TableHeader<T>({
             ) : (
               column.label
             )}
-          </TableCell>  
+          </TableCell>
         ))}
 
-        {shouldDisplayRowMoreOption && <TableCell/>}
+        {shouldDisplayRowMoreOption && <TableCell />}
       </TableRow>
     </TableHead>
   );

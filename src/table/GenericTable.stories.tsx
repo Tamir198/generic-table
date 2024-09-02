@@ -415,3 +415,17 @@ export const displayFullTable: Story = {
     );
   },
 };
+
+export const withCustomBorderColor: Story = {
+  render: (args: GenericTableProps<any>) => {
+    return (
+      <GenericTable
+        {...args}
+        data={customCellsData}
+        columns={customCellsColumns}
+        tableMode={TableMode.Pagination}
+        bodyCellsBorderColor="red"
+      />
+    );
+  },
+};
