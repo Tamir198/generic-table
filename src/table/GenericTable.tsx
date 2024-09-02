@@ -155,7 +155,7 @@ export function GenericTable<T extends { id: number }>({
               outline: "none",
             },
             "&.MuiButtonBase-root :hover": {
-              "background-color": "red",
+              backgroundColor: "red",
             },
           }}
           onClick={() => setIsExpanded(!isExpanded)}
