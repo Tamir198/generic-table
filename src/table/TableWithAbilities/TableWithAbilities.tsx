@@ -27,11 +27,17 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   const [selectedFilters, setSelectedFilters] = useState<object>({});
 
   useEffect(() => {
-    const params = getQueryParams();
-    setSearchQuery((params.searchQuery as string) || "");
-    setShowFilters(params.showFilters === "true");
-    setCurrentPage(params.currentPage ? Number(params.currentPage) : 0);
-    setSelectedFilters(params.filters || {});
+    const {
+      searchQuery = "",
+      showFilters = "false",
+      currentPage = "0",
+      filters = {},
+    } = getQueryParams();
+
+    setSearchQuery(searchQuery as string);
+    setShowFilters(showFilters === "true");
+    setCurrentPage(Number(currentPage));
+    setSelectedFilters(filters);
   }, [data]);
 
   useEffect(() => {
