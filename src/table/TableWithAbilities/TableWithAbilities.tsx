@@ -1,13 +1,13 @@
-import { FC, useState, useEffect } from 'react';
-import { GenericTable, TableMode } from '../GenericTable';
-import { TableColumn } from '../types'; // Import the TableColumn type if necessary
-import { TableSearchRow } from './TableSearchRow';
-import { TEXTS } from '../../constants/constants';
-import { ExcelFileType, SelectOptions } from '../../types';
-import { getQueryParams, setQueryParams } from './queryParamsService';
-import { TableFilters } from '../TableFilters/TableFilters';
-import { exportToExcel } from '../../services/dataExportService';
-import { inferTypesFromObject } from '../../utils/inferTypesFromObject';
+import { FC, useState, useEffect } from "react";
+import { GenericTable, TableMode } from "../GenericTable";
+import { TableColumn } from "./mockData";
+import { TableSearchRow } from "./TableSearchRow";
+import { TEXTS } from "../../constants/constants";
+import { ExcelFileType } from "../../types";
+import { getQueryParams, setQueryParams } from "./queryParamsService";
+import { TableFilters } from "../TableFilters/TableFilters";
+import { exportToExcel } from "../../services/dataExportService";
+import { inferTypesFromObject } from "../../utils/inferTypesFromObject";
 
 export interface TableWithAbilitiesProps<T> {
   data: T[];
@@ -20,107 +20,58 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   data,
   columns,
 }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const [showFilters, setShowFilters] = useState(false);
-  const [filteredData, setFilteredData] = useState(data);
-
-  const [bailStatus, setBailStatus] = useState<SelectOptions>(null);
-  const [bailType, setBailType] = useState<SelectOptions>(null);
-  const [coinType, setCoinType] = useState<SelectOptions>(null);
-
-  const [currentPage, setCurrentPage] = useState(0);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [showFilters, setShowFilters] = useState<boolean>(false);
+  const [filteredData, setFilteredData] = useState<any[]>(data);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [selectedFilters, setSelectedFilters] = useState<object>({});
 
   useEffect(() => {
     const {
-      searchQuery,
-      showFilters,
-      bailStatus,
-      bailType,
-      coinType,
-      currentPage,
+      searchQuery = "",
+      showFilters = "false",
+      currentPage = "0",
+      filters = {},
     } = getQueryParams();
 
-    setSearchQuery(searchQuery);
-    setShowFilters(showFilters);
-    setBailStatus(bailStatus);
-    setBailType(bailType);
-    setCoinType(coinType);
-    setCurrentPage(currentPage);
-  }, [filteredData]);
+    setSearchQuery(searchQuery as string);
+    setShowFilters(showFilters === "true");
+    setCurrentPage(Number(currentPage));
+    setSelectedFilters(filters);
+  }, [data]);
 
   useEffect(() => {
-    setQueryParams(
+    setQueryParams({
       searchQuery,
       showFilters,
-      bailStatus,
-      bailType,
-      coinType,
-      currentPage
-    );
+      currentPage,
+      filters: selectedFilters,
+    });
+
     filterData();
-  }, [searchQuery, showFilters, bailStatus, bailType, coinType, currentPage]);
+  }, [searchQuery, showFilters, currentPage, selectedFilters]);
 
   const filterData = () => {
-    let filtered = data; // Use data prop here
+    let filtered = data;
 
     const startIndex = currentPage * ROWS_PER_PAGE;
     const endIndex = startIndex + ROWS_PER_PAGE;
     const currentPageRows = filtered.slice(startIndex, endIndex);
 
-    const filteredCurrentPageRows = currentPageRows.filter((item) =>
-      item.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
     if (searchQuery) {
-      filtered = filtered.filter((item) =>
+      filtered = filtered.filter((item: any) =>
         item.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    if (bailStatus) {
-      filtered = filtered.filter((item) =>
-        ['א'].some((letter) => item.name.includes(letter))
-      );
-    }
-
-    if (bailType) {
-      filtered = filtered.filter((item) =>
-        ['ב'].some((letter) => item.name.includes(letter))
-      );
-    }
-
-    if (coinType) {
-      filtered = filtered.filter((item) =>
-        ['ג'].some((letter) => item.name.includes(letter))
-      );
+    for (const [key, value] of Object.entries(selectedFilters)) {
+      const column = columns.find((col) => col.id === key);
+      if (column?.filterFunction) {
+        filtered = column.filterFunction(filtered, value);
+      }
     }
 
     setFilteredData(filtered);
-  };
-
-  const onBailStatusChange = (value: string | number) => {
-    if (value === TEXTS.ALL_TYPES) {
-      setBailStatus(null);
-    } else {
-      setBailStatus(value);
-    }
-  };
-
-  const onBailTypeChange = (values: string[]) => {
-    if (values.includes(TEXTS.ALL_TYPES) || values.length == 0) {
-      setBailType(null);
-    } else {
-      setBailType(values);
-    }
-  };
-
-  const onCoinTypeChange = (values: string[]) => {
-    if (values.includes(TEXTS.ALL_TYPES) || values.length == 0) {
-      setCoinType(null);
-    } else {
-      setCoinType(values);
-    }
   };
 
   const toggleFilters = () => {
@@ -132,19 +83,28 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   };
 
   const clearFilters = () => {
-    setBailStatus(null);
-    setBailType(null);
-    setCoinType(null);
     setCurrentPage(0);
+    setSelectedFilters({});
+    setQueryParams({
+      searchQuery: "",
+      showFilters: false,
+      currentPage: 0,
+      filters: {},
+    });
     setFilteredData(data);
   };
 
   const handleExport = (fileType: ExcelFileType) => {
-    if (fileType == ExcelFileType.FULL_FILE) {
+    if (fileType === ExcelFileType.FULL_FILE) {
       exportToExcel(data);
       return;
     }
     exportToExcel(filteredData);
+  };
+
+  const handleFilterChange = (newFilteredData: any[], filters: object) => {
+    setFilteredData(newFilteredData);
+    setSelectedFilters(filters);
   };
 
   return (
@@ -154,15 +114,15 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
         onSearchChange={setSearchQuery}
         onToggleFilters={toggleFilters}
         onDataExport={handleExport}
+        data={filteredData}
       />
       {showFilters && (
         <TableFilters
-          onBailStatusChange={onBailStatusChange}
-          onBailTypeChange={onBailTypeChange}
-          onCoinTypeChange={onCoinTypeChange}
           clearFilters={clearFilters}
           columnTypes={inferTypesFromObject(filteredData[0])}
           columns={columns}
+          data={filteredData}
+          onFilterChange={handleFilterChange}
         />
       )}
 

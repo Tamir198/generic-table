@@ -1,16 +1,17 @@
-import { IconButton, TextField, Typography, styled } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import { FC } from 'react';
-import { TableDataDownloadButton } from '../TableDataDownloadButton';
-import { ExcelFileType } from '../../types';
-import { TEXTS } from '../../constants/constants';
-import FilterIcon from '../../assets/FilterIcon';
+import { IconButton, TextField, Typography, styled } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import { FC } from "react";
+import { TableDataDownloadButton } from "../TableDataDownloadButton";
+import { ExcelFileType } from "../../types";
+import { TEXTS } from "../../constants/constants";
+import FilterIcon from "../../assets/FilterIcon";
 
 interface TableSearchRowProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
   onToggleFilters: () => void;
   onDataExport: (fileType: ExcelFileType) => void;
+  data: object[];
 }
 
 export const TableSearchRow: FC<TableSearchRowProps> = ({
@@ -23,7 +24,7 @@ export const TableSearchRow: FC<TableSearchRowProps> = ({
     <StyledRow>
       <TableDataDownloadButton onDataExport={onDataExport} />
       <IconButton onClick={onToggleFilters}>
-        <Typography fontWeight={'800'}>{TEXTS.FILTER}</Typography>
+        <Typography fontWeight={"800"}>{TEXTS.FILTER}</Typography>
         <FilterIcon />
       </IconButton>
       <StyledSearchBar
@@ -38,14 +39,14 @@ export const TableSearchRow: FC<TableSearchRowProps> = ({
   );
 };
 
-const StyledRow = styled('div')({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'left',
+const StyledRow = styled("div")({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "left",
 });
 
 const StyledSearchBar = styled(TextField)({
-  '& .MuiInputBase-root': {
-    direction: 'rtl',
+  "& .MuiInputBase-root": {
+    direction: "rtl",
   },
 });
