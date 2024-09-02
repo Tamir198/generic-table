@@ -424,7 +424,23 @@ export const withCustomBorderColor: Story = {
         data={customCellsData}
         columns={customCellsColumns}
         tableMode={TableMode.Pagination}
+        headerBrderColor="blue"
         bodyCellsBorderColor="red"
+      />
+    );
+  },
+};
+
+export const withNoDividers: Story = {
+  render: (args: GenericTableProps<any>) => {
+    return (
+      <GenericTable
+        {...args}
+        data={customCellsData}
+        columns={customCellsColumns}
+        tableMode={TableMode.Pagination}
+        headerBrderColor="white"
+        bodyCellsBorderColor="white"
       />
     );
   },
