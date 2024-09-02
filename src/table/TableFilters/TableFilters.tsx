@@ -31,8 +31,8 @@ export const TableFilters: FC<TableFiltersProps> = ({
   return (
     <StyledContainer>
       {columns.map((column) => {
-        const { filterFunction } = column;
-        console.log(filterFunction);
+        const { filterFunction, isFilterable } = column;
+        console.log(isFilterable);
         if (!column.isFilterable) return;
 
         if (isDateColumn(column)) {

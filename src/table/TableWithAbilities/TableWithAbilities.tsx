@@ -1,10 +1,9 @@
 import { FC, useState, useEffect } from "react";
 import { GenericTable, TableMode } from "../GenericTable";
-// import { TableColumn } from "../types";
 import { TableColumn } from "./mockData";
 import { TableSearchRow } from "./TableSearchRow";
 import { TEXTS } from "../../constants/constants";
-import { ExcelFileType, SelectOptions } from "../../types";
+import { ExcelFileType } from "../../types";
 import { getQueryParams, setQueryParams } from "./queryParamsService";
 import { TableFilters } from "../TableFilters/TableFilters";
 import { exportToExcel } from "../../services/dataExportService";
@@ -26,41 +25,20 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   const [showFilters, setShowFilters] = useState(false);
   const [filteredData, setFilteredData] = useState(data);
 
-  const [bailStatus, setBailStatus] = useState<SelectOptions>(null);
-  const [bailType, setBailType] = useState<SelectOptions>(null);
-  const [coinType, setCoinType] = useState<SelectOptions>(null);
-
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    const {
-      searchQuery,
-      showFilters,
-      bailStatus,
-      bailType,
-      coinType,
-      currentPage,
-    } = getQueryParams();
+    const { searchQuery, showFilters, currentPage } = getQueryParams();
 
     setSearchQuery(searchQuery);
     setShowFilters(showFilters);
-    setBailStatus(bailStatus);
-    setBailType(bailType);
-    setCoinType(coinType);
     setCurrentPage(currentPage);
   }, [filteredData]);
 
   useEffect(() => {
-    setQueryParams(
-      searchQuery,
-      showFilters,
-      bailStatus,
-      bailType,
-      coinType,
-      currentPage
-    );
+    setQueryParams(searchQuery, showFilters, currentPage);
     filterData();
-  }, [searchQuery, showFilters, bailStatus, bailType, coinType, currentPage]);
+  }, [searchQuery, showFilters, currentPage]);
 
   const filterData = () => {
     let filtered = data;
@@ -91,9 +69,6 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   };
 
   const clearFilters = () => {
-    setBailStatus(null);
-    setBailType(null);
-    setCoinType(null);
     setCurrentPage(0);
     setFilteredData(data);
   };
