@@ -31,7 +31,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
   return (
     <StyledContainer>
       {columns.map((column) => {
-        const { filterFunction, isFilterable } = column;
+        const { filterFunction, isFilterable, id } = column;
         console.log(isFilterable);
         if (!column.isFilterable) return;
 
@@ -47,16 +47,11 @@ export const TableFilters: FC<TableFiltersProps> = ({
             <FilterSelect
               key={JSON.stringify(column)}
               title={"title"}
-              options={[
-                `${TEXTS.OPTION}`,
-                `${TEXTS.OPTION}`,
-                `${TEXTS.OPTION}`,
-              ]}
+              options={[`${id}`, `${TEXTS.OPTION}`, `${TEXTS.OPTION}`]}
               isMultiSelect={true}
               onFilter={(value) => {
                 const newData = filterFunction(data, value);
                 onFilterChange(newData);
-                console.log(` selected:`, newData);
               }}
             />
           );
