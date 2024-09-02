@@ -401,3 +401,47 @@ export const withCustomCells: Story = {
     );
   },
 };
+
+export const displayFullTable: Story = {
+  render: (args: GenericTableProps<any>) => {
+    return (
+      <GenericTable
+        {...args}
+        data={customCellsData}
+        columns={customCellsColumns}
+        shouldDisplayFullTable={true}
+        shouldSelectRows={false}
+      />
+    );
+  },
+};
+
+export const withCustomBorderColor: Story = {
+  render: (args: GenericTableProps<any>) => {
+    return (
+      <GenericTable
+        {...args}
+        data={customCellsData}
+        columns={customCellsColumns}
+        tableMode={TableMode.Pagination}
+        headerBrderColor="blue"
+        bodyCellsBorderColor="red"
+      />
+    );
+  },
+};
+
+export const withNoDividers: Story = {
+  render: (args: GenericTableProps<any>) => {
+    return (
+      <GenericTable
+        {...args}
+        data={customCellsData}
+        columns={customCellsColumns}
+        tableMode={TableMode.Pagination}
+        headerBrderColor="white"
+        bodyCellsBorderColor="white"
+      />
+    );
+  },
+};

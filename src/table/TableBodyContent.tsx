@@ -1,10 +1,10 @@
-import React from 'react';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableRow from '@mui/material/TableRow';
-import { TableColumn } from '../types';
-import { Box, Checkbox } from '@mui/material';
-import { MoreOptions } from './MoreOptions';
+import React from "react";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
+import { TableColumn } from "../types";
+import { Box, Checkbox, styled } from "@mui/material";
+import { MoreOptions } from "./MoreOptions";
 
 interface TableBodyContentProps<T extends { id: number }> {
   columns: TableColumn<T>[];
@@ -15,7 +15,60 @@ interface TableBodyContentProps<T extends { id: number }> {
   isCustomCellAllowed?: boolean;
   isColumnPaintable?: boolean;
   shouldDisplayRowMoreOption?: boolean;
+  borderColor?: string | undefined;
 }
+
+export function TableBodyContent<T extends { id: number }>({
+  columns,
+  data,
+  shouldSelectRows,
+  selectedRows,
+  onRowSelect,
+  shouldDisplayRowMoreOption,
+  borderColor = "#DCDCDC",
+}: TableBodyContentProps<T>) {
+  return (
+    <TableBody>
+      {data.map((row) => (
+        <TableRow key={row.id}>
+          {shouldSelectRows && (
+            <StyledTableCell padding="checkbox" bordercolor={borderColor}>
+              <Checkbox
+                checked={selectedRows.has(row.id)}
+                onChange={() => onRowSelect(row.id)}
+              />
+            </StyledTableCell>
+          )}
+          {columns.map((column) => {
+            const value = row[column.id];
+            return (
+              <StyledTableCell
+                key={String(column.id)}
+                align={column.align}
+                bordercolor={borderColor}
+              >
+                {getCellContent(column, value, row)}
+              </StyledTableCell>
+            );
+          })}
+
+          {shouldDisplayRowMoreOption && <MoreOptions />}
+        </TableRow>
+      ))}
+    </TableBody>
+  );
+}
+
+interface StyledTableCellProps {
+  bordercolor: string;
+}
+
+const StyledTableCell = styled(TableCell)<StyledTableCellProps>(
+  ({ theme, bordercolor }) => ({
+    textAlign: "right",
+    borderBottom: `1px solid ${bordercolor}`,
+  })
+);
 
 function getCellContent<T extends { [key: string]: any }>(
   column: TableColumn<T>,
@@ -28,9 +81,9 @@ function getCellContent<T extends { [key: string]: any }>(
     : baseContent;
 
   const statusColors: { [key: string]: string } = {
-    success: 'green',
-    failed: 'red',
-    default: '',
+    success: "green",
+    failed: "red",
+    default: "",
   };
 
   const statusColor =
@@ -48,9 +101,9 @@ function getCellContent<T extends { [key: string]: any }>(
 
   if (row.component && row.component.columnId === column.id) {
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
         {contentWithStatus}
-        <span style={{ marginLeft: '8px', textAlign: 'center' }}>
+        <span style={{ marginLeft: "8px", textAlign: "center" }}>
           {row.component.content}
         </span>
       </Box>
@@ -58,45 +111,4 @@ function getCellContent<T extends { [key: string]: any }>(
   }
 
   return contentWithStatus;
-}
-export function TableBodyContent<T extends { id: number }>({
-  columns,
-  data,
-  shouldSelectRows,
-  selectedRows,
-  onRowSelect,
-  shouldDisplayRowMoreOption
-}: TableBodyContentProps<T>) {
-  return (
-    <TableBody>
-      {data.map((row) => (
-        <TableRow key={row.id}>
-          {shouldSelectRows && (
-            <TableCell padding='checkbox'>
-              <Checkbox
-                checked={selectedRows.has(row.id)}
-                onChange={() => onRowSelect(row.id)}
-              />
-            </TableCell>
-          )}
-          {columns.map((column) => {
-            const value = row[column.id];
-            return (
-              <TableCell
-                sx={{ textAlign: 'right' }}
-                key={String(column.id)}
-                align={column.align}
-              >
-                {getCellContent(column, value, row)}
-              </TableCell>
-            );
-          })}
-
-          {shouldDisplayRowMoreOption && 
-            <MoreOptions/>            
-            }
-        </TableRow>
-      ))}
-    </TableBody>
-  );
 }
