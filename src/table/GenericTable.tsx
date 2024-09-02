@@ -32,8 +32,8 @@ export interface GenericTableProps<T extends { id: number }> {
   shouldDisplayFullTable?: boolean;
   shouldDisplayRowMoreOption?: boolean;
   direction?: string;
-  bodyCellsBorderColor?: string;
-  headerBrderColor?: string;
+  bodyCellsBordercolor?: string;
+  headerBrdercolor?: string;
 }
 
 export function GenericTable<T extends { id: number }>({
@@ -48,8 +48,8 @@ export function GenericTable<T extends { id: number }>({
   onPageChange,
   shouldDisplayFullTable = false,
   shouldDisplayRowMoreOption,
-  bodyCellsBorderColor,
-  headerBrderColor,
+  bodyCellsBordercolor,
+  headerBrdercolor,
   ...props
 }: GenericTableProps<T>) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -126,7 +126,7 @@ export function GenericTable<T extends { id: number }>({
           shouldSelectRows={shouldSelectRows ?? true}
           onSelectAllRows={(selectAll) => handleSelectAllRows(selectAll)}
           shouldDisplayRowMoreOption={shouldDisplayRowMoreOption}
-          borderColor={headerBrderColor}
+          bordercolor={headerBrdercolor}
         />
         <TableBodyContent
           columns={columns}
@@ -135,7 +135,7 @@ export function GenericTable<T extends { id: number }>({
           selectedRows={selectedRows}
           onRowSelect={(id) => handleRowSelect(id)}
           shouldDisplayRowMoreOption={shouldDisplayRowMoreOption}
-          borderColor={bodyCellsBorderColor}
+          bordercolor={bodyCellsBordercolor}
         />
       </Table>
       {tableMode === TableMode.Expanded && !shouldDisplayFullTable && (

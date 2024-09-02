@@ -424,8 +424,8 @@ export const withCustomBorderColor: Story = {
         data={customCellsData}
         columns={customCellsColumns}
         tableMode={TableMode.Pagination}
-        headerBrderColor="blue"
-        bodyCellsBorderColor="red"
+        headerBrdercolor="blue"
+        bodyCellsBordercolor="red"
       />
     );
   },
@@ -439,8 +439,8 @@ export const withNoDividers: Story = {
         data={customCellsData}
         columns={customCellsColumns}
         tableMode={TableMode.Pagination}
-        headerBrderColor="white"
-        bodyCellsBorderColor="white"
+        headerBrdercolor="white"
+        bodyCellsBordercolor="white"
       />
     );
   },

@@ -15,7 +15,7 @@ interface TableBodyContentProps<T extends { id: number }> {
   isCustomCellAllowed?: boolean;
   isColumnPaintable?: boolean;
   shouldDisplayRowMoreOption?: boolean;
-  borderColor?: string | undefined;
+  bordercolor?: string | undefined;
 }
 
 export function TableBodyContent<T extends { id: number }>({
@@ -25,14 +25,14 @@ export function TableBodyContent<T extends { id: number }>({
   selectedRows,
   onRowSelect,
   shouldDisplayRowMoreOption,
-  borderColor = "#DCDCDC",
+  bordercolor = "#DCDCDC",
 }: TableBodyContentProps<T>) {
   return (
     <TableBody>
       {data.map((row) => (
         <TableRow key={row.id}>
           {shouldSelectRows && (
-            <StyledTableCell padding="checkbox" bordercolor={borderColor}>
+            <StyledTableCell padding="checkbox" bordercolor={bordercolor}>
               <Checkbox
                 checked={selectedRows.has(row.id)}
                 onChange={() => onRowSelect(row.id)}
@@ -45,7 +45,7 @@ export function TableBodyContent<T extends { id: number }>({
               <StyledTableCell
                 key={String(column.id)}
                 align={column.align}
-                bordercolor={borderColor}
+                bordercolor={bordercolor}
               >
                 {getCellContent(column, value, row)}
               </StyledTableCell>

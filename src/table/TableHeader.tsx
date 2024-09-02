@@ -18,7 +18,7 @@ interface TableHeaderProps<T> {
   shouldSelectRows?: boolean;
   onSelectAllRows?: (checked: boolean) => void;
   shouldDisplayRowMoreOption?: boolean;
-  borderColor?: string;
+  bordercolor?: string;
 }
 
 export function TableHeader<T>({
@@ -29,18 +29,18 @@ export function TableHeader<T>({
   shouldSort,
   shouldSelectRows = true,
   shouldDisplayRowMoreOption,
-  borderColor = "#DCDCDC",
+  bordercolor = "#DCDCDC",
 }: TableHeaderProps<T>) {
   return (
     <TableHead>
       <TableRow>
         {shouldSelectRows && (
-          <StyledTableCell padding="checkbox" borderColor={borderColor} />
+          <StyledTableCell padding="checkbox" bordercolor={bordercolor} />
         )}
         {columns.map((column) => (
           <StyledTableCell
             key={column.id.toString()}
-            borderColor={borderColor}
+            bordercolor={bordercolor}
             sortDirection={
               shouldSort && sortColumn === column.id ? sortDirection : false
             }
@@ -64,17 +64,17 @@ export function TableHeader<T>({
         ))}
 
         {shouldDisplayRowMoreOption && (
-          <StyledTableCell borderColor={borderColor} />
+          <StyledTableCell bordercolor={bordercolor} />
         )}
       </TableRow>
     </TableHead>
   );
 }
 
-const StyledTableCell = styled(MuiTableCell)<{ borderColor?: string }>(
-  ({ borderColor = "#DCDCDC" }) => ({
+const StyledTableCell = styled(MuiTableCell)<{ bordercolor?: string }>(
+  ({ bordercolor = "#DCDCDC" }) => ({
     direction: "rtl",
     textAlign: "right",
-    borderBottom: `1px solid ${borderColor}`,
+    borderBottom: `1px solid ${bordercolor}`,
   })
 );
