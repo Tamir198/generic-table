@@ -4,6 +4,7 @@ import { FilterSelect } from "./FilterSelect";
 import styled from "@emotion/styled";
 import { Box, Button } from "@mui/material";
 import { MultiOptionValue, OptionValue, TableColumn } from "../../types";
+import { setQueryParams } from "../TableWithAbilities/queryParamsService";
 
 interface TableFiltersProps {
   clearFilters: () => void;
@@ -32,8 +33,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
     <StyledContainer>
       {columns.map((column) => {
         const { filterFunction, isFilterable, id } = column;
-        console.log(isFilterable);
-        if (!column.isFilterable) return;
+        if (!isFilterable) return;
 
         if (isDateColumn(column)) {
           return (
@@ -52,6 +52,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
               onFilter={(value) => {
                 const newData = filterFunction(data, value);
                 onFilterChange(newData);
+                setQueryParams({ [`${id}`]: value });
               }}
             />
           );

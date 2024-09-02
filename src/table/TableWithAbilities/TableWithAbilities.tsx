@@ -20,25 +20,29 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   data,
   columns,
 }) => {
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const [showFilters, setShowFilters] = useState(false);
-  const [filteredData, setFilteredData] = useState(data);
-
-  const [currentPage, setCurrentPage] = useState(0);
-
-  useEffect(() => {
-    const { searchQuery, showFilters, currentPage } = getQueryParams();
-
-    setSearchQuery(searchQuery);
-    setShowFilters(showFilters);
-    setCurrentPage(currentPage);
-  }, [filteredData]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [showFilters, setShowFilters] = useState<boolean>(false);
+  const [filteredData, setFilteredData] = useState<any[]>(data);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [selectedFilters, setSelectedFilters] = useState<object>({}); // Store selected filters
 
   useEffect(() => {
-    setQueryParams(searchQuery, showFilters, currentPage);
+    const params = getQueryParams();
+    setSearchQuery((params.searchQuery as string) || "");
+    setShowFilters(params.showFilters === "true");
+    setCurrentPage(params.currentPage ? Number(params.currentPage) : 0);
+  }, [data]); // Dependency on data to initialize on component mount
+
+  useEffect(() => {
+    setQueryParams({
+      searchQuery,
+      showFilters,
+      currentPage,
+      ...selectedFilters,
+    });
+
     filterData();
-  }, [searchQuery, showFilters, currentPage]);
+  }, [searchQuery, showFilters, currentPage, selectedFilters]);
 
   const filterData = () => {
     let filtered = data;
@@ -47,12 +51,12 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
     const endIndex = startIndex + ROWS_PER_PAGE;
     const currentPageRows = filtered.slice(startIndex, endIndex);
 
-    const filteredCurrentPageRows = currentPageRows.filter((item) =>
+    const filteredCurrentPageRows = currentPageRows.filter((item: any) =>
       item.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     if (searchQuery) {
-      filtered = filtered.filter((item) =>
+      filtered = filtered.filter((item: any) =>
         item.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
@@ -71,14 +75,20 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   const clearFilters = () => {
     setCurrentPage(0);
     setFilteredData(data);
+    setSelectedFilters({});
   };
 
   const handleExport = (fileType: ExcelFileType) => {
-    if (fileType == ExcelFileType.FULL_FILE) {
+    if (fileType === ExcelFileType.FULL_FILE) {
       exportToExcel(data);
       return;
     }
     exportToExcel(filteredData);
+  };
+
+  const handleFilterChange = (newFilteredData: any[], filters: object) => {
+    setFilteredData(newFilteredData);
+    setSelectedFilters(filters);
   };
 
   return (
@@ -96,7 +106,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
           columnTypes={inferTypesFromObject(filteredData[0])}
           columns={columns}
           data={filteredData}
-          onFilterChange={setFilteredData}
+          onFilterChange={handleFilterChange}
         />
       )}
 
