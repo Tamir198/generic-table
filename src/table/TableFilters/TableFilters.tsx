@@ -51,7 +51,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
               isMultiSelect={true}
               onFilter={(value) => {
                 const newData = filterFunction(data, value);
-                console.log(newData);
+                //TODO check how to update the table uncheck
                 onFilterChange(newData, { [id]: value });
                 setQueryParams({ [`${id}`]: value });
               }}
