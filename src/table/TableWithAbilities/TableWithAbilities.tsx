@@ -24,21 +24,22 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [filteredData, setFilteredData] = useState<any[]>(data);
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [selectedFilters, setSelectedFilters] = useState<object>({}); // Store selected filters
+  const [selectedFilters, setSelectedFilters] = useState<object>({});
 
   useEffect(() => {
     const params = getQueryParams();
     setSearchQuery((params.searchQuery as string) || "");
     setShowFilters(params.showFilters === "true");
     setCurrentPage(params.currentPage ? Number(params.currentPage) : 0);
-  }, [data]); // Dependency on data to initialize on component mount
+    setSelectedFilters(params.filters || {});
+  }, [data]);
 
   useEffect(() => {
     setQueryParams({
       searchQuery,
       showFilters,
       currentPage,
-      ...selectedFilters,
+      filters: selectedFilters,
     });
 
     filterData();
@@ -51,14 +52,17 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
     const endIndex = startIndex + ROWS_PER_PAGE;
     const currentPageRows = filtered.slice(startIndex, endIndex);
 
-    const filteredCurrentPageRows = currentPageRows.filter((item: any) =>
-      item.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
     if (searchQuery) {
       filtered = filtered.filter((item: any) =>
         item.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
+    }
+
+    for (const [key, value] of Object.entries(selectedFilters)) {
+      const column = columns.find((col) => col.id === key);
+      if (column?.filterFunction) {
+        filtered = column.filterFunction(filtered, value);
+      }
     }
 
     setFilteredData(filtered);
@@ -74,8 +78,14 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
 
   const clearFilters = () => {
     setCurrentPage(0);
-    setFilteredData(data);
     setSelectedFilters({});
+    setQueryParams({
+      searchQuery: "",
+      showFilters: false,
+      currentPage: 0,
+      filters: {},
+    });
+    setFilteredData(data);
   };
 
   const handleExport = (fileType: ExcelFileType) => {

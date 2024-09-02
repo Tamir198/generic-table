@@ -3,14 +3,14 @@ import { TEXTS } from "../../constants/constants";
 import { FilterSelect } from "./FilterSelect";
 import styled from "@emotion/styled";
 import { Box, Button } from "@mui/material";
-import { MultiOptionValue, OptionValue, TableColumn } from "../../types";
+import { TableColumn } from "../../types";
 import { setQueryParams } from "../TableWithAbilities/queryParamsService";
 
 interface TableFiltersProps {
   clearFilters: () => void;
   columns: TableColumn<object>[];
   data: object[];
-  onFilterChange: (filteredData: object[]) => void;
+  onFilterChange: (filteredData: object[], filters: object) => void;
 }
 
 export const TableFilters: FC<TableFiltersProps> = ({
@@ -33,7 +33,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
     <StyledContainer>
       {columns.map((column) => {
         const { filterFunction, isFilterable, id } = column;
-        if (!isFilterable) return;
+        if (!isFilterable) return null;
 
         if (isDateColumn(column)) {
           return (
@@ -46,12 +46,13 @@ export const TableFilters: FC<TableFiltersProps> = ({
           return (
             <FilterSelect
               key={JSON.stringify(column)}
-              title={"title"}
+              title={id}
               options={[`${id}`, `${TEXTS.OPTION}`, `${TEXTS.OPTION}`]}
               isMultiSelect={true}
               onFilter={(value) => {
                 const newData = filterFunction(data, value);
-                onFilterChange(newData);
+                console.log(newData);
+                onFilterChange(newData, { [id]: value });
                 setQueryParams({ [`${id}`]: value });
               }}
             />
