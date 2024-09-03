@@ -1,17 +1,12 @@
+import { TableColumn } from "../../types";
+
 export interface Data {
   email: string;
   id: number;
   name: string;
   status: string;
+  money?: string;
 }
-
-export type TableColumn<T> = {
-  id: keyof T;
-  isColumnPaintable?: boolean;
-  label: string;
-  isFilterable?: boolean;
-  filterFunction?: (data: T[], filterValue: any) => T[];
-};
 
 export const columns: TableColumn<Data>[] = [
   {
@@ -82,6 +77,7 @@ export const columnsWithDate: TableColumn<DataWithDate>[] = [
     isFilterable: true,
     filterFunction: (data, filterValue) =>
       data.filter((item) => item.name.includes("א")),
+    filterSelectOptions: ["1", "2", "3", "4"],
   },
   {
     id: "email",
@@ -89,19 +85,24 @@ export const columnsWithDate: TableColumn<DataWithDate>[] = [
     isFilterable: true,
     filterFunction: (data, filterValue) =>
       data.filter((item) => item.name.includes("ב")),
+    filterSelectOptions: ["5", "6", "7", "8"],
   },
   {
     id: "status",
     label: "סטטוס",
-    isFilterable: false,
-    filterFunction: (data, filterValue) =>
-      data.filter((item) => item.name.includes("ג")),
+    isFilterable: true,
+    filterFunction: (data, filterValue) => {
+      console.log(filterValue);
+      return data.filter((item) => item.name.includes(filterValue));
+    },
+    filterSelectOptions: ["9", "20", "30", "40"],
   },
   {
-    id: "date",
+    id: "money",
     label: "תאריך",
     isFilterable: true,
     filterFunction: (data, filterValue) =>
       data.filter((item) => item.name.includes(filterValue)),
+    filterSelectOptions: ["9", "20", "30", "40"],
   },
 ];

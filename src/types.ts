@@ -6,6 +6,8 @@ export interface TableColumn<T> {
   renderCell?: (value: React.ReactNode, row: T) => React.ReactNode;
   isColumnPaintable?: boolean;
   isFilterable?: boolean;
+  filterFunction?: (data: T[], filterValue: any) => T[];
+  filterSelectOptions?: string[];
 }
 
 export interface SummeryRow {
