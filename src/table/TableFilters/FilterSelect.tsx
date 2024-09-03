@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Checkbox,
   ListItemText,
@@ -6,10 +6,10 @@ import {
   Select,
   SelectChangeEvent,
   Typography,
-} from '@mui/material';
-import { Box, styled } from '@mui/system';
-import { FC } from 'react';
-import { TEXTS } from '../../constants/constants';
+} from "@mui/material";
+import { Box, styled } from "@mui/system";
+import { FC } from "react";
+import { TEXTS } from "../../constants/constants";
 
 type OptionValue = string | number;
 type MultiOptionValue = OptionValue[];
@@ -29,7 +29,7 @@ export const FilterSelect: FC<FilterSelectProps> = ({
 }) => {
   const [selectedValue, setSelectedValue] = useState<
     MultiOptionValue | OptionValue
-  >(isMultiSelect ? [] : '');
+  >(isMultiSelect ? [] : "");
 
   const handleChange = (event: SelectChangeEvent<unknown>) => {
     const value = event.target.value as OptionValue | MultiOptionValue;
@@ -66,15 +66,15 @@ export const FilterSelect: FC<FilterSelectProps> = ({
       <StyledTitle>{title}</StyledTitle>
       <StyledSelect
         multiple={isMultiSelect}
-        labelId='select-label'
-        id='select'
+        labelId="select-label"
+        id="select"
         value={selectedValue}
         onChange={handleChange}
         displayEmpty
         renderValue={renderSelectedValue}
         MenuProps={menuProps}
       >
-        <MenuItem value='' disabled>
+        <MenuItem value="" disabled>
           {title}
         </MenuItem>
         {options.map((option, index) => (
@@ -93,20 +93,20 @@ export const FilterSelect: FC<FilterSelectProps> = ({
 };
 
 const StyledTitle = styled(Typography)({
-  width: '100%',
+  width: "100%",
 });
 
 const StyledFilterSelect = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  height: '44px',
-  alignItems: 'flex-end',
-  justifyContent: 'center',
+  display: "flex",
+  flexDirection: "column",
+  height: "44px",
+  alignItems: "flex-end",
+  justifyContent: "center",
 });
 
 const StyledSelect = styled(Select)({
-  '& .MuiSelect-icon': {
-    right: 'unset',
-    left: '8px',
+  "& .MuiSelect-icon": {
+    right: "unset",
+    left: "8px",
   },
 });

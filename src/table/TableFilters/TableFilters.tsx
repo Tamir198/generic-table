@@ -47,7 +47,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
             <FilterSelect
               key={JSON.stringify(column)}
               title={id}
-              options={[`${id}`, `${TEXTS.OPTION}`, `${TEXTS.OPTION}`]}
+              options={column.filterSelectOptions}
               isMultiSelect={true}
               onFilter={(value) => {
                 const newData = filterFunction(data, value);
