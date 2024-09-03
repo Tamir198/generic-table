@@ -1,14 +1,20 @@
-export interface TableColumn<T> {
+interface TableColumnBase<T> {
   id: keyof T;
   label: string;
   align?: "left" | "right" | "center";
   format?: (value: T[keyof T]) => React.ReactNode;
   renderCell?: (value: React.ReactNode, row: T) => React.ReactNode;
   isColumnPaintable?: boolean;
-  isFilterable?: boolean;
-  filterFunction?: (data: T[], filterValue: any) => T[];
-  filterSelectOptions?: string[];
 }
+interface FilterableColumn<T> extends TableColumnBase<T> {
+  isFilterable: true;
+  filterFunction: (data: T[], filterValue: any) => T[];
+  filterSelectOptions: string[];
+}
+interface NonFilterableColumn<T> extends TableColumnBase<T> {
+  isFilterable?: false;
+}
+export type TableColumn<T> = FilterableColumn<T> | NonFilterableColumn<T>;
 
 export interface SummeryRow {
   label: string;
