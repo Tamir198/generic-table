@@ -1,14 +1,14 @@
 import { FC, useState, useEffect } from "react";
 import { GenericTable, TableMode } from "../GenericTable";
-import { TableColumn } from "./mockData";
 import { TableSearchRow } from "./TableSearchRow";
 import { TEXTS } from "../../constants/constants";
-import { ExcelFileType } from "../../types";
-import { getQueryParams, setQueryParams } from "./queryParamsService";
+import { ExcelFileType, TableColumn } from "../../types";
 import { TableFilters } from "../TableFilters/TableFilters";
 import { exportToExcel } from "../../services/dataExportService";
 import { inferTypesFromObject } from "../../utils/inferTypesFromObject";
+import { storageService } from "./storageService";
 
+//TODO sync up storage service with the clear all button of the table
 export interface TableWithAbilitiesProps<T> {
   data: T[];
   columns: TableColumn<T>[];
@@ -32,7 +32,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
       showFilters = "false",
       currentPage = "0",
       filters = {},
-    } = getQueryParams();
+    } = storageService.getSessionParams();
 
     setSearchQuery(searchQuery as string);
     setShowFilters(showFilters === "true");
@@ -41,7 +41,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   }, [data]);
 
   useEffect(() => {
-    setQueryParams({
+    storageService.addSessionParams({
       searchQuery,
       showFilters,
       currentPage,
@@ -85,7 +85,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   const clearFilters = () => {
     setCurrentPage(0);
     setSelectedFilters({});
-    setQueryParams({
+    storageService.addSessionParams({
       searchQuery: "",
       showFilters: false,
       currentPage: 0,
