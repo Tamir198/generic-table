@@ -75,30 +75,28 @@ export const columnsWithDate: TableColumn<DataWithDate>[] = [
     isColumnPaintable: true,
     label: "שם",
     isFilterable: true,
-    filterFunction: (data, filterValue) =>
-      data.filter((item) => item.name.includes("א")),
-    filterSelectOptions: ["1", "2", "3", "4"],
+    filterFunction: (data, _) => data.filter((item) => item.name.includes("ב")),
+    filterSelectOptions: ["5", "6", "7", "8"],
   },
   {
     id: "email",
     label: "אימייל",
     isFilterable: true,
-    filterFunction: (data, filterValue) =>
-      data.filter((item) => item.name.includes("ב")),
     filterSelectOptions: ["5", "6", "7", "8"],
+    filterFunction: (data, _) => data.filter((item) => item.name.includes("ב")),
   },
   {
     id: "status",
     label: "סטטוס",
     isFilterable: true,
     filterFunction: (data, filterValue) => {
-      console.log(filterValue);
-      return data.filter((item) => item.name.includes(filterValue));
+      const filterSet = new Set(filterValue);
+      return data.filter((item) => filterSet.has(item.status));
     },
     filterSelectOptions: ["9", "20", "30", "40"],
   },
   {
-    id: "money",
+    id: "date",
     label: "תאריך",
     isFilterable: true,
     filterFunction: (data, filterValue) =>

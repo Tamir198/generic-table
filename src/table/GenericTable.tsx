@@ -92,7 +92,7 @@ export function GenericTable<T extends { id: number }>({
   if (shouldDisplayFullTable) {
     displayData = sortedData;
   } else if (tableMode === TableMode.Pagination) {
-    displayData = paginatedData();
+    displayData = paginatedData(); //todo remove this check
   } else if (tableMode === TableMode.Expanded && !isExpanded) {
     displayData = paginatedData();
   } else {
