@@ -23,7 +23,6 @@ export interface GenericTableProps<T extends { id: number }> {
   data: T[];
   tableMode?: TableMode;
   rowsPerPage?: number;
-  filterFunction?: (data: T[], searchTerm: string) => T[];
   shouldSort?: boolean;
   shouldSelectRows?: boolean;
   onDeleteSelectedRows?: (selectedRows: T[]) => void;

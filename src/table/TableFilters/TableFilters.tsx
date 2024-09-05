@@ -4,7 +4,6 @@ import { FilterSelect } from "./FilterSelect";
 import styled from "@emotion/styled";
 import { Box, Button } from "@mui/material";
 import { TableColumn } from "../../types";
-import { setQueryParams } from "../TableWithAbilities/queryParamsService";
 
 interface TableFiltersProps {
   clearFilters: () => void;
@@ -31,14 +30,10 @@ export const TableFilters: FC<TableFiltersProps> = ({
     });
   };
 
-  useEffect(() => {
-    console.log(selectedFilters);
-  }, []);
-
   return (
     <StyledContainer>
       {columns.map((column) => {
-        const { filterFunction, isFilterable, id } = column;
+        const { isFilterable, id } = column;
         if (!isFilterable) return null;
 
         if (isDateColumn(column)) {
@@ -57,10 +52,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
               isMultiSelect={true}
               selectedOptionsFromStorage={selectedFilters[column.id]}
               onFilter={(value) => {
-                const newData = filterFunction(data, value);
-                //TODO check how to update the table uncheck
-                onFilterChange(newData, { [id]: value });
-                setQueryParams({ [`${id}`]: value }); //Remove this after session storage is in use
+                onFilterChange(data, { [id]: value });
               }}
             />
           );

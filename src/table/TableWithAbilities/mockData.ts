@@ -98,7 +98,6 @@ export const columnsWithDate: TableColumn<DataWithDate>[] = [
     isColumnPaintable: true,
     label: "שם",
     isFilterable: true,
-    filterFunction: (data, _) => data.filter((item) => true),
     filterSelectOptions: ["ג", "6", "7", "8"],
   },
   {
@@ -106,23 +105,17 @@ export const columnsWithDate: TableColumn<DataWithDate>[] = [
     label: "אימייל",
     isFilterable: true,
     filterSelectOptions: ["@", "6", "7", "8"],
-    filterFunction: (data, _) => data.filter((item) => true),
   },
   {
     id: "status",
     label: "סטטוס",
     isFilterable: true,
-    filterFunction: (data, filterValue) => {
-      const filterSet = new Set(filterValue);
-      return data.filter((item) => true);
-    },
     filterSelectOptions: ["מוקפא", "פעיל", "30", "40"],
   },
   {
     id: "date",
     label: "תאריך",
     isFilterable: true,
-    filterFunction: (data, filterValue) => data.filter((item) => true),
     filterSelectOptions: ["9", "20", "30", "40"],
   },
 ];
