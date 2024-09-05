@@ -59,8 +59,14 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
       },
     });
 
-    const newData = filterAllData(data, updatedFilters);
-    setFilteredData(newData);
+    const dataWithFilters = filterAllData(data, updatedFilters);
+    const dataWithSearchFilter = dataWithFilters.filter((item) => {
+      return Object.values(item).some((value: any) =>
+        String(value).toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    });
+
+    setFilteredData(dataWithSearchFilter);
   }, [searchQuery, showFilters, currentPage, selectedFilters, data]);
 
   const toggleFilters = () => {
