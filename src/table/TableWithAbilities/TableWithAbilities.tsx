@@ -2,18 +2,11 @@ import { FC, useState, useEffect } from "react";
 import { GenericTable, TableMode } from "../GenericTable";
 import { TableSearchRow } from "./TableSearchRow";
 import { TEXTS } from "../../constants/constants";
-import { ExcelFileType, TableColumn } from "../../types";
+import { ExcelFileType, TableColumn, TableFiltersState } from "../../types";
 import { TableFilters } from "../TableFilters/TableFilters";
 import { exportToExcel } from "../../services/dataExportService";
 import { inferTypesFromObject } from "../../utils/inferTypesFromObject";
 import { storageService } from "./storageService";
-
-interface TableFiltersState {
-  searchQuery?: string;
-  showFilters?: boolean;
-  currentPage?: number;
-  filters?: Record<string, object>;
-}
 
 export interface TableWithAbilitiesProps<T> {
   data: T[];
@@ -100,7 +93,11 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
 
   const handleFilterChange = (newFilteredData: any[], filters: object) => {
     setFilteredData(newFilteredData);
-    setSelectedFilters(filters);
+
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      ...filters,
+    }));
   };
 
   return (

@@ -35,3 +35,10 @@ export enum ExcelFileType {
 
 export type OptionValue = string | number;
 export type MultiOptionValue = OptionValue[];
+
+export interface TableFiltersState {
+  searchQuery?: string;
+  showFilters?: boolean;
+  currentPage?: number;
+  filters?: Record<string, object>;
+}

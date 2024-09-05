@@ -3,8 +3,9 @@ import { TEXTS } from "../../constants/constants";
 import { FilterSelect } from "./FilterSelect";
 import styled from "@emotion/styled";
 import { Box, Button } from "@mui/material";
-import { TableColumn } from "../../types";
+import { TableColumn, TableFiltersState } from "../../types";
 import { setQueryParams } from "../TableWithAbilities/queryParamsService";
+import { storageService } from "../TableWithAbilities/storageService";
 
 interface TableFiltersProps {
   clearFilters: () => void;
@@ -29,9 +30,18 @@ export const TableFilters: FC<TableFiltersProps> = ({
     });
   };
 
+  const sessionData = storageService.getSessionParams() as {
+    tableFilters?: TableFiltersState;
+  };
+
   return (
     <StyledContainer>
       {columns.map((column) => {
+        if (sessionData?.tableFilters) {
+          const { filters = {} } = sessionData.tableFilters;
+          console.log({ id: column.id, filters: filters[column.id] });
+        }
+
         const { filterFunction, isFilterable, id } = column;
         if (!isFilterable) return null;
 
