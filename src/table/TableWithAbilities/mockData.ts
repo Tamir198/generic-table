@@ -1,4 +1,4 @@
-import { TableColumn } from "../../types";
+import { MultiOptionValue, OptionValue, TableColumn } from "../../types";
 
 export interface Data {
   email: string;
@@ -68,6 +68,28 @@ export const dataWithDate: DataWithDate[] = data.map((item) => ({
   isFilterable: true,
   date: new Date().toLocaleDateString("he-IL"),
 }));
+
+export function filterTableDataBySelects<T>(
+  data: T[],
+  filters: { [key in keyof T]?: string | number | Array<string | number> }
+): T[] {
+  return data.filter((item) => {
+    return Object.keys(filters).every((key) => {
+      const filterValue = filters[key as keyof T];
+
+      if (Array.isArray(filterValue)) {
+        return filterValue.includes(item[key as keyof T]);
+      }
+
+      if (typeof filterValue === "string" || typeof filterValue === "number") {
+        const itemValue = item[key as keyof T]?.toString().toLowerCase();
+        return itemValue.includes(filterValue.toString().toLowerCase());
+      }
+
+      return true;
+    });
+  });
+}
 
 export const columnsWithDate: TableColumn<DataWithDate>[] = [
   {
