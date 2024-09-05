@@ -1,16 +1,16 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { TEXTS } from "../../constants/constants";
 import { FilterSelect } from "./FilterSelect";
 import styled from "@emotion/styled";
 import { Box, Button } from "@mui/material";
 import { TableColumn } from "../../types";
-import { setQueryParams } from "../TableWithAbilities/queryParamsService";
 
 interface TableFiltersProps {
   clearFilters: () => void;
   columns: TableColumn<object>[];
   data: object[];
   onFilterChange: (filteredData: object[], filters: object) => void;
+  selectedFilters: object;
 }
 
 export const TableFilters: FC<TableFiltersProps> = ({
@@ -18,6 +18,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
   columns,
   data,
   onFilterChange,
+  selectedFilters,
 }) => {
   const clearAllFilters = () => {
     clearFilters();
@@ -32,7 +33,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
   return (
     <StyledContainer>
       {columns.map((column) => {
-        const { filterFunction, isFilterable, id } = column;
+        const { isFilterable, id } = column;
         if (!isFilterable) return null;
 
         if (isDateColumn(column)) {
@@ -49,17 +50,14 @@ export const TableFilters: FC<TableFiltersProps> = ({
               title={id}
               options={column.filterSelectOptions}
               isMultiSelect={true}
+              selectedOptionsFromStorage={selectedFilters[column.id]}
               onFilter={(value) => {
-                const newData = filterFunction(data, value);
-                //TODO check how to update the table uncheck
-                onFilterChange(newData, { [id]: value });
-                setQueryParams({ [`${id}`]: value });
+                onFilterChange(data, { [id]: value });
               }}
             />
           );
         }
       })}
-
       <StyledClearAll onClick={clearAllFilters}>
         {TEXTS.CLEAN_ALL}
       </StyledClearAll>

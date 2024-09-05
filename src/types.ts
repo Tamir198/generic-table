@@ -8,7 +8,6 @@ interface TableColumnBase<T> {
 }
 interface FilterableColumn<T> extends TableColumnBase<T> {
   isFilterable: true;
-  filterFunction: (data: T[], filterValue: any) => T[];
   filterSelectOptions: string[];
 }
 interface NonFilterableColumn<T> extends TableColumnBase<T> {
@@ -35,3 +34,10 @@ export enum ExcelFileType {
 
 export type OptionValue = string | number;
 export type MultiOptionValue = OptionValue[];
+
+export interface TableFiltersState {
+  searchQuery?: string;
+  showFilters?: boolean;
+  currentPage?: number;
+  filters?: Record<string, object>;
+}

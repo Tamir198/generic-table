@@ -19,6 +19,7 @@ interface FilterSelectProps {
   options: OptionValue[];
   onFilter: (value: OptionValue | MultiOptionValue) => void;
   isMultiSelect?: boolean;
+  selectedOptionsFromStorage: string[];
 }
 
 export const FilterSelect: FC<FilterSelectProps> = ({
@@ -26,10 +27,12 @@ export const FilterSelect: FC<FilterSelectProps> = ({
   options,
   onFilter,
   isMultiSelect = false,
+  selectedOptionsFromStorage = [],
 }) => {
   const [selectedValue, setSelectedValue] = useState<
     MultiOptionValue | OptionValue
-  >(isMultiSelect ? [] : "");
+  >(isMultiSelect ? selectedOptionsFromStorage : "");
+  //TODO handle session storage for non multy select values (maybe put everything into array)
 
   const handleChange = (event: SelectChangeEvent<unknown>) => {
     const value = event.target.value as OptionValue | MultiOptionValue;
@@ -68,7 +71,7 @@ export const FilterSelect: FC<FilterSelectProps> = ({
         multiple={isMultiSelect}
         labelId="select-label"
         id="select"
-        value={selectedValue}
+        value={[...selectedValue]}
         onChange={handleChange}
         displayEmpty
         renderValue={renderSelectedValue}
@@ -81,7 +84,10 @@ export const FilterSelect: FC<FilterSelectProps> = ({
           <MenuItem key={index} value={option}>
             {isMultiSelect && (
               <Checkbox
-                checked={(selectedValue as MultiOptionValue).includes(option)}
+                checked={
+                  (selectedValue as MultiOptionValue).includes(option) ||
+                  selectedOptionsFromStorage?.includes(option)
+                }
               />
             )}
             <ListItemText primary={option} />

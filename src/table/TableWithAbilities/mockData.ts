@@ -1,4 +1,4 @@
-import { TableColumn } from "../../types";
+import { MultiOptionValue, OptionValue, TableColumn } from "../../types";
 
 export interface Data {
   email: string;
@@ -24,7 +24,7 @@ export const columns: TableColumn<Data>[] = [
   },
 ];
 export const data: Data[] = [
-  { email: "john@example.com", id: 1, name: "ג'ון דו", status: "פעיל" },
+  { email: "johnaaaexample.com", id: 1, name: "ג'ון דו", status: "פעיל" },
   { email: "jane@example.com", id: 2222, name: "ג'ין סמית", status: "מוקפא" },
   { email: "sam@example.com", id: 3, name: "סם בראון", status: "פעיל" },
   { email: "emily@example.com", id: 4, name: "אמי ג'ונסון", status: "מוקפא" },
@@ -69,38 +69,53 @@ export const dataWithDate: DataWithDate[] = data.map((item) => ({
   date: new Date().toLocaleDateString("he-IL"),
 }));
 
+export function filterTableDataBySelects<T>(
+  data: T[],
+  filters: { [key in keyof T]?: string | number | Array<string | number> }
+): T[] {
+  return data.filter((item) => {
+    return Object.keys(filters).every((key) => {
+      const filterValue = filters[key as keyof T];
+
+      if (Array.isArray(filterValue)) {
+        return filterValue.includes(item[key as keyof T]);
+      }
+
+      if (typeof filterValue === "string" || typeof filterValue === "number") {
+        const itemValue = item[key as keyof T]?.toString().toLowerCase();
+        return itemValue.includes(filterValue.toString().toLowerCase());
+      }
+
+      return true;
+    });
+  });
+}
+
+//TODO remove all the filter functions when approved to use filterservice
 export const columnsWithDate: TableColumn<DataWithDate>[] = [
   {
     id: "name",
     isColumnPaintable: true,
     label: "שם",
     isFilterable: true,
-    filterFunction: (data, _) => data.filter((item) => item.name.includes("ב")),
-    filterSelectOptions: ["5", "6", "7", "8"],
+    filterSelectOptions: ["ג", "6", "7", "8"],
   },
   {
     id: "email",
     label: "אימייל",
     isFilterable: true,
-    filterSelectOptions: ["5", "6", "7", "8"],
-    filterFunction: (data, _) => data.filter((item) => item.name.includes("ב")),
+    filterSelectOptions: ["@", "6", "7", "8"],
   },
   {
     id: "status",
     label: "סטטוס",
     isFilterable: true,
-    filterFunction: (data, filterValue) => {
-      const filterSet = new Set(filterValue);
-      return data.filter((item) => filterSet.has(item.status));
-    },
-    filterSelectOptions: ["9", "20", "30", "40"],
+    filterSelectOptions: ["מוקפא", "פעיל", "30", "40"],
   },
   {
     id: "date",
     label: "תאריך",
     isFilterable: true,
-    filterFunction: (data, filterValue) =>
-      data.filter((item) => item.name.includes(filterValue)),
     filterSelectOptions: ["9", "20", "30", "40"],
   },
 ];
