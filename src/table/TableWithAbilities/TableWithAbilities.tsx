@@ -115,6 +115,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
           columnTypes={inferTypesFromObject(filteredData[0])}
           columns={columns}
           data={filteredData}
+          selectedFilters={selectedFilters}
           onFilterChange={handleFilterChange}
         />
       )}

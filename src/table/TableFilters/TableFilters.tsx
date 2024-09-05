@@ -1,17 +1,17 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { TEXTS } from "../../constants/constants";
 import { FilterSelect } from "./FilterSelect";
 import styled from "@emotion/styled";
 import { Box, Button } from "@mui/material";
-import { TableColumn, TableFiltersState } from "../../types";
+import { TableColumn } from "../../types";
 import { setQueryParams } from "../TableWithAbilities/queryParamsService";
-import { storageService } from "../TableWithAbilities/storageService";
 
 interface TableFiltersProps {
   clearFilters: () => void;
   columns: TableColumn<object>[];
   data: object[];
   onFilterChange: (filteredData: object[], filters: object) => void;
+  selectedFilters: object;
 }
 
 export const TableFilters: FC<TableFiltersProps> = ({
@@ -19,6 +19,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
   columns,
   data,
   onFilterChange,
+  selectedFilters,
 }) => {
   const clearAllFilters = () => {
     clearFilters();
@@ -30,17 +31,14 @@ export const TableFilters: FC<TableFiltersProps> = ({
     });
   };
 
-  const sessionData = storageService.getSessionParams() as {
-    tableFilters?: TableFiltersState;
-  };
+  useEffect(() => {
+    console.log(selectedFilters);
+  }, []);
 
   return (
     <StyledContainer>
       {columns.map((column) => {
-        if (sessionData?.tableFilters) {
-          const { filters = {} } = sessionData.tableFilters;
-          console.log({ id: column.id, filters: filters[column.id] });
-        }
+        console.log(column.id, selectedFilters[column.id]);
 
         const { filterFunction, isFilterable, id } = column;
         if (!isFilterable) return null;
@@ -69,7 +67,6 @@ export const TableFilters: FC<TableFiltersProps> = ({
           );
         }
       })}
-
       <StyledClearAll onClick={clearAllFilters}>
         {TEXTS.CLEAN_ALL}
       </StyledClearAll>
