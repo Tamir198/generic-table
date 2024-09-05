@@ -8,7 +8,13 @@ import { exportToExcel } from "../../services/dataExportService";
 import { inferTypesFromObject } from "../../utils/inferTypesFromObject";
 import { storageService } from "./storageService";
 
-//TODO sync up storage service with the clear all button of the table
+interface TableFiltersState {
+  searchQuery?: string;
+  showFilters?: boolean;
+  currentPage?: number;
+  filters?: Record<string, object>;
+}
+
 export interface TableWithAbilitiesProps<T> {
   data: T[];
   columns: TableColumn<T>[];
@@ -27,52 +33,38 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   const [selectedFilters, setSelectedFilters] = useState<object>({});
 
   useEffect(() => {
-    const {
-      searchQuery = "",
-      showFilters = "false",
-      currentPage = "0",
-      filters = {},
-    } = storageService.getSessionParams();
+    const sessionData = storageService.getSessionParams() as {
+      tableFilters?: TableFiltersState;
+    };
 
-    setSearchQuery(searchQuery as string);
-    setShowFilters(showFilters === "true");
-    setCurrentPage(Number(currentPage));
-    setSelectedFilters(filters);
-  }, [data]);
+    if (sessionData?.tableFilters) {
+      const {
+        searchQuery = "",
+        showFilters = false,
+        currentPage = 0,
+        filters = {},
+      } = sessionData.tableFilters;
+
+      setSearchQuery(searchQuery);
+      setShowFilters(showFilters);
+      setCurrentPage(currentPage);
+
+      setSelectedFilters(filters);
+    }
+  }, []);
 
   useEffect(() => {
+    const updatedFilters = { ...selectedFilters };
+
     storageService.addSessionParams({
-      searchQuery,
-      showFilters,
-      currentPage,
-      filters: selectedFilters,
+      tableFilters: {
+        searchQuery,
+        showFilters,
+        currentPage,
+        filters: updatedFilters,
+      },
     });
-
-    filterData();
-  }, [searchQuery, showFilters, currentPage, selectedFilters]);
-
-  const filterData = () => {
-    let filtered = data;
-
-    const startIndex = currentPage * ROWS_PER_PAGE;
-    const endIndex = startIndex + ROWS_PER_PAGE;
-    const currentPageRows = filtered.slice(startIndex, endIndex);
-
-    if (searchQuery) {
-      filtered = filtered.filter((item: any) =>
-        item.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    for (const [key, value] of Object.entries(selectedFilters)) {
-      const column = columns.find((col) => col.id === key);
-      if (column?.filterFunction) {
-        filtered = column.filterFunction(filtered, value);
-      }
-    }
-
-    setFilteredData(filtered);
-  };
+  }, [searchQuery, showFilters, currentPage, selectedFilters, data]);
 
   const toggleFilters = () => {
     setShowFilters((prev) => !prev);
@@ -83,23 +75,27 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   };
 
   const clearFilters = () => {
-    setCurrentPage(0);
+    setSearchQuery("");
     setSelectedFilters({});
-    storageService.addSessionParams({
-      searchQuery: "",
-      showFilters: false,
-      currentPage: 0,
-      filters: {},
-    });
+    setCurrentPage(0);
     setFilteredData(data);
+
+    storageService.addSessionParams({
+      tableFilters: {
+        searchQuery: "",
+        showFilters: false,
+        currentPage: 0,
+        filters: {},
+      },
+    });
   };
 
   const handleExport = (fileType: ExcelFileType) => {
     if (fileType === ExcelFileType.FULL_FILE) {
       exportToExcel(data);
-      return;
+    } else {
+      exportToExcel(filteredData);
     }
-    exportToExcel(filteredData);
   };
 
   const handleFilterChange = (newFilteredData: any[], filters: object) => {
@@ -125,7 +121,6 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
           onFilterChange={handleFilterChange}
         />
       )}
-
       <GenericTable
         columns={columns}
         data={filteredData}
