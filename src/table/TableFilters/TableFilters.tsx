@@ -38,8 +38,6 @@ export const TableFilters: FC<TableFiltersProps> = ({
   return (
     <StyledContainer>
       {columns.map((column) => {
-        console.log(column.id, selectedFilters[column.id]);
-
         const { filterFunction, isFilterable, id } = column;
         if (!isFilterable) return null;
 
@@ -57,6 +55,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
               title={id}
               options={column.filterSelectOptions}
               isMultiSelect={true}
+              selectedOptionsFromStorage={selectedFilters[column.id]}
               onFilter={(value) => {
                 const newData = filterFunction(data, value);
                 //TODO check how to update the table uncheck
