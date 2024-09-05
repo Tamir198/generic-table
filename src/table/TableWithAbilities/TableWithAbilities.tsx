@@ -7,6 +7,7 @@ import { TableFilters } from "../TableFilters/TableFilters";
 import { exportToExcel } from "../../services/dataExportService";
 import { inferTypesFromObject } from "../../utils/inferTypesFromObject";
 import { storageService } from "./storageService";
+import { filterAllData } from "./filterService";
 
 export interface TableWithAbilitiesProps<T> {
   data: T[];
@@ -57,6 +58,9 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
         filters: updatedFilters,
       },
     });
+
+    const newData = filterAllData(data, updatedFilters);
+    setFilteredData(newData);
   }, [searchQuery, showFilters, currentPage, selectedFilters, data]);
 
   const toggleFilters = () => {

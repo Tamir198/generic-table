@@ -24,7 +24,7 @@ export const columns: TableColumn<Data>[] = [
   },
 ];
 export const data: Data[] = [
-  { email: "john@example.com", id: 1, name: "ג'ון דו", status: "פעיל" },
+  { email: "johnaaaexample.com", id: 1, name: "ג'ון דו", status: "פעיל" },
   { email: "jane@example.com", id: 2222, name: "ג'ין סמית", status: "מוקפא" },
   { email: "sam@example.com", id: 3, name: "סם בראון", status: "פעיל" },
   { email: "emily@example.com", id: 4, name: "אמי ג'ונסון", status: "מוקפא" },
@@ -91,21 +91,22 @@ export function filterTableDataBySelects<T>(
   });
 }
 
+//TODO remove all the filter functions when approved to use filterservice
 export const columnsWithDate: TableColumn<DataWithDate>[] = [
   {
     id: "name",
     isColumnPaintable: true,
     label: "שם",
     isFilterable: true,
-    filterFunction: (data, _) => data.filter((item) => item.name.includes("ב")),
-    filterSelectOptions: ["5", "6", "7", "8"],
+    filterFunction: (data, _) => data.filter((item) => true),
+    filterSelectOptions: ["ג", "6", "7", "8"],
   },
   {
     id: "email",
     label: "אימייל",
     isFilterable: true,
-    filterSelectOptions: ["5", "6", "7", "8"],
-    filterFunction: (data, _) => data.filter((item) => item.name.includes("ב")),
+    filterSelectOptions: ["@", "6", "7", "8"],
+    filterFunction: (data, _) => data.filter((item) => true),
   },
   {
     id: "status",
@@ -113,16 +114,15 @@ export const columnsWithDate: TableColumn<DataWithDate>[] = [
     isFilterable: true,
     filterFunction: (data, filterValue) => {
       const filterSet = new Set(filterValue);
-      return data.filter((item) => filterSet.has(item.status));
+      return data.filter((item) => true);
     },
-    filterSelectOptions: ["9", "20", "30", "40"],
+    filterSelectOptions: ["מוקפא", "פעיל", "30", "40"],
   },
   {
     id: "date",
     label: "תאריך",
     isFilterable: true,
-    filterFunction: (data, filterValue) =>
-      data.filter((item) => item.name.includes(filterValue)),
+    filterFunction: (data, filterValue) => data.filter((item) => true),
     filterSelectOptions: ["9", "20", "30", "40"],
   },
 ];
