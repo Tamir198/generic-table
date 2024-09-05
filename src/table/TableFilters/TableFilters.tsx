@@ -60,7 +60,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
                 const newData = filterFunction(data, value);
                 //TODO check how to update the table uncheck
                 onFilterChange(newData, { [id]: value });
-                setQueryParams({ [`${id}`]: value });
+                setQueryParams({ [`${id}`]: value }); //Remove this after session storage is in use
               }}
             />
           );
