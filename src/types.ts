@@ -5,6 +5,7 @@ interface TableColumnBase<T> {
   format?: (value: T[keyof T]) => React.ReactNode;
   renderCell?: (value: React.ReactNode, row: T) => React.ReactNode;
   isColumnPaintable?: boolean;
+  isColumMultySelectable?: boolean;
 }
 interface FilterableColumn<T> extends TableColumnBase<T> {
   isFilterable: true;

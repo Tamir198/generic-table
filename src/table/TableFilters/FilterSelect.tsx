@@ -32,7 +32,6 @@ export const FilterSelect: FC<FilterSelectProps> = ({
   const [selectedValue, setSelectedValue] = useState<
     MultiOptionValue | OptionValue
   >(isMultiSelect ? selectedOptionsFromStorage : "");
-  //TODO handle session storage for non multy select values (maybe put everything into array)
 
   const handleChange = (event: SelectChangeEvent<unknown>) => {
     const value = event.target.value as OptionValue | MultiOptionValue;
@@ -51,10 +50,10 @@ export const FilterSelect: FC<FilterSelectProps> = ({
 
   const renderSelectedValue = (selected: unknown) => {
     if (!isMultiSelect) {
-      if (!selected) {
+      if (!selected || selected === "") {
         return TEXTS.ALL_TYPES;
       }
-      return selected as string;
+      return selected;
     }
 
     if (Array.isArray(selected)) {
@@ -68,7 +67,7 @@ export const FilterSelect: FC<FilterSelectProps> = ({
     <StyledFilterSelect>
       <StyledTitle>{title}</StyledTitle>
       <StyledSelect
-        multiple={isMultiSelect}
+        multiple={true}
         labelId="select-label"
         id="select"
         value={[...selectedValue]}
