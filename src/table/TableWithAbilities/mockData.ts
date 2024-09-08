@@ -68,10 +68,28 @@ export interface DataWithDate extends Data {
   isFilterable?: boolean;
 }
 
+const getRandomDate = (startDate: Date, endDate: Date): Date => {
+  const startTimestamp = startDate.getTime();
+  const endTimestamp = endDate.getTime();
+  const randomTimestamp =
+    Math.random() * (endTimestamp - startTimestamp) + startTimestamp;
+  return new Date(randomTimestamp);
+};
+
+const formatDate = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+};
+
+const startDate = new Date("2023-01-01");
+const endDate = new Date("2024-12-31");
+
 export const dataWithDate: DataWithDate[] = data.map((item) => ({
   ...item,
   isFilterable: true,
-  date: new Date().toLocaleDateString("he-IL"),
+  date: formatDate(getRandomDate(startDate, endDate)),
 }));
 
 export function filterTableDataBySelects<T>(

@@ -10,7 +10,6 @@ import {
 } from "../../types";
 import { TableFilters } from "../TableFilters/TableFilters";
 import { exportToExcel } from "../../services/dataExportService";
-import { inferTypesFromObject } from "../../utils/inferTypesFromObject";
 import { storageService } from "./storageService";
 import { filterAllData } from "./filterService";
 
@@ -30,9 +29,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   const [filteredData, setFilteredData] = useState<any[]>(data);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [selectedFilters, setSelectedFilters] = useState<object>({});
-  const [dateFilter, setDateFilter] = useState<DateFilterOption | undefined>(
-    undefined
-  );
+  const [dateFilter, setDateFilter] = useState<DateFilterOption>();
 
   useEffect(() => {
     const sessionData = storageService.getSessionParams() as {

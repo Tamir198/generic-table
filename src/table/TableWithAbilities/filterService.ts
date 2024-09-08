@@ -7,7 +7,26 @@ export const filterAllData = (
 ) => {
   return data.filter((item) => {
     if (dateFilterOption) {
-      console.log(dateFilterOption);
+      const itemDateStr = item["date"] as string;
+      const itemDate = parseDate(itemDateStr);
+      //TODO get the date or dates value from date picker
+      switch (dateFilterOption) {
+        case DateFilterOption.BeforeDate:
+          // console.log(item.date);
+          // if (!checkIfBefore(itemDate, filterDate)) {
+          //   return false;
+          // }
+          break;
+        case DateFilterOption.AfterDate:
+          // console.log(item.date);
+          // if (!checkIfAfter(itemDate, filterDate)) {
+          //   return false;
+          // }
+          break;
+        //TODO handle between date scenario
+        default:
+          break;
+      }
     }
 
     return Object.entries(filters).every(([key, filterValue]) => {
@@ -19,4 +38,17 @@ export const filterAllData = (
       return itemValue === filterValue;
     });
   });
+};
+
+const checkIfBefore = (itemDate: Date, filterDate: Date): boolean => {
+  return itemDate < filterDate;
+};
+
+const checkIfAfter = (itemDate: Date, filterDate: Date): boolean => {
+  return itemDate > filterDate;
+};
+
+const parseDate = (dateStr: string): Date => {
+  const [day, month, year] = dateStr.split("/").map(Number);
+  return new Date(year, month - 1, day);
 };

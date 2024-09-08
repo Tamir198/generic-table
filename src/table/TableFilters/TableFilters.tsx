@@ -7,6 +7,7 @@ import { DateFilterOption, TableColumn } from "../../types";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs from "dayjs";
 
 interface TableFiltersProps {
   clearFilters: () => void;
@@ -44,6 +45,14 @@ export const TableFilters: FC<TableFiltersProps> = ({
     });
   };
 
+  const formatDate = (date: Date | null) => {
+    if (!date) return "";
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   return (
     <StyledContainer>
       {columns.map((column) => {
@@ -55,28 +64,31 @@ export const TableFilters: FC<TableFiltersProps> = ({
             <div key={JSON.stringify(column)}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  // TODO avital replace this with your custom date picker
-                  //IMPORTANT :
-                  // Use the DateFilterOption
-                  //to tell the filtering function how to filter
-                  value={startDate}
+                  value={startDate ? dayjs(startDate) : null}
                   onChange={(date) => {
-                    setStartDate(date);
+                    const nativeDate = date ? date.toDate() : null;
+                    const formattedStartDate = formatDate(nativeDate);
+                    console.log({ formattedStartDate });
+
+                    setStartDate(formattedStartDate);
                     onFilterChange(
                       data,
-                      { [id]: { startDate: date, endDate } },
+                      { [id]: { startDate: nativeDate, endDate } },
                       DateFilterOption.AfterDate
                     );
                   }}
                   label="מתאריך"
                 />
                 <DatePicker
-                  value={endDate}
+                  value={endDate ? dayjs(endDate) : null}
                   onChange={(date) => {
-                    setEndDate(date);
+                    const nativeDate = date ? date.toDate() : null;
+                    const formattedEndDate = formatDate(nativeDate);
+                    console.log({ formattedEndDate });
+                    setEndDate(formattedEndDate);
                     onFilterChange(
                       data,
-                      { [id]: { startDate, endDate: date } },
+                      { [id]: { startDate, endDate: nativeDate } },
                       DateFilterOption.BeforeDate
                     );
                   }}
