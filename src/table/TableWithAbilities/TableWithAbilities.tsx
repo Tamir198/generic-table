@@ -2,10 +2,14 @@ import { FC, useState, useEffect } from "react";
 import { GenericTable, TableMode } from "../GenericTable";
 import { TableSearchRow } from "./TableSearchRow";
 import { TEXTS } from "../../constants/constants";
-import { ExcelFileType, TableColumn, TableFiltersState } from "../../types";
+import {
+  DateFilterOption,
+  ExcelFileType,
+  TableColumn,
+  TableFiltersState,
+} from "../../types";
 import { TableFilters } from "../TableFilters/TableFilters";
 import { exportToExcel } from "../../services/dataExportService";
-import { inferTypesFromObject } from "../../utils/inferTypesFromObject";
 import { storageService } from "./storageService";
 import { filterAllData } from "./filterService";
 
@@ -21,10 +25,13 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   columns,
 }) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
+
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [filteredData, setFilteredData] = useState<any[]>(data);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [selectedFilters, setSelectedFilters] = useState<object>({});
+
+  const [dateFilter, setDateFilter] = useState<DateFilterOption>();
 
   useEffect(() => {
     const sessionData = storageService.getSessionParams() as {
@@ -59,7 +66,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
       },
     });
 
-    const dataWithFilters = filterAllData(data, updatedFilters);
+    const dataWithFilters = filterAllData(data, updatedFilters, dateFilter);
     const dataWithSearchFilter = dataWithFilters.filter((item) => {
       return Object.values(item).some((value: any) =>
         String(value).toLowerCase().includes(searchQuery.toLowerCase())
@@ -67,7 +74,14 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
     });
 
     setFilteredData(dataWithSearchFilter);
-  }, [searchQuery, showFilters, currentPage, selectedFilters, data]);
+  }, [
+    searchQuery,
+    showFilters,
+    currentPage,
+    selectedFilters,
+    data,
+    dateFilter,
+  ]);
 
   const toggleFilters = () => {
     setShowFilters((prev) => !prev);
@@ -82,6 +96,7 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
     setSelectedFilters({});
     setCurrentPage(0);
     setFilteredData(data);
+    setDateFilter(undefined);
 
     storageService.addSessionParams({
       tableFilters: {
@@ -101,13 +116,17 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
     }
   };
 
-  const handleFilterChange = (newFilteredData: any[], filters: object) => {
+  const handleFilterChange = (
+    newFilteredData: any[],
+    filters: object,
+    dateFilterOption?: DateFilterOption
+  ) => {
     setFilteredData(newFilteredData);
-
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       ...filters,
     }));
+    setDateFilter(dateFilterOption);
   };
 
   return (
@@ -122,7 +141,6 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
       {showFilters && (
         <TableFilters
           clearFilters={clearFilters}
-          columnTypes={inferTypesFromObject(filteredData[0])}
           columns={columns}
           data={filteredData}
           selectedFilters={selectedFilters}

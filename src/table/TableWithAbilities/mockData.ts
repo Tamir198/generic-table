@@ -1,4 +1,9 @@
-import { MultiOptionValue, OptionValue, TableColumn } from "../../types";
+import {
+  DateFilterOption,
+  MultiOptionValue,
+  OptionValue,
+  TableColumn,
+} from "../../types";
 
 export interface Data {
   email: string;
@@ -63,10 +68,28 @@ export interface DataWithDate extends Data {
   isFilterable?: boolean;
 }
 
+const getRandomDate = (startDate: Date, endDate: Date): Date => {
+  const startTimestamp = startDate.getTime();
+  const endTimestamp = endDate.getTime();
+  const randomTimestamp =
+    Math.random() * (endTimestamp - startTimestamp) + startTimestamp;
+  return new Date(randomTimestamp);
+};
+
+const formatDate = (date: Date): string => {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+};
+
+const startDate = new Date("2023-01-01");
+const endDate = new Date("2024-12-31");
+
 export const dataWithDate: DataWithDate[] = data.map((item) => ({
   ...item,
   isFilterable: true,
-  date: new Date().toLocaleDateString("he-IL"),
+  date: formatDate(getRandomDate(startDate, endDate)),
 }));
 
 export function filterTableDataBySelects<T>(
@@ -91,7 +114,6 @@ export function filterTableDataBySelects<T>(
   });
 }
 
-//TODO remove all the filter functions when approved to use filterservice
 export const columnsWithDate: TableColumn<DataWithDate>[] = [
   {
     id: "name",
@@ -106,7 +128,6 @@ export const columnsWithDate: TableColumn<DataWithDate>[] = [
     label: "אימייל",
     isFilterable: true,
     filterSelectOptions: ["@", "6", "7", "8"],
-    // isColumMultySelectable: true,
   },
   {
     id: "status",
@@ -118,6 +139,7 @@ export const columnsWithDate: TableColumn<DataWithDate>[] = [
     id: "date",
     label: "תאריך",
     isFilterable: true,
+    dateFilterOption: DateFilterOption.BeforeDate,
     filterSelectOptions: ["9", "20", "30", "40"],
   },
 ];
