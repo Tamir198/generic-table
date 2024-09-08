@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useState } from "react";
 import { TEXTS } from "../../constants/constants";
 import { FilterSelect } from "./FilterSelect";
 import styled from "@emotion/styled";
@@ -20,8 +20,10 @@ export const TableFilters: FC<TableFiltersProps> = ({
   onFilterChange,
   selectedFilters,
 }) => {
+  const [isDefaultState, setisDefaultState] = useState(false);
   const clearAllFilters = () => {
     clearFilters();
+    setisDefaultState(!isDefaultState);
   };
 
   const isDateColumn = (column: TableColumn<object>): boolean => {
@@ -46,7 +48,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
         } else {
           return (
             <FilterSelect
-              key={JSON.stringify(column)}
+              key={JSON.stringify(column) + isDefaultState}
               title={id}
               options={column.filterSelectOptions}
               isMultiSelect={isColumMultySelectable}
