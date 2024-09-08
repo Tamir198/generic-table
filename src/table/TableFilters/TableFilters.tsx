@@ -3,19 +3,20 @@ import { TEXTS } from "../../constants/constants";
 import { FilterSelect } from "./FilterSelect";
 import styled from "@emotion/styled";
 import { Box, Button } from "@mui/material";
-import { TableColumn } from "../../types";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker/DatePicker";
+import { DateFilterOption, TableColumn } from "../../types";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
-import { Dayjs } from "dayjs";
-import { filterAllData } from "../TableWithAbilities/filterService";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 interface TableFiltersProps {
   clearFilters: () => void;
   columns: TableColumn<object>[];
   data: object[];
-  onFilterChange: (filteredData: object[], filters: object) => void;
+  onFilterChange: (
+    filteredData: object[],
+    filters: object,
+    dateFilterOption?: DateFilterOption
+  ) => void;
   selectedFilters: object;
 }
 
@@ -26,10 +27,15 @@ export const TableFilters: FC<TableFiltersProps> = ({
   onFilterChange,
   selectedFilters,
 }) => {
-  const [isDefaultState, setisDefaultState] = useState(false);
+  const [isDefaultState, setIsDefaultState] = useState(false);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+
   const clearAllFilters = () => {
     clearFilters();
-    setisDefaultState(!isDefaultState);
+    setIsDefaultState(!isDefaultState);
+    setStartDate(null);
+    setEndDate(null);
   };
 
   const isDateColumn = (column: TableColumn<object>): boolean => {
@@ -47,20 +53,32 @@ export const TableFilters: FC<TableFiltersProps> = ({
         if (isDateColumn(column)) {
           return (
             <div key={JSON.stringify(column)}>
-              {/* TODO avital add your date pickers in here */}
-              <LocalizationProvider
-                key={JSON.stringify(column) + isDefaultState}
-                dateAdapter={AdapterDayjs}
-              >
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  onChange={(value) => {
-                    onFilterChange(data, { [id]: value });
+                  // TODO avital replace this with your custom date picker
+                  //IMPORTANT :
+                  // Use the DateFilterOption
+                  //to tell the filtering function how to filter
+                  value={startDate}
+                  onChange={(date) => {
+                    setStartDate(date);
+                    onFilterChange(
+                      data,
+                      { [id]: { startDate: date, endDate } },
+                      DateFilterOption.AfterDate
+                    );
                   }}
                   label="מתאריך"
                 />
                 <DatePicker
-                  onChange={(value) => {
-                    onFilterChange(data, { [id]: value });
+                  value={endDate}
+                  onChange={(date) => {
+                    setEndDate(date);
+                    onFilterChange(
+                      data,
+                      { [id]: { startDate, endDate: date } },
+                      DateFilterOption.BeforeDate
+                    );
                   }}
                   label="עד תאריך"
                 />

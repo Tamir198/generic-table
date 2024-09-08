@@ -1,4 +1,9 @@
-import { MultiOptionValue, OptionValue, TableColumn } from "../../types";
+import {
+  DateFilterOption,
+  MultiOptionValue,
+  OptionValue,
+  TableColumn,
+} from "../../types";
 
 export interface Data {
   email: string;
@@ -91,7 +96,6 @@ export function filterTableDataBySelects<T>(
   });
 }
 
-//TODO remove all the filter functions when approved to use filterservice
 export const columnsWithDate: TableColumn<DataWithDate>[] = [
   {
     id: "name",
@@ -106,7 +110,6 @@ export const columnsWithDate: TableColumn<DataWithDate>[] = [
     label: "אימייל",
     isFilterable: true,
     filterSelectOptions: ["@", "6", "7", "8"],
-    // isColumMultySelectable: true,
   },
   {
     id: "status",
@@ -118,6 +121,7 @@ export const columnsWithDate: TableColumn<DataWithDate>[] = [
     id: "date",
     label: "תאריך",
     isFilterable: true,
+    dateFilterOption: DateFilterOption.BeforeDate,
     filterSelectOptions: ["9", "20", "30", "40"],
   },
 ];

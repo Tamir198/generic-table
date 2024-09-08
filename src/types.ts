@@ -1,3 +1,9 @@
+export enum DateFilterOption {
+  BeforeDate = "beforeDate",
+  AfterDate = "afterDate",
+  BetweenDate = "betweenDate",
+}
+
 interface TableColumnBase<T> {
   id: keyof T;
   label: string;
@@ -6,6 +12,7 @@ interface TableColumnBase<T> {
   renderCell?: (value: React.ReactNode, row: T) => React.ReactNode;
   isColumnPaintable?: boolean;
   isColumMultySelectable?: boolean;
+  dateFilterOption?: DateFilterOption;
 }
 interface FilterableColumn<T> extends TableColumnBase<T> {
   isFilterable: true;
