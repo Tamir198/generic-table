@@ -4,6 +4,12 @@ import { FilterSelect } from "./FilterSelect";
 import styled from "@emotion/styled";
 import { Box, Button } from "@mui/material";
 import { TableColumn } from "../../types";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
+import { Dayjs } from "dayjs";
+import { filterAllData } from "../TableWithAbilities/filterService";
 
 interface TableFiltersProps {
   clearFilters: () => void;
@@ -41,6 +47,24 @@ export const TableFilters: FC<TableFiltersProps> = ({
         if (isDateColumn(column)) {
           return (
             <div key={JSON.stringify(column)}>
+              {/* TODO avital add your date pickers in here */}
+              <LocalizationProvider
+                key={JSON.stringify(column) + isDefaultState}
+                dateAdapter={AdapterDayjs}
+              >
+                <DatePicker
+                  onChange={(value) => {
+                    onFilterChange(data, { [id]: value });
+                  }}
+                  label="מתאריך"
+                />
+                <DatePicker
+                  onChange={(value) => {
+                    onFilterChange(data, { [id]: value });
+                  }}
+                  label="עד תאריך"
+                />
+              </LocalizationProvider>
               <p>From day</p>
               <p>To day</p>
             </div>
