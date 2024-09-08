@@ -1,4 +1,5 @@
 import { DateFilterOption } from "../../types";
+import { storageService } from "./storageService";
 
 export const filterAllData = (
   data: object[],
@@ -7,9 +8,14 @@ export const filterAllData = (
 ) => {
   return data.filter((item) => {
     if (dateFilterOption) {
+      const params = storageService.getSessionParams();
+      const dates = params.tableFilters.filters.dates;
       const itemDateStr = item["date"] as string;
       const itemDate = parseDate(itemDateStr);
-      //TODO get the date or dates value from date picker
+
+      const startDate = params?.tableFilters?.filters?.date?.startDate;
+      console.log({ startDate: startDate });
+
       switch (dateFilterOption) {
         case DateFilterOption.BeforeDate:
           // console.log(item.date);

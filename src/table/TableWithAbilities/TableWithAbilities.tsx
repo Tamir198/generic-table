@@ -25,10 +25,12 @@ export const TableWithAbilities: FC<TableWithAbilitiesProps<any>> = ({
   columns,
 }) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
+
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [filteredData, setFilteredData] = useState<any[]>(data);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [selectedFilters, setSelectedFilters] = useState<object>({});
+
   const [dateFilter, setDateFilter] = useState<DateFilterOption>();
 
   useEffect(() => {
