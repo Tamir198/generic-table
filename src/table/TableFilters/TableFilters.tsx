@@ -33,7 +33,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
   return (
     <StyledContainer>
       {columns.map((column) => {
-        const { isFilterable, id } = column;
+        const { isFilterable, isColumMultySelectable, id } = column;
         if (!isFilterable) return null;
 
         if (isDateColumn(column)) {
@@ -49,7 +49,7 @@ export const TableFilters: FC<TableFiltersProps> = ({
               key={JSON.stringify(column)}
               title={id}
               options={column.filterSelectOptions}
-              isMultiSelect={true}
+              isMultiSelect={isColumMultySelectable}
               selectedOptionsFromStorage={selectedFilters[column.id]}
               onFilter={(value) => {
                 onFilterChange(data, { [id]: value });

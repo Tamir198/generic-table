@@ -99,12 +99,14 @@ export const columnsWithDate: TableColumn<DataWithDate>[] = [
     label: "שם",
     isFilterable: true,
     filterSelectOptions: ["ג", "6", "7", "8"],
+    isColumMultySelectable: true,
   },
   {
     id: "email",
     label: "אימייל",
     isFilterable: true,
     filterSelectOptions: ["@", "6", "7", "8"],
+    // isColumMultySelectable: true,
   },
   {
     id: "status",
